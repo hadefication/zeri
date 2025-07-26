@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Zeri Installation Script
-# Supports: Ubuntu/Debian (apt), CentOS/RHEL/Fedora (yum/dnf), Arch (pacman), macOS (brew)
+# Downloads and installs the latest Zeri binary from GitHub releases
+# Supports: Linux and macOS
 
 set -e
 
@@ -43,37 +44,19 @@ detect_os() {
     fi
 }
 
-# Install PHP if not present
-install_php() {
-    if ! command -v php &> /dev/null; then
-        log_info "PHP not found. Installing PHP..."
-        case $OS in
-            "debian")
-                sudo apt update && sudo apt install -y php-cli php-mbstring php-xml
-                ;;
-            "redhat")
-                if command -v dnf &> /dev/null; then
-                    sudo dnf install -y php-cli php-mbstring php-xml
-                else
-                    sudo yum install -y php-cli php-mbstring php-xml
-                fi
-                ;;
-            "arch")
-                sudo pacman -S --noconfirm php
-                ;;
-            "macos")
-                log_info "Please install PHP manually on macOS:"
-                log_info "- Using Homebrew: brew install php"
-                log_info "- Using MacPorts: sudo port install php82"
-                exit 1
-                ;;
-            *)
-                log_error "Unsupported OS. Please install PHP 8.2+ manually."
-                exit 1
-                ;;
-        esac
-    else
-        log_info "PHP found: $(php --version | head -n1)"
+# Check system requirements
+check_requirements() {
+    # Check if we can download files
+    if ! command -v curl &> /dev/null; then
+        log_error "curl is required but not installed."
+        log_error "Please install curl and try again."
+        exit 1
+    fi
+    
+    # Check if we have sudo access for installation
+    if [[ ! -w "$INSTALL_DIR" ]] && ! sudo -n true 2>/dev/null; then
+        log_warn "Installation requires sudo access to write to $INSTALL_DIR"
+        log_warn "You may be prompted for your password."
     fi
 }
 
@@ -104,22 +87,25 @@ install_binary() {
     rm -rf "$temp_dir"
 }
 
-# Install via Composer
-install_composer() {
-    if command -v composer &> /dev/null; then
-        log_info "Installing via Composer..."
-        composer global require $REPO
+# Check if Zeri is already installed
+check_existing() {
+    if command -v zeri &> /dev/null; then
+        log_warn "Zeri is already installed: $(which zeri)"
+        log_warn "Current version: $(zeri --version 2>/dev/null || echo 'unknown')"
         
-        # Check if composer global bin is in PATH
-        if [[ ":$PATH:" != *":$HOME/.composer/vendor/bin:"* ]] && [[ ":$PATH:" != *":$HOME/.config/composer/vendor/bin:"* ]]; then
-            log_warn "Composer global bin directory is not in PATH."
-            log_warn "Add this to your shell profile:"
-            log_warn "export PATH=\"\$HOME/.composer/vendor/bin:\$PATH\""
+        if [[ "$1" == "--force" ]]; then
+            log_info "Force flag provided, continuing with installation..."
+            return 1
+        else
+            read -p "Do you want to reinstall? [y/N]: " -n 1 -r
+            echo
+            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+                log_info "Installation cancelled."
+                exit 0
+            fi
         fi
-    else
-        log_warn "Composer not found. Falling back to binary installation."
-        return 1
     fi
+    return 1
 }
 
 
@@ -130,28 +116,37 @@ main() {
     detect_os
     log_info "Detected OS: $OS"
     
-    install_php
+    # Check system requirements
+    check_requirements
     
+    # Check if already installed
+    check_existing "$1"
     
-    # Try Composer installation
-    if install_composer; then
-        log_info "✅ Zeri installed successfully via Composer!"
-        exit 0
-    fi
-    
-    # Fallback to binary installation
-    log_info "Installing via direct binary download..."
-    
+    # Get latest release version
+    log_info "Fetching latest release information..."
     version=$(get_latest_release)
     if [[ -z "$version" ]]; then
         log_error "Failed to get latest release version"
+        log_error "Please check your internet connection or install manually:"
+        log_error "https://github.com/$REPO/releases/latest"
         exit 1
     fi
     
+    log_info "Latest version: $version"
+    
+    # Install binary directly
     install_binary "$version"
     
-    log_info "✅ Zeri $version installed successfully!"
-    log_info "Run 'zeri --help' to get started."
+    # Verify installation
+    if command -v zeri &> /dev/null; then
+        log_info "✅ Zeri $version installed successfully!"
+        log_info "Location: $(which zeri)"
+        log_info "Run 'zeri --help' to get started."
+    else
+        log_error "Installation completed but 'zeri' command not found in PATH"
+        log_error "You may need to restart your terminal or add $INSTALL_DIR to your PATH"
+        exit 1
+    fi
 }
 
 # Check if running as root (for some package managers)
