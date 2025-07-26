@@ -1,6 +1,16 @@
 # Zeri CLI
 
-A Laravel Zero CLI tool for managing AI development contexts. Zeri helps developers create and maintain AI-specific instruction files for their projects, generating optimized context files for Claude, Gemini, and Cursor.
+A CLI tool for managing AI development contexts. Zeri helps developers create and maintain AI-specific instruction files for their projects, generating optimized context files for Claude, Gemini, and Cursor IDE integration.
+
+## Why Zeri?
+
+When working with AI assistants on development projects, providing consistent, comprehensive context is crucial for getting quality results. Zeri solves this by:
+
+- **Organizing project knowledge** into structured, reusable formats
+- **Generating AI-optimized files** tailored for each tool's strengths
+- **Maintaining consistency** across your development workflow
+- **Saving time** by eliminating repetitive context setup
+- **Improving AI responses** with well-structured, complete project information
 
 ## Features
 
@@ -8,16 +18,13 @@ A Laravel Zero CLI tool for managing AI development contexts. Zeri helps develop
 - **AI-Specific Generation**: Create optimized instruction files for different AI tools
 - **Smart Regeneration**: Only regenerate files when source content changes
 - **Template-Based**: Consistent file creation with customizable templates
+- **Specification Management**: Create and manage feature specifications
+- **Self-Update**: Built-in update mechanism for easy maintenance
 - **Cross-Platform**: Works on macOS, Linux, and Windows
 
 ## Installation
 
 ### Quick Install (Recommended)
-
-**Composer (Global)**
-```bash
-composer global require hadefication/zeri
-```
 
 **Install Script (Linux/macOS)**
 ```bash
@@ -43,7 +50,7 @@ cd zeri
 composer install
 
 # Build the executable
-php application app:build
+./build.sh
 
 # Install globally
 sudo cp builds/zeri /usr/local/bin/zeri
@@ -53,7 +60,6 @@ sudo cp builds/zeri /usr/local/bin/zeri
 
 | Platform | Command |
 |----------|---------|
-| **Composer** (Global) | `composer global require hadefication/zeri` |
 | **APT** (Ubuntu/Debian) | *Coming soon* |
 | **YUM/DNF** (RHEL/Fedora) | *Coming soon* |
 | **Pacman** (Arch) | *Coming soon* |
@@ -61,8 +67,8 @@ sudo cp builds/zeri /usr/local/bin/zeri
 
 ### Requirements
 
-- PHP 8.2 or higher
-- Composer (for global installation)
+- PHP 8.2 or higher (for building from source)
+- Composer (for development)
 
 
 ## Quick Start
@@ -121,11 +127,12 @@ zeri init claude --force
 Create a new feature specification file.
 
 ```bash
-zeri add-spec "feature-name" [--path=/path/to/project]
+zeri add-spec "feature-name" [--path=/path/to/project] [--force]
 ```
 
 **Options:**
 - `--path`: Specify a different project directory
+- `--force`: Overwrite existing specification with confirmation
 
 ### `generate <ai>`
 Generate AI-specific instruction files.
@@ -140,6 +147,16 @@ zeri generate <ai> [options]
 **Options:**
 - `--path`: Specify project directory
 - `--force`: Force regeneration even if files are up to date
+
+### `self-update`
+Update Zeri to the latest version.
+
+```bash
+zeri self-update [--check]
+```
+
+**Options:**
+- `--check`: Check for updates without downloading
 
 ## Directory Structure
 
@@ -171,8 +188,11 @@ Comprehensive, conversational format with full context optimized for Claude's re
 ### Gemini (GEMINI.md) 
 Directive, action-oriented format with clear rules and protocols optimized for Gemini.
 
-### Cursor (.cursor/rules)
-Concise format focused on immediate coding context for IDE integration.
+### Cursor (.cursor/rules/)
+- **generate.mdc**: Code generation rules and development guidelines
+- **workflow.mdc**: Development workflow and organizational rules
+
+Concise .mdc format optimized for Cursor IDE integration with proper metadata headers.
 
 ## Examples
 
@@ -195,7 +215,7 @@ zeri generate claude --force
 # 5. Use generated files with your AI tools
 # - Copy CLAUDE.md content when working with Claude
 # - Copy GEMINI.md content when working with Gemini  
-# - Cursor will automatically use .cursor/rules
+# - Cursor will automatically use .cursor/rules/ files
 ```
 
 ### Working with Different Projects
@@ -217,7 +237,12 @@ zeri generate claude
 Edit the template files in `.zeri/templates/` to customize the format of new specifications and tasks.
 
 ### Stubs
-The application uses stub files located in `stubs/` for initial file creation. You can modify these to change the default content structure.
+The application uses stub files located in `stubs/` for initial file creation. You can modify these to change the default content structure:
+
+- `CLAUDE.md.stub` - Claude AI context template
+- `GEMINI.md.stub` - Gemini AI instructions template  
+- `cursor-generate.mdc.stub` - Cursor generation rules template
+- `cursor-workflow.mdc.stub` - Cursor workflow template
 
 ## Development
 
@@ -244,8 +269,8 @@ The executable will be created in `builds/zeri`.
 
 ## Requirements
 
-- PHP 8.1 or higher
-- Composer
+- PHP 8.2 or higher (for building from source)
+- Composer (for development)
 
 ## License
 
@@ -257,4 +282,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-*Built with [Laravel Zero](https://laravel-zero.com) - A micro-framework for building console applications.*
+**Zeri** - Streamline your AI-assisted development workflow with organized, AI-optimized project context.
