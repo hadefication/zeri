@@ -77,6 +77,8 @@ zeri generate gemini
 zeri generate cursor
 ```
 
+Once the files are generated, you can share them with your AI assistant (Claude, Gemini, etc.) to help you fill in project-specific details, brainstorm feature specifications, or enhance your project documentation with context-aware suggestions.
+
 ## Commands
 
 ### `init`
