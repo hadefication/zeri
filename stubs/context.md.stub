@@ -1,0 +1,22 @@
+# {{PROJECT_NAME}} - Project Context
+
+## Overview
+{{PROJECT_DESCRIPTION}}
+
+## Tech Stack
+{{TECH_STACK}}
+
+## Architecture
+{{ARCHITECTURE_NOTES}}
+
+## Key Components
+{{KEY_COMPONENTS}}
+
+## Current Focus
+{{CURRENT_FOCUS}}
+
+## Environment Setup
+{{ENVIRONMENT_SETUP}}
+
+## Important Notes
+{{IMPORTANT_NOTES}}
