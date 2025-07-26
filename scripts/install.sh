@@ -148,7 +148,7 @@ check_existing() {
         
         if [[ "$1" == "--force" ]]; then
             log_info "Force flag provided, continuing with installation..."
-            return 1
+            return 0
         else
             read -p "Do you want to reinstall? [y/N]: " -n 1 -r
             echo
@@ -158,7 +158,7 @@ check_existing() {
             fi
         fi
     fi
-    return 1
+    return 0
 }
 
 
