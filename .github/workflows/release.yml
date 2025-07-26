@@ -6,71 +6,51 @@ on:
       - 'v*'
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
     
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
-        extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo
-    
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+        extensions: mbstring, zip, phar
     
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      run: composer install --no-dev --optimize-autoloader
     
     - name: Build application
-      run: php application app:build
+      run: |
+        chmod +x build.sh
+        ./build.sh
     
-    - name: Create release archive
-      run: |
-        mkdir -p release
-        cp builds/zeri release/
-        tar -czf zeri-${{ github.ref_name }}.tar.gz -C release .
-        
-    - name: Generate SHA256
-      run: |
-        sha256sum zeri-${{ github.ref_name }}.tar.gz > zeri-${{ github.ref_name }}.tar.gz.sha256
-        echo "RELEASE_SHA256=$(sha256sum zeri-${{ github.ref_name }}.tar.gz | cut -d' ' -f1)" >> $GITHUB_ENV
-        
-        
     - name: Create Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
-        files: |
-          zeri-${{ github.ref_name }}.tar.gz
-          zeri-${{ github.ref_name }}.tar.gz.sha256
-          builds/zeri
+        files: builds/zeri
         body: |
           ## Installation
           
-          ### Composer (Global)
-          ```bash
-          composer global require hadefication/zeri
-          ```
-          
-          ### Install Script
+          ### Install Script (Recommended)
           ```bash
           curl -fsSL https://raw.githubusercontent.com/hadefication/zeri/main/scripts/install.sh | bash
           ```
           
           ### Manual Installation
           ```bash
-          curl -L https://github.com/hadefication/zeri/releases/download/${{ github.ref_name }}/zeri > /usr/local/bin/zeri
+          curl -L https://github.com/hadefication/zeri/releases/download/${{ github.ref_name }}/zeri -o /usr/local/bin/zeri
           chmod +x /usr/local/bin/zeri
           ```
-        draft: false
-        prerelease: false
+          
+          ### Usage
+          ```bash
+          zeri init
+          zeri generate claude
+          zeri add-spec "feature-name"
+          ```
+        generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
