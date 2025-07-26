@@ -1,0 +1,20 @@
+{
+    "main": "application",
+    "output": "builds/zeri",
+    "directories": [
+        "app",
+        "bootstrap", 
+        "config",
+        "stubs",
+        "vendor"
+    ],
+    "files": [
+        "composer.json"
+    ],
+    "exclude-composer-files": false,
+    "compression": "GZ",
+    "compactors": [
+        "KevinGH\\Box\\Compactor\\Php",
+        "KevinGH\\Box\\Compactor\\Json"
+    ]
+}

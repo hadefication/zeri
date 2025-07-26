@@ -1,0 +1,22 @@
+# {{PROJECT_NAME}} - Common Code Patterns
+
+## Standard Patterns
+{{STANDARD_PATTERNS}}
+
+## Component Patterns
+{{COMPONENT_PATTERNS}}
+
+## Data Handling Patterns
+{{DATA_HANDLING_PATTERNS}}
+
+## Error Handling Patterns
+{{ERROR_HANDLING_PATTERNS}}
+
+## Testing Patterns
+{{TESTING_PATTERNS}}
+
+## Configuration Patterns
+{{CONFIGURATION_PATTERNS}}
+
+## Examples
+{{PATTERN_EXAMPLES}}

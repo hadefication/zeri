@@ -1,0 +1,24 @@
+# {{PROJECT_NAME}} - Architecture Decision Log
+
+## Decision Template
+- **Date**: 
+- **Decision**: 
+- **Context**: 
+- **Options Considered**: 
+- **Chosen Option**: 
+- **Rationale**: 
+- **Consequences**: 
+
+---
+
+## Recent Decisions
+{{RECENT_DECISIONS}}
+
+## Key Architecture Decisions
+{{KEY_ARCHITECTURE_DECISIONS}}
+
+## Technology Choices
+{{TECHNOLOGY_CHOICES}}
+
+## Design Patterns
+{{DESIGN_PATTERNS}}
