@@ -22,7 +22,8 @@
       "Bash(grep:*)",
       "WebFetch(domain:docs.cursor.com)",
       "Bash(./zeri app:build)",
-      "Bash(composer run:*)"
+      "Bash(composer run:*)",
+      "Bash(touch:*)"
     ],
     "deny": []
   }
