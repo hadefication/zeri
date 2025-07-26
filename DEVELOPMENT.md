@@ -2,6 +2,19 @@
 
 This guide covers development setup, building, testing, and contributing to Zeri.
 
+## Framework
+
+Zeri is built with [Laravel Zero](https://laravel-zero.com), a micro-framework for building console applications. Laravel Zero provides:
+
+- Command structure and routing
+- Service container and dependency injection  
+- Configuration management
+- Testing framework (Pest)
+- Build system with Box for PHAR creation
+- Self-update capabilities
+
+Understanding Laravel Zero concepts will help when developing new features.
+
 ## Requirements
 
 - PHP 8.2 or higher
@@ -166,7 +179,34 @@ Generators extend `BaseGenerator` and implement:
 
 1. Create command class in `app/Commands/`
 2. Extend `LaravelZero\Framework\Commands\Command`
-3. Add to `config/commands.php` if needed
+3. Define `$signature` and `$description` properties
+4. Implement `handle()` method
+5. Add to `config/commands.php` if needed (auto-discovery usually handles this)
+
+**Example:**
+```php
+<?php
+
+namespace App\Commands;
+
+use LaravelZero\Framework\Commands\Command;
+
+class ExampleCommand extends Command
+{
+    protected $signature = 'example {name} {--option}';
+    protected $description = 'Example command description';
+
+    public function handle()
+    {
+        $name = $this->argument('name');
+        $option = $this->option('option');
+        
+        $this->info("Hello {$name}!");
+        
+        return 0;
+    }
+}
+```
 
 ### Adding a New AI Generator
 
@@ -208,6 +248,7 @@ During development, generated files are created in the current directory or spec
 
 **Self-update signature errors:**
 - Development uses custom `SelfUpdateCommand` to avoid signing issues
+- Laravel Zero's built-in updater requires PHAR signing
 - Production would need proper PHAR signing setup
 
 ## Release Process
@@ -284,6 +325,13 @@ Regenerate autoloader:
 ```bash
 composer dump-autoload --optimize
 ```
+
+## Resources
+
+- [Laravel Zero Documentation](https://laravel-zero.com/docs) - Framework documentation
+- [Laravel Zero GitHub](https://github.com/laravel-zero/laravel-zero) - Framework source code
+- [Box Documentation](https://github.com/box-project/box) - PHAR building tool
+- [Pest Documentation](https://pestphp.com) - Testing framework
 
 ---
 
