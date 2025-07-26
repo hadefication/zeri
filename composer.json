@@ -1,7 +1,7 @@
 {
     "name": "hadefication/zeri",
-    "description": "A Laravel Zero CLI tool for managing AI development contexts. Generate optimized instruction files for Claude, Gemini, and Cursor.",
-    "keywords": ["cli", "ai", "development", "context", "claude", "gemini", "cursor", "laravel-zero"],
+    "description": "A CLI tool for managing AI development contexts. Generate optimized instruction files for Claude, Gemini, and Cursor.",
+    "keywords": ["cli", "ai", "development", "context", "claude", "gemini", "cursor"],
     "homepage": "https://github.com/hadefication/zeri",
     "type": "project",
     "license": "MIT",
@@ -46,6 +46,5 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true,
-    "bin": ["builds/zeri"]
+    "prefer-stable": true
 }
