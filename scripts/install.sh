@@ -62,27 +62,80 @@ check_requirements() {
 
 # Get latest release info
 get_latest_release() {
-    curl -s "https://api.github.com/repos/$REPO/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/'
+    local response=$(curl -s "https://api.github.com/repos/$REPO/releases/latest")
+    
+    # Check if the API call was successful
+    if [[ -z "$response" ]]; then
+        log_error "Failed to fetch release information from GitHub API"
+        return 1
+    fi
+    
+    # Check if we got an error response (like 404 for no releases)
+    if echo "$response" | grep -q '"message".*"Not Found"'; then
+        log_error "No releases found for $REPO"
+        log_error "The repository may not have any published releases yet"
+        return 1
+    fi
+    
+    # Extract tag name
+    local tag_name=$(echo "$response" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    
+    if [[ -z "$tag_name" ]]; then
+        log_error "Could not parse release tag from GitHub API response"
+        return 1
+    fi
+    
+    echo "$tag_name"
 }
 
 # Download and install binary
 install_binary() {
     local version="$1"
     local temp_dir=$(mktemp -d)
+    local download_url="https://github.com/$REPO/releases/download/$version/zeri"
     
     log_info "Downloading Zeri $version..."
+    log_info "Download URL: $download_url"
     
-    curl -L "https://github.com/$REPO/releases/download/$version/zeri" -o "$temp_dir/$BINARY_NAME"
+    # Download with better error handling
+    if ! curl -L "$download_url" -o "$temp_dir/$BINARY_NAME" --fail --silent --show-error; then
+        log_error "Failed to download binary from GitHub releases"
+        log_error "This usually means:"
+        log_error "1. No releases have been published yet"
+        log_error "2. The binary is not attached to the release"
+        log_error "3. Network connectivity issues"
+        log_error ""
+        log_error "Alternative installation methods:"
+        log_error "1. Build from source: https://github.com/$REPO#from-source"
+        log_error "2. Download manually: https://github.com/$REPO/releases"
+        rm -rf "$temp_dir"
+        exit 1
+    fi
     
-    if [[ ! -f "$temp_dir/$BINARY_NAME" ]]; then
-        log_error "Failed to download binary"
+    # Verify the download
+    if [[ ! -f "$temp_dir/$BINARY_NAME" ]] || [[ ! -s "$temp_dir/$BINARY_NAME" ]]; then
+        log_error "Downloaded file is missing or empty"
+        rm -rf "$temp_dir"
+        exit 1
+    fi
+    
+    # Check if it's a valid binary (basic check)
+    if ! file "$temp_dir/$BINARY_NAME" | grep -q "executable"; then
+        log_error "Downloaded file does not appear to be an executable"
+        log_error "File type: $(file "$temp_dir/$BINARY_NAME")"
+        rm -rf "$temp_dir"
         exit 1
     fi
     
     chmod +x "$temp_dir/$BINARY_NAME"
     
     log_info "Installing to $INSTALL_DIR..."
-    sudo mv "$temp_dir/$BINARY_NAME" "$INSTALL_DIR/"
+    if ! sudo mv "$temp_dir/$BINARY_NAME" "$INSTALL_DIR/"; then
+        log_error "Failed to install binary to $INSTALL_DIR"
+        log_error "Check sudo permissions and try again"
+        rm -rf "$temp_dir"
+        exit 1
+    fi
     
     rm -rf "$temp_dir"
 }
@@ -124,11 +177,18 @@ main() {
     
     # Get latest release version
     log_info "Fetching latest release information..."
-    version=$(get_latest_release)
-    if [[ -z "$version" ]]; then
-        log_error "Failed to get latest release version"
-        log_error "Please check your internet connection or install manually:"
-        log_error "https://github.com/$REPO/releases/latest"
+    if ! version=$(get_latest_release); then
+        log_error ""
+        log_error "Cannot proceed with automatic installation."
+        log_error ""
+        log_error "To install manually:"
+        log_error "1. Build from source:"
+        log_error "   git clone https://github.com/$REPO.git"
+        log_error "   cd zeri && composer install && ./build.sh"
+        log_error "   sudo cp builds/zeri /usr/local/bin/zeri"
+        log_error ""
+        log_error "2. Wait for releases to be published at:"
+        log_error "   https://github.com/$REPO/releases"
         exit 1
     fi
     
