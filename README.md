@@ -56,21 +56,6 @@ composer install
 sudo cp builds/zeri /usr/local/bin/zeri
 ```
 
-### Package Managers
-
-| Platform | Command |
-|----------|---------|
-| **APT** (Ubuntu/Debian) | *Coming soon* |
-| **YUM/DNF** (RHEL/Fedora) | *Coming soon* |
-| **Pacman** (Arch) | *Coming soon* |
-| **Chocolatey** (Windows) | *Coming soon* |
-
-### Requirements
-
-- PHP 8.2 or higher (for building from source)
-- Composer (for development)
-
-
 ## Quick Start
 
 ```bash
