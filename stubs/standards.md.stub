@@ -1,0 +1,25 @@
+# {{PROJECT_NAME}} - Code Standards & Best Practices
+
+## Code Style
+{{CODE_STYLE}}
+
+## Naming Conventions
+{{NAMING_CONVENTIONS}}
+
+## File Organization
+{{FILE_ORGANIZATION}}
+
+## Documentation Standards
+{{DOCUMENTATION_STANDARDS}}
+
+## Testing Requirements
+{{TESTING_REQUIREMENTS}}
+
+## Security Guidelines
+{{SECURITY_GUIDELINES}}
+
+## Performance Considerations
+{{PERFORMANCE_CONSIDERATIONS}}
+
+## Code Review Guidelines
+{{CODE_REVIEW_GUIDELINES}}

@@ -1,0 +1,82 @@
+<?php
+
+namespace Illuminate\View\Compilers\Concerns;
+
+trait CompilesIncludes
+{
+
+
+
+
+
+
+protected function compileEach($expression)
+{
+return "<?php echo \$__env->renderEach{$expression}; ?>";
+}
+
+
+
+
+
+
+
+protected function compileInclude($expression)
+{
+$expression = $this->stripParentheses($expression);
+
+return "<?php echo \$__env->make({$expression}, array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>";
+}
+
+
+
+
+
+
+
+protected function compileIncludeIf($expression)
+{
+$expression = $this->stripParentheses($expression);
+
+return "<?php if (\$__env->exists({$expression})) echo \$__env->make({$expression}, array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>";
+}
+
+
+
+
+
+
+
+protected function compileIncludeWhen($expression)
+{
+$expression = $this->stripParentheses($expression);
+
+return "<?php echo \$__env->renderWhen($expression, array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1])); ?>";
+}
+
+
+
+
+
+
+
+protected function compileIncludeUnless($expression)
+{
+$expression = $this->stripParentheses($expression);
+
+return "<?php echo \$__env->renderUnless($expression, array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1])); ?>";
+}
+
+
+
+
+
+
+
+protected function compileIncludeFirst($expression)
+{
+$expression = $this->stripParentheses($expression);
+
+return "<?php echo \$__env->first({$expression}, array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>";
+}
+}

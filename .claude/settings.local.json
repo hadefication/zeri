@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(composer create-project:*)",
+      "Bash(mv:*)",
+      "Bash(rmdir:*)",
+      "Bash(rm:*)",
+      "Bash(mkdir:*)",
+      "Bash(php:*)",
+      "Bash(ls:*)",
+      "Bash(./builds/zeri:*)",
+      "Bash(code:*)",
+      "Bash(vendor/bin/box:*)",
+      "Bash(find:*)",
+      "Bash(chmod:*)",
+      "Bash(cp:*)",
+      "Bash(tar:*)",
+      "Bash(sha256sum:*)",
+      "WebFetch(domain:laravel-zero.com)",
+      "Bash(./build.sh)",
+      "Bash(tree:*)",
+      "Bash(grep:*)",
+      "WebFetch(domain:docs.cursor.com)",
+      "Bash(./zeri app:build)",
+      "Bash(composer run:*)"
+    ],
+    "deny": []
+  }
+}

@@ -1,0 +1,69 @@
+# Development Context for Claude
+
+This file provides comprehensive context for Claude to assist with development tasks.
+Generated on: {{GENERATION_DATE}}
+
+## Referenced Files
+
+This context is compiled from the following project files:
+
+**Core Configuration:**
+- `.zeri/context.md` - Project overview, tech stack, and architecture
+- `.zeri/standards.md` - Code standards and best practices
+
+**Development Workflows:**
+- `.zeri/workflows/coding.md` - Development process and implementation steps
+- `.zeri/workflows/planning.md` - Feature planning and requirements gathering
+- `.zeri/workflows/debugging.md` - Debugging process and troubleshooting
+
+**Project Documentation:**
+- `.zeri/project/roadmap.md` - Current priorities and goals
+- `.zeri/project/decisions.md` - Architecture decisions and technology choices
+- `.zeri/project/patterns.md` - Common code patterns and examples
+
+**Active Specifications:**
+{{SPECIFICATIONS_LIST}}
+
+---
+
+## Project Overview
+
+{{PROJECT_CONTEXT}}
+
+## Technical Standards
+
+{{PROJECT_STANDARDS}}
+
+## Development Workflows
+
+{{PROJECT_WORKFLOWS}}
+
+## Project Documentation
+
+{{PROJECT_DOCUMENTATION}}
+
+{{ACTIVE_SPECIFICATIONS}}
+
+---
+
+## Instructions for Claude
+
+When working on this project:
+
+1. **Follow the established patterns** described in the patterns section
+2. **Adhere to coding standards** outlined in the standards section
+3. **Consider architectural decisions** when proposing changes
+4. **Follow the development workflow** for implementation steps
+5. **Reference current priorities** to align with project goals
+6. **Check active specifications** for feature-specific requirements
+
+## Key Reminders
+
+- Always write tests for new functionality
+- Follow the established code review process
+- Consider performance and security implications
+- Update documentation when making architectural changes
+- Communicate clearly about implementation decisions
+
+---
+*This context file is automatically generated from your .zeri configuration. Update the source files in .zeri/ to modify this content.*

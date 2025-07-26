@@ -1,0 +1,22 @@
+# Task: {{TASK_NAME}}
+
+## Description
+{{TASK_DESCRIPTION}}
+
+## Acceptance Criteria
+{{ACCEPTANCE_CRITERIA}}
+
+## Technical Requirements
+{{TECHNICAL_REQUIREMENTS}}
+
+## Implementation Notes
+{{IMPLEMENTATION_NOTES}}
+
+## Dependencies
+{{DEPENDENCIES}}
+
+## Testing Requirements
+{{TESTING_REQUIREMENTS}}
+
+## Documentation Updates
+{{DOCUMENTATION_UPDATES}}

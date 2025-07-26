@@ -1,0 +1,49 @@
+<?php
+
+
+
+
+
+
+
+
+
+
+return array_replace_recursive(require __DIR__.'/en.php', [
+'meridiem' => ['a', 'p'],
+'weekdays' => ['dumingu', 'sigunda-fera', 'tersa-fera', 'kuarta-fera', 'kinta-fera', 'sesta-fera', 'sabadu'],
+'weekdays_short' => ['dum', 'sig', 'ter', 'kua', 'kin', 'ses', 'sab'],
+'weekdays_min' => ['du', 'si', 'te', 'ku', 'ki', 'se', 'sa'],
+'weekdays_standalone' => ['dumingu', 'sigunda-fera', 'tersa-fera', 'kuarta-fera', 'kinta-fera', 'sesta-fera', 'sábadu'],
+'months' => ['Janeru', 'Febreru', 'Marsu', 'Abril', 'Maiu', 'Junhu', 'Julhu', 'Agostu', 'Setenbru', 'Otubru', 'Nuvenbru', 'Dizenbru'],
+'months_short' => ['Jan', 'Feb', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Otu', 'Nuv', 'Diz'],
+'first_day_of_week' => 1,
+'formats' => [
+'LT' => 'HH:mm',
+'LTS' => 'HH:mm:ss',
+'L' => 'D/M/YYYY',
+'LL' => 'D MMM YYYY',
+'LLL' => 'D [di] MMMM [di] YYYY HH:mm',
+'LLLL' => 'dddd, D [di] MMMM [di] YYYY HH:mm',
+],
+
+'year' => ':count otunu', 
+'y' => ':count otunu', 
+'a_year' => ':count otunu', 
+
+'week' => ':count día dumingu', 
+'w' => ':count día dumingu', 
+'a_week' => ':count día dumingu', 
+
+'day' => ':count diâ', 
+'d' => ':count diâ', 
+'a_day' => ':count diâ', 
+
+'minute' => ':count sugundu', 
+'min' => ':count sugundu', 
+'a_minute' => ':count sugundu', 
+
+'second' => ':count dós', 
+'s' => ':count dós', 
+'a_second' => ':count dós', 
+]);

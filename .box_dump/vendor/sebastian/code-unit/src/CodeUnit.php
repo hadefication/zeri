@@ -1,0 +1,528 @@
+<?php declare(strict_types=1);
+
+
+
+
+
+
+
+
+namespace SebastianBergmann\CodeUnit;
+
+use function assert;
+use function count;
+use function file;
+use function file_exists;
+use function is_readable;
+use function range;
+use function sprintf;
+use ReflectionClass;
+use ReflectionFunction;
+use ReflectionMethod;
+
+/**
+@immutable
+*/
+abstract readonly class CodeUnit
+{
+
+
+
+private string $name;
+
+
+
+
+private string $sourceFileName;
+
+
+
+
+private array $sourceLines;
+
+
+
+
+
+
+
+public static function forClass(string $className): ClassUnit
+{
+self::ensureUserDefinedClass($className);
+
+$reflector = new ReflectionClass($className);
+
+return new ClassUnit(
+$className,
+
+$reflector->getFileName(),
+range(
+
+$reflector->getStartLine(),
+
+$reflector->getEndLine(),
+),
+);
+}
+
+
+
+
+
+
+
+public static function forClassMethod(string $className, string $methodName): ClassMethodUnit
+{
+self::ensureUserDefinedClass($className);
+
+$reflector = self::reflectorForClassMethod($className, $methodName);
+
+return new ClassMethodUnit(
+$className . '::' . $methodName,
+
+$reflector->getFileName(),
+range(
+
+$reflector->getStartLine(),
+
+$reflector->getEndLine(),
+),
+);
+}
+
+
+
+
+
+
+public static function forFileWithAbsolutePath(string $path): FileUnit
+{
+self::ensureFileExistsAndIsReadable($path);
+
+$lines = file($path);
+
+assert($lines !== false);
+
+return new FileUnit(
+$path,
+$path,
+range(
+1,
+count($lines),
+),
+);
+}
+
+
+
+
+
+
+
+public static function forInterface(string $interfaceName): InterfaceUnit
+{
+self::ensureUserDefinedInterface($interfaceName);
+
+$reflector = new ReflectionClass($interfaceName);
+
+return new InterfaceUnit(
+$interfaceName,
+
+$reflector->getFileName(),
+range(
+
+$reflector->getStartLine(),
+
+$reflector->getEndLine(),
+),
+);
+}
+
+
+
+
+
+
+
+public static function forInterfaceMethod(string $interfaceName, string $methodName): InterfaceMethodUnit
+{
+self::ensureUserDefinedInterface($interfaceName);
+
+$reflector = self::reflectorForClassMethod($interfaceName, $methodName);
+
+return new InterfaceMethodUnit(
+$interfaceName . '::' . $methodName,
+
+$reflector->getFileName(),
+range(
+
+$reflector->getStartLine(),
+
+$reflector->getEndLine(),
+),
+);
+}
+
+
+
+
+
+
+
+public static function forTrait(string $traitName): TraitUnit
+{
+self::ensureUserDefinedTrait($traitName);
+
+$reflector = new ReflectionClass($traitName);
+
+return new TraitUnit(
+$traitName,
+
+$reflector->getFileName(),
+range(
+
+$reflector->getStartLine(),
+
+$reflector->getEndLine(),
+),
+);
+}
+
+
+
+
+
+
+
+public static function forTraitMethod(string $traitName, string $methodName): TraitMethodUnit
+{
+self::ensureUserDefinedTrait($traitName);
+
+$reflector = self::reflectorForClassMethod($traitName, $methodName);
+
+return new TraitMethodUnit(
+$traitName . '::' . $methodName,
+
+$reflector->getFileName(),
+range(
+
+$reflector->getStartLine(),
+
+$reflector->getEndLine(),
+),
+);
+}
+
+
+
+
+
+
+
+public static function forFunction(string $functionName): FunctionUnit
+{
+$reflector = self::reflectorForFunction($functionName);
+
+if (!$reflector->isUserDefined()) {
+throw new InvalidCodeUnitException(
+sprintf(
+'"%s" is not a user-defined function',
+$functionName,
+),
+);
+}
+
+return new FunctionUnit(
+
+$functionName,
+
+$reflector->getFileName(),
+range(
+
+$reflector->getStartLine(),
+
+$reflector->getEndLine(),
+),
+);
+}
+
+
+
+
+
+
+private function __construct(string $name, string $sourceFileName, array $sourceLines)
+{
+$this->name = $name;
+$this->sourceFileName = $sourceFileName;
+$this->sourceLines = $sourceLines;
+}
+
+
+
+
+public function name(): string
+{
+return $this->name;
+}
+
+
+
+
+public function sourceFileName(): string
+{
+return $this->sourceFileName;
+}
+
+
+
+
+public function sourceLines(): array
+{
+return $this->sourceLines;
+}
+
+/**
+@phpstan-assert-if-true
+*/
+public function isClass(): bool
+{
+return false;
+}
+
+/**
+@phpstan-assert-if-true
+*/
+public function isClassMethod(): bool
+{
+return false;
+}
+
+/**
+@phpstan-assert-if-true
+*/
+public function isInterface(): bool
+{
+return false;
+}
+
+/**
+@phpstan-assert-if-true
+*/
+public function isInterfaceMethod(): bool
+{
+return false;
+}
+
+/**
+@phpstan-assert-if-true
+*/
+public function isTrait(): bool
+{
+return false;
+}
+
+/**
+@phpstan-assert-if-true
+*/
+public function isTraitMethod(): bool
+{
+return false;
+}
+
+/**
+@phpstan-assert-if-true
+*/
+public function isFunction(): bool
+{
+return false;
+}
+
+/**
+@phpstan-assert-if-true
+*/
+public function isFile(): bool
+{
+return false;
+}
+
+
+
+
+
+
+private static function ensureFileExistsAndIsReadable(string $path): void
+{
+if (!(file_exists($path) && is_readable($path))) {
+throw new InvalidCodeUnitException(
+sprintf(
+'File "%s" does not exist or is not readable',
+$path,
+),
+);
+}
+}
+
+
+
+
+
+
+private static function ensureUserDefinedClass(string $className): void
+{
+try {
+$reflector = new ReflectionClass($className);
+
+if ($reflector->isInterface()) {
+throw new InvalidCodeUnitException(
+sprintf(
+'"%s" is an interface and not a class',
+$className,
+),
+);
+}
+
+if ($reflector->isTrait()) {
+throw new InvalidCodeUnitException(
+sprintf(
+'"%s" is a trait and not a class',
+$className,
+),
+);
+}
+
+if (!$reflector->isUserDefined()) {
+throw new InvalidCodeUnitException(
+sprintf(
+'"%s" is not a user-defined class',
+$className,
+),
+);
+}
+
+} catch (\ReflectionException $e) {
+throw new ReflectionException(
+$e->getMessage(),
+$e->getCode(),
+$e,
+);
+}
+
+}
+
+
+
+
+
+
+private static function ensureUserDefinedInterface(string $interfaceName): void
+{
+try {
+$reflector = new ReflectionClass($interfaceName);
+
+if (!$reflector->isInterface()) {
+throw new InvalidCodeUnitException(
+sprintf(
+'"%s" is not an interface',
+$interfaceName,
+),
+);
+}
+
+if (!$reflector->isUserDefined()) {
+throw new InvalidCodeUnitException(
+sprintf(
+'"%s" is not a user-defined interface',
+$interfaceName,
+),
+);
+}
+
+} catch (\ReflectionException $e) {
+throw new ReflectionException(
+$e->getMessage(),
+$e->getCode(),
+$e,
+);
+}
+
+}
+
+
+
+
+
+
+private static function ensureUserDefinedTrait(string $traitName): void
+{
+try {
+$reflector = new ReflectionClass($traitName);
+
+if (!$reflector->isTrait()) {
+throw new InvalidCodeUnitException(
+sprintf(
+'"%s" is not a trait',
+$traitName,
+),
+);
+}
+
+
+if (!$reflector->isUserDefined()) {
+throw new InvalidCodeUnitException(
+sprintf(
+'"%s" is not a user-defined trait',
+$traitName,
+),
+);
+}
+} catch (\ReflectionException $e) {
+throw new ReflectionException(
+$e->getMessage(),
+$e->getCode(),
+$e,
+);
+}
+
+}
+
+
+
+
+
+
+private static function reflectorForClassMethod(string $className, string $methodName): ReflectionMethod
+{
+try {
+return new ReflectionMethod($className, $methodName);
+
+} catch (\ReflectionException $e) {
+throw new ReflectionException(
+$e->getMessage(),
+$e->getCode(),
+$e,
+);
+}
+
+}
+
+
+
+
+
+
+private static function reflectorForFunction(string $functionName): ReflectionFunction
+{
+try {
+return new ReflectionFunction($functionName);
+
+} catch (\ReflectionException $e) {
+throw new ReflectionException(
+$e->getMessage(),
+$e->getCode(),
+$e,
+);
+}
+
+}
+}

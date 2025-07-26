@@ -1,0 +1,88 @@
+# GEMINI DEVELOPMENT INSTRUCTIONS
+
+**GENERATION DATE:** {{GENERATION_DATE}}
+
+## REFERENCED FILES
+
+**CORE FILES:**
+- `.zeri/context.md` → PROJECT OVERVIEW AND TECH STACK
+- `.zeri/standards.md` → CODE STANDARDS AND BEST PRACTICES
+
+**WORKFLOW FILES:**
+- `.zeri/workflows/coding.md` → DEVELOPMENT PROCESS
+- `.zeri/workflows/planning.md` → FEATURE PLANNING
+- `.zeri/workflows/debugging.md` → DEBUGGING WORKFLOW
+
+**PROJECT FILES:**
+- `.zeri/project/roadmap.md` → CURRENT PRIORITIES
+- `.zeri/project/decisions.md` → ARCHITECTURE DECISIONS
+- `.zeri/project/patterns.md` → CODE PATTERNS
+
+**ACTIVE SPECIFICATIONS:**
+{{SPECIFICATIONS_LIST}}
+
+---
+
+## PROJECT CONTEXT
+
+{{PROJECT_CONTEXT}}
+
+## CODING STANDARDS
+
+{{PROJECT_STANDARDS}}
+
+## DEVELOPMENT WORKFLOW
+
+{{PROJECT_WORKFLOWS}}
+
+## CURRENT PRIORITIES
+
+{{PROJECT_ROADMAP}}
+
+## ARCHITECTURE DECISIONS
+
+{{PROJECT_DECISIONS}}
+
+## CODE PATTERNS
+
+{{PROJECT_PATTERNS}}
+
+{{ACTIVE_SPECIFICATIONS}}
+
+---
+
+## DEVELOPMENT DIRECTIVES
+
+**MANDATORY REQUIREMENTS:**
+
+1. **CODE QUALITY:** ALL code must follow established standards
+2. **TESTING:** WRITE comprehensive tests for all features
+3. **DOCUMENTATION:** UPDATE docs for any architectural changes
+4. **SECURITY:** IMPLEMENT proper input validation and error handling
+5. **PERFORMANCE:** OPTIMIZE for speed and resource efficiency
+
+**WORKFLOW COMPLIANCE:**
+
+- CREATE feature branches for all changes
+- FOLLOW established code review process
+- ENSURE all tests pass before merging
+- UPDATE relevant documentation
+
+**PATTERN ADHERENCE:**
+
+- USE established code patterns consistently
+- MAINTAIN architectural consistency
+- FOLLOW naming conventions
+- IMPLEMENT proper error handling
+
+---
+
+## CRITICAL REMINDERS
+
+⚠️ **NEVER bypass established workflows**
+⚠️ **ALWAYS validate inputs and handle errors**
+⚠️ **ENSURE backward compatibility**
+⚠️ **FOLLOW security best practices**
+
+---
+*AUTO-GENERATED from .zeri configuration. Modify source files in .zeri/ to update.*
