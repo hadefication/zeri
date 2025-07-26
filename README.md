@@ -237,40 +237,11 @@ zeri generate claude
 Edit the template files in `.zeri/templates/` to customize the format of new specifications and tasks.
 
 ### Stubs
-The application uses stub files located in `stubs/` for initial file creation. You can modify these to change the default content structure:
-
-- `CLAUDE.md.stub` - Claude AI context template
-- `GEMINI.md.stub` - Gemini AI instructions template  
-- `cursor-generate.mdc.stub` - Cursor generation rules template
-- `cursor-workflow.mdc.stub` - Cursor workflow template
+The application uses stub files for consistent file generation. You can modify project templates in `.zeri/templates/` to customize specification formats.
 
 ## Development
 
-### Running Tests
-```bash
-php application test
-```
-
-### Building Executable
-
-**Recommended (using build script):**
-```bash
-./build.sh
-```
-
-**Manual build:**
-```bash
-php application app:build
-```
-
-*Note: For development, use `php application <command>`. After global installation, use `zeri <command>`.*
-
-The executable will be created in `builds/zeri`.
-
-## Requirements
-
-- PHP 8.2 or higher (for building from source)
-- Composer (for development)
+For development setup, building from source, testing, and contributing guidelines, see [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## License
 
@@ -278,7 +249,7 @@ This project is open-sourced software licensed under the [MIT license](LICENSE).
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please see [DEVELOPMENT.md](DEVELOPMENT.md) for setup instructions and contribution guidelines.
 
 ---
 
