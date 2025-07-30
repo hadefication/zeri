@@ -19,79 +19,82 @@ class InitCommand extends Command
         $ai = $this->argument('ai');
         $path = $this->option('path') ?: getcwd();
         $force = $this->option('force');
-        $zeriPath = $path . '/.zeri';
+        $zeriPath = $path.'/.zeri';
 
         // Validate AI parameter if provided
-        if ($ai && !in_array(strtolower($ai), $this->validAIs)) {
+        if ($ai && ! in_array(strtolower($ai), $this->validAIs)) {
             $this->error("Invalid AI type: {$ai}");
-            $this->line('Valid options: ' . implode(', ', $this->validAIs));
+            $this->line('Valid options: '.implode(', ', $this->validAIs));
+
             return 1;
         }
 
         if (File::exists($zeriPath)) {
-            if (!$force) {
+            if (! $force) {
                 $this->error('.zeri directory already exists!');
                 $this->line('Use --force to reinitialize and overwrite existing files.');
+
                 return 1;
             }
-            
+
             // Show warning and ask for confirmation
             $this->warn('⚠️  WARNING: This will remove all existing Zeri files!');
             $this->line('');
             $this->line('Files that will be removed:');
             $this->line('  📁 .zeri/ (entire directory)');
-            
+
             // Check for AI files that exist
             $aiFilesToRemove = $this->findExistingAiFiles($path);
             foreach ($aiFilesToRemove as $file) {
                 $this->line("  📄 {$file}");
             }
-            
+
             $this->line('');
-            
-            if (!$this->confirm('Do you want to continue and remove these files?', false)) {
+
+            if (! $this->confirm('Do you want to continue and remove these files?', false)) {
                 $this->info('Operation cancelled.');
+
                 return 0;
             }
-            
+
             // Remove existing files
             $this->line('');
             $this->info('🗑️  Removing existing Zeri files...');
-            
+
             // Remove .zeri directory
             File::deleteDirectory($zeriPath);
             $this->line('  ✅ Removed .zeri/');
-            
+
             // Remove AI files
             foreach ($aiFilesToRemove as $file) {
-                $fullPath = $path . '/' . $file;
+                $fullPath = $path.'/'.$file;
                 if (File::exists($fullPath)) {
                     File::delete($fullPath);
                     $this->line("  ✅ Removed {$file}");
                 }
             }
-            
+
             // Remove .cursor/rules directory if it becomes empty after removing Zeri files
-            $cursorRulesDir = $path . '/.cursor/rules';
+            $cursorRulesDir = $path.'/.cursor/rules';
             if (File::isDirectory($cursorRulesDir)) {
                 $remainingFiles = File::files($cursorRulesDir);
                 if (count($remainingFiles) === 0) {
                     File::deleteDirectory($cursorRulesDir);
-                    $this->line("  ✅ Removed empty .cursor/rules/");
+                    $this->line('  ✅ Removed empty .cursor/rules/');
                 }
             }
-            
+
             // Remove .cursor directory if it becomes completely empty
-            $cursorDir = $path . '/.cursor';
+            $cursorDir = $path.'/.cursor';
             if (File::isDirectory($cursorDir)) {
                 $remainingFiles = File::files($cursorDir);
                 $remainingDirs = File::directories($cursorDir);
                 if (count($remainingFiles) === 0 && count($remainingDirs) === 0) {
                     File::deleteDirectory($cursorDir);
-                    $this->line("  ✅ Removed empty .cursor/");
+                    $this->line('  ✅ Removed empty .cursor/');
                 }
             }
-            
+
             $this->line('');
         }
 
@@ -101,13 +104,13 @@ class InitCommand extends Command
         $directories = [
             '.zeri',
             '.zeri/workflows',
-            '.zeri/project', 
+            '.zeri/project',
             '.zeri/specs',
-            '.zeri/templates'
+            '.zeri/templates',
         ];
 
         foreach ($directories as $dir) {
-            File::makeDirectory($path . '/' . $dir, 0755, true);
+            File::makeDirectory($path.'/'.$dir, 0755, true);
         }
 
         // Gather project information
@@ -125,7 +128,7 @@ class InitCommand extends Command
             'KEY_COMPONENTS' => 'To be documented',
             'CURRENT_FOCUS' => $currentFocus,
             'ENVIRONMENT_SETUP' => 'To be documented',
-            'IMPORTANT_NOTES' => 'To be documented'
+            'IMPORTANT_NOTES' => 'To be documented',
         ]);
 
         $this->createFromStub($path, 'standards.md', [
@@ -137,7 +140,7 @@ class InitCommand extends Command
             'TESTING_REQUIREMENTS' => 'Write tests for all new features',
             'SECURITY_GUIDELINES' => 'Sanitize all inputs, use prepared statements',
             'PERFORMANCE_CONSIDERATIONS' => 'Optimize database queries, cache where appropriate',
-            'CODE_REVIEW_GUIDELINES' => 'All code must be reviewed before merge'
+            'CODE_REVIEW_GUIDELINES' => 'All code must be reviewed before merge',
         ]);
 
         // Create workflow files
@@ -149,7 +152,7 @@ class InitCommand extends Command
             'TESTING_WORKFLOW' => 'Unit tests, integration tests, manual testing',
             'CODE_REVIEW_PROCESS' => 'Pull request review with at least one approval',
             'DEPLOYMENT_STEPS' => 'Deploy to staging, test, deploy to production',
-            'TROUBLESHOOTING' => 'Check logs, reproduce issue, write failing test, fix, verify'
+            'TROUBLESHOOTING' => 'Check logs, reproduce issue, write failing test, fix, verify',
         ]);
 
         $this->createFromStub($path, 'workflows/planning.md', [
@@ -160,7 +163,7 @@ class InitCommand extends Command
             'DESIGN_CONSIDERATIONS' => 'User experience, performance, security, maintainability',
             'IMPLEMENTATION_PLANNING' => 'Break down into tasks, estimate effort, plan sprints',
             'RISK_ASSESSMENT' => 'Identify technical risks, mitigation strategies',
-            'TIMELINE_ESTIMATION' => 'Story points, velocity tracking, buffer for unknowns'
+            'TIMELINE_ESTIMATION' => 'Story points, velocity tracking, buffer for unknowns',
         ]);
 
         $this->createFromStub($path, 'workflows/debugging.md', [
@@ -171,7 +174,7 @@ class InitCommand extends Command
             'LOG_ANALYSIS' => 'Check application logs, error logs, system logs',
             'PERFORMANCE_DEBUGGING' => 'Profiling, query analysis, resource monitoring',
             'ERROR_TRACKING' => 'Use error tracking service, categorize errors, prioritize fixes',
-            'RESOLUTION_DOCUMENTATION' => 'Document solution, update runbooks, share learnings'
+            'RESOLUTION_DOCUMENTATION' => 'Document solution, update runbooks, share learnings',
         ]);
 
         // Create project files
@@ -183,15 +186,15 @@ class InitCommand extends Command
             'MEDIUM_TERM_GOALS' => 'Feature expansion, performance optimization',
             'LONG_TERM_VISION' => 'Full product launch, scaling considerations',
             'PRIORITY_FEATURES' => 'User management, core business logic',
-            'TECHNICAL_DEBT' => 'None identified yet'
+            'TECHNICAL_DEBT' => 'None identified yet',
         ]);
 
         $this->createFromStub($path, 'project/decisions.md', [
             'PROJECT_NAME' => $projectName,
             'RECENT_DECISIONS' => 'Initial technology stack selection',
             'KEY_ARCHITECTURE_DECISIONS' => 'Framework choice, database selection, deployment strategy',
-            'TECHNOLOGY_CHOICES' => $techStack . ' - chosen for team expertise and project requirements',
-            'DESIGN_PATTERNS' => 'MVC pattern, Repository pattern for data access'
+            'TECHNOLOGY_CHOICES' => $techStack.' - chosen for team expertise and project requirements',
+            'DESIGN_PATTERNS' => 'MVC pattern, Repository pattern for data access',
         ]);
 
         $this->createFromStub($path, 'project/patterns.md', [
@@ -202,7 +205,7 @@ class InitCommand extends Command
             'ERROR_HANDLING_PATTERNS' => 'Custom exceptions, error logging, user-friendly messages',
             'TESTING_PATTERNS' => 'Arrange-Act-Assert, test factories, mocking external services',
             'CONFIGURATION_PATTERNS' => 'Environment-based config, feature flags',
-            'PATTERN_EXAMPLES' => 'Service classes for business logic, Resource classes for API responses'
+            'PATTERN_EXAMPLES' => 'Service classes for business logic, Resource classes for API responses',
         ]);
 
         // Create template files
@@ -214,7 +217,7 @@ class InitCommand extends Command
             'IMPLEMENTATION_NOTES' => '{{IMPLEMENTATION_NOTES}}',
             'DEPENDENCIES' => '{{DEPENDENCIES}}',
             'TESTING_REQUIREMENTS' => '{{TESTING_REQUIREMENTS}}',
-            'DOCUMENTATION_UPDATES' => '{{DOCUMENTATION_UPDATES}}'
+            'DOCUMENTATION_UPDATES' => '{{DOCUMENTATION_UPDATES}}',
         ]);
 
         $this->createFromStub($path, 'templates/spec.md', [
@@ -228,7 +231,7 @@ class InitCommand extends Command
             'UI_UX_CONSIDERATIONS' => '{{UI_UX_CONSIDERATIONS}}',
             'SECURITY_CONSIDERATIONS' => '{{SECURITY_CONSIDERATIONS}}',
             'TESTING_STRATEGY' => '{{TESTING_STRATEGY}}',
-            'IMPLEMENTATION_PLAN' => '{{IMPLEMENTATION_PLAN}}'
+            'IMPLEMENTATION_PLAN' => '{{IMPLEMENTATION_PLAN}}',
         ]);
 
         $this->info('✅ Zeri project structure initialized successfully!');
@@ -238,7 +241,7 @@ class InitCommand extends Command
         $this->line('Next steps:');
         $this->line('  • Edit .zeri files to match your project');
         $this->line('  • Add specifications: zeri add-spec <name>');
-        if (!$ai) {
+        if (! $ai) {
             $this->line('  • Generate AI files: zeri generate <ai>');
         }
 
@@ -246,11 +249,11 @@ class InitCommand extends Command
         if ($ai) {
             $this->line('');
             $this->info("🤖 Auto-generating AI files for: {$ai}");
-            
+
             $exitCode = $this->call('generate', [
                 'ai' => strtolower($ai),
                 '--path' => $path,
-                '--force' => $force
+                '--force' => $force,
             ]);
 
             if ($exitCode === 0) {
@@ -258,7 +261,7 @@ class InitCommand extends Command
                 $this->info('🎉 Project initialized and AI files generated successfully!');
             } else {
                 $this->line('');
-                $this->warn('⚠️  Project initialized but AI generation failed. Run manually: zeri generate ' . $ai);
+                $this->warn('⚠️  Project initialized but AI generation failed. Run manually: zeri generate '.$ai);
             }
         }
 
@@ -267,18 +270,19 @@ class InitCommand extends Command
 
     private function createFromStub(string $basePath, string $relativePath, array $replacements)
     {
-        $stubPath = app_path('../stubs/' . str_replace('.md', '.md.stub', $relativePath));
-        $targetPath = $basePath . '/.zeri/' . $relativePath;
+        $stubPath = app_path('../stubs/'.str_replace('.md', '.md.stub', $relativePath));
+        $targetPath = $basePath.'/.zeri/'.$relativePath;
 
-        if (!File::exists($stubPath)) {
+        if (! File::exists($stubPath)) {
             $this->error("Stub file not found: {$stubPath}");
+
             return;
         }
 
         $content = File::get($stubPath);
-        
+
         foreach ($replacements as $placeholder => $value) {
-            $content = str_replace('{{' . $placeholder . '}}', $value, $content);
+            $content = str_replace('{{'.$placeholder.'}}', $value, $content);
         }
 
         File::put($targetPath, $content);
@@ -288,10 +292,10 @@ class InitCommand extends Command
     {
         $this->line('📁 Project Structure:');
         $this->line('');
-        
+
         $projectName = basename($basePath);
         $this->line("$projectName/");
-        
+
         // Show .zeri structure
         $this->line('├── .zeri/');
         $this->line('│   ├── context.md               # Project overview & tech stack');
@@ -308,16 +312,16 @@ class InitCommand extends Command
         $this->line('│   └── templates/');
         $this->line('│       ├── task.md              # Task template');
         $this->line('│       └── spec.md              # Specification template');
-        
+
         // Show AI files if generated
         if ($ai) {
             $aiFiles = $this->getAiFiles($ai);
             $fileCount = count($aiFiles);
-            
+
             for ($i = 0; $i < $fileCount; $i++) {
                 $isLast = ($i === $fileCount - 1);
                 $prefix = $isLast ? '└── ' : '├── ';
-                $this->line($prefix . $aiFiles[$i]['display']);
+                $this->line($prefix.$aiFiles[$i]['display']);
             }
         }
     }
@@ -325,52 +329,52 @@ class InitCommand extends Command
     private function getAiFiles(string $ai): array
     {
         $aiFiles = [];
-        
+
         if (in_array($ai, ['claude', 'all'])) {
             $aiFiles[] = ['display' => 'CLAUDE.md                    # Context for Claude AI'];
         }
-        
+
         if (in_array($ai, ['gemini', 'all'])) {
             $aiFiles[] = ['display' => 'GEMINI.md                    # Instructions for Gemini AI'];
         }
-        
+
         if (in_array($ai, ['cursor', 'all'])) {
             $aiFiles[] = ['display' => '.cursor/'];
             $aiFiles[] = ['display' => '│   └── rules/'];
             $aiFiles[] = ['display' => '│       ├── generate.mdc      # Code generation rules'];
             $aiFiles[] = ['display' => '│       └── workflow.mdc      # Development workflow'];
         }
-        
+
         return $aiFiles;
     }
 
     private function findExistingAiFiles(string $basePath): array
     {
         $aiFiles = [];
-        
+
         // Check for Claude file
-        if (File::exists($basePath . '/CLAUDE.md')) {
+        if (File::exists($basePath.'/CLAUDE.md')) {
             $aiFiles[] = 'CLAUDE.md';
         }
-        
+
         // Check for Gemini file
-        if (File::exists($basePath . '/GEMINI.md')) {
+        if (File::exists($basePath.'/GEMINI.md')) {
             $aiFiles[] = 'GEMINI.md';
         }
-        
+
         // Check for Cursor .mdc files
-        if (File::exists($basePath . '/.cursor/rules/generate.mdc')) {
+        if (File::exists($basePath.'/.cursor/rules/generate.mdc')) {
             $aiFiles[] = '.cursor/rules/generate.mdc';
         }
-        if (File::exists($basePath . '/.cursor/rules/workflow.mdc')) {
+        if (File::exists($basePath.'/.cursor/rules/workflow.mdc')) {
             $aiFiles[] = '.cursor/rules/workflow.mdc';
         }
-        
+
         // Check for old Cursor rules (for backward compatibility)
-        if (File::exists($basePath . '/.cursor/rules')) {
+        if (File::exists($basePath.'/.cursor/rules')) {
             $aiFiles[] = '.cursor/rules';
         }
-        
+
         return $aiFiles;
     }
 

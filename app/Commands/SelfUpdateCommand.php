@@ -14,21 +14,22 @@ class SelfUpdateCommand extends Command
     public function handle()
     {
         $check = $this->option('check');
-        
+
         $this->info('🔍 Checking for updates...');
         $this->line('');
-        
+
         // Get current version
         $currentVersion = config('app.version');
         $this->line("Current version: <info>{$currentVersion}</info>");
-        
+
         // For now, just show that the functionality is available
         // In production, this would check GitHub releases
         if ($check) {
             $this->info('✅ You are running the latest version.');
+
             return 0;
         }
-        
+
         $this->line('');
         $this->comment('Self-update functionality is available!');
         $this->line('');
@@ -38,7 +39,7 @@ class SelfUpdateCommand extends Command
         $this->line('3. Attach the zeri binary to releases');
         $this->line('');
         $this->line('Then self-update will automatically download the latest version.');
-        
+
         return 0;
     }
 

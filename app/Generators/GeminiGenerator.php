@@ -11,11 +11,12 @@ class GeminiGenerator extends BaseGenerator
 
     public function generate(bool $force = false): bool
     {
-        if (!$this->shouldRegenerate($force)) {
+        if (! $this->shouldRegenerate($force)) {
             return false; // No regeneration needed
         }
 
         $content = $this->buildFromStub();
+
         return $this->writeOutput($content);
     }
 
@@ -24,7 +25,7 @@ class GeminiGenerator extends BaseGenerator
         // Build specifications list
         $specs = $this->getSpecifications();
         $specsList = '';
-        if (!empty($specs)) {
+        if (! empty($specs)) {
             foreach ($specs as $spec) {
                 $specName = strtoupper(str_replace('-', ' ', $spec['name']));
                 $specsList .= "- `.zeri/specs/{$spec['name']}.md` → {$specName} SPECIFICATION\n";
@@ -35,25 +36,25 @@ class GeminiGenerator extends BaseGenerator
 
         // Build active specifications content
         $activeSpecs = '';
-        if (!empty($specs)) {
+        if (! empty($specs)) {
             $activeSpecs = "\n## ACTIVE SPECIFICATIONS\n\n";
-            
+
             foreach ($specs as $spec) {
                 $specName = strtoupper(str_replace('-', ' ', $spec['name']));
                 $activeSpecs .= "### {$specName}\n\n";
-                $activeSpecs .= $this->formatForGemini($spec['content']) . "\n\n";
+                $activeSpecs .= $this->formatForGemini($spec['content'])."\n\n";
             }
         }
 
         // Build workflow content
-        $workflowsText = "";
+        $workflowsText = '';
         $workflows = ['coding.md', 'planning.md', 'debugging.md'];
         foreach ($workflows as $workflow) {
-            $workflowData = $this->readFile('workflows/' . $workflow);
+            $workflowData = $this->readFile('workflows/'.$workflow);
             if ($workflowData) {
                 $title = strtoupper(str_replace('.md', '', $workflow));
                 $workflowsText .= "### {$title} PROTOCOL\n\n";
-                $workflowsText .= $this->formatForGemini($workflowData) . "\n\n";
+                $workflowsText .= $this->formatForGemini($workflowData)."\n\n";
             }
         }
 
@@ -66,7 +67,7 @@ class GeminiGenerator extends BaseGenerator
             'PROJECT_ROADMAP' => $this->formatForGemini($this->readFile('project/roadmap.md')),
             'PROJECT_DECISIONS' => $this->formatForGemini($this->readFile('project/decisions.md')),
             'PROJECT_PATTERNS' => $this->formatForGemini($this->readFile('project/patterns.md')),
-            'ACTIVE_SPECIFICATIONS' => $activeSpecs
+            'ACTIVE_SPECIFICATIONS' => $activeSpecs,
         ];
 
         return $this->createFromStub('GEMINI.md.stub', $replacements);
@@ -77,28 +78,29 @@ class GeminiGenerator extends BaseGenerator
         if (empty($content)) {
             return '';
         }
-        
+
         // Convert to more directive format for Gemini
         $lines = explode("\n", $content);
         $formatted = [];
-        
+
         foreach ($lines as $line) {
             $line = trim($line);
             if (empty($line)) {
-                $formatted[] = "";
+                $formatted[] = '';
+
                 continue;
             }
-            
+
             // Convert headers to UPPERCASE
             if (strpos($line, '#') === 0) {
                 $level = substr_count($line, '#');
                 $text = trim(str_replace('#', '', $line));
-                $formatted[] = str_repeat('#', $level) . ' ' . strtoupper($text);
+                $formatted[] = str_repeat('#', $level).' '.strtoupper($text);
             } else {
                 $formatted[] = $line;
             }
         }
-        
+
         return implode("\n", $formatted);
     }
 }
