@@ -11,20 +11,21 @@ class ClaudeGenerator extends BaseGenerator
 
     public function generate(bool $force = false): bool
     {
-        if (!$this->shouldRegenerate($force)) {
+        if (! $this->shouldRegenerate($force)) {
             return false; // No regeneration needed
         }
 
         $content = $this->buildFromStub();
+
         return $this->writeOutput($content);
     }
 
     private function buildFromStub(): string
     {
-        // Build specifications list  
+        // Build specifications list
         $specs = $this->getSpecifications();
         $specsList = '';
-        if (!empty($specs)) {
+        if (! empty($specs)) {
             foreach ($specs as $spec) {
                 $specsList .= "- `.zeri/specs/{$spec['name']}.md` - {$spec['name']} specification\n";
             }
@@ -34,36 +35,36 @@ class ClaudeGenerator extends BaseGenerator
 
         // Build active specifications content
         $activeSpecs = '';
-        if (!empty($specs)) {
+        if (! empty($specs)) {
             $activeSpecs = "\n## Current Feature Specifications\n\n";
             $activeSpecs .= "The following specifications represent current or upcoming work:\n\n";
             foreach ($specs as $spec) {
-                $activeSpecs .= "### " . ucfirst(str_replace('-', ' ', $spec['name'])) . "\n\n";
-                $activeSpecs .= $spec['content'] . "\n\n";
+                $activeSpecs .= '### '.ucfirst(str_replace('-', ' ', $spec['name']))."\n\n";
+                $activeSpecs .= $spec['content']."\n\n";
             }
         }
 
         // Build workflows content
-        $workflowsText = "";
+        $workflowsText = '';
         $workflows = ['coding.md', 'planning.md', 'debugging.md'];
         foreach ($workflows as $workflow) {
-            $workflowData = $this->readFile('workflows/' . $workflow);
+            $workflowData = $this->readFile('workflows/'.$workflow);
             if ($workflowData) {
                 $title = ucfirst(str_replace('.md', '', $workflow));
                 $workflowsText .= "### {$title} Workflow\n\n";
-                $workflowsText .= $workflowData . "\n\n";
+                $workflowsText .= $workflowData."\n\n";
             }
         }
 
         // Build project documentation
-        $projectDocs = "";
+        $projectDocs = '';
         $docs = ['roadmap.md', 'decisions.md', 'patterns.md'];
         foreach ($docs as $doc) {
-            $docContent = $this->readFile('project/' . $doc);
+            $docContent = $this->readFile('project/'.$doc);
             if ($docContent) {
                 $title = ucfirst(str_replace('.md', '', $doc));
                 $projectDocs .= "### {$title}\n\n";
-                $projectDocs .= $docContent . "\n\n";
+                $projectDocs .= $docContent."\n\n";
             }
         }
 
@@ -74,7 +75,7 @@ class ClaudeGenerator extends BaseGenerator
             'PROJECT_STANDARDS' => $this->readFile('standards.md'),
             'PROJECT_WORKFLOWS' => $workflowsText,
             'PROJECT_DOCUMENTATION' => $projectDocs,
-            'ACTIVE_SPECIFICATIONS' => $activeSpecs
+            'ACTIVE_SPECIFICATIONS' => $activeSpecs,
         ];
 
         return $this->createFromStub('CLAUDE.md.stub', $replacements);

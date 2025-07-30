@@ -17,36 +17,40 @@ class AddSpecCommand extends Command
         $name = $this->argument('name');
         $path = $this->option('path') ?: getcwd();
         $force = $this->option('force');
-        $zeriPath = $path . '/.zeri';
+        $zeriPath = $path.'/.zeri';
 
-        if (!File::exists($zeriPath)) {
+        if (! File::exists($zeriPath)) {
             $this->error('.zeri directory not found. Run "zeri init" first.');
+
             return 1;
         }
 
         $specName = str_replace(' ', '-', strtolower($name));
-        $specPath = $zeriPath . '/specs/' . $specName . '.md';
+        $specPath = $zeriPath.'/specs/'.$specName.'.md';
 
-        if (File::exists($specPath) && !$force) {
+        if (File::exists($specPath) && ! $force) {
             $this->error("Specification '{$specName}' already exists!");
             $this->line('Use --force to overwrite the existing specification.');
+
             return 1;
         }
 
         if (File::exists($specPath) && $force) {
             $this->warn("⚠️  Specification '{$specName}' already exists!");
             $this->line('');
-            if (!$this->confirm('Do you want to overwrite the existing specification?', false)) {
+            if (! $this->confirm('Do you want to overwrite the existing specification?', false)) {
                 $this->info('Operation cancelled.');
+
                 return 0;
             }
             $this->line('');
         }
 
         // Get template content
-        $templatePath = $zeriPath . '/templates/spec.md';
-        if (!File::exists($templatePath)) {
+        $templatePath = $zeriPath.'/templates/spec.md';
+        if (! File::exists($templatePath)) {
             $this->error('Specification template not found. Please ensure .zeri is properly initialized.');
+
             return 1;
         }
 
@@ -64,7 +68,7 @@ class AddSpecCommand extends Command
             '{{UI_UX_CONSIDERATIONS}}' => 'User interface and experience requirements',
             '{{SECURITY_CONSIDERATIONS}}' => 'Authentication, authorization, data protection',
             '{{TESTING_STRATEGY}}' => 'Unit tests, integration tests, acceptance criteria',
-            '{{IMPLEMENTATION_PLAN}}' => 'Phase 1: ...\nPhase 2: ...'
+            '{{IMPLEMENTATION_PLAN}}' => 'Phase 1: ...\nPhase 2: ...',
         ];
 
         foreach ($replacements as $placeholder => $value) {
