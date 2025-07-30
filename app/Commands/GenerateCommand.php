@@ -12,7 +12,8 @@ use LaravelZero\Framework\Commands\Command;
 class GenerateCommand extends Command
 {
     protected $signature = 'generate 
-                            {ai : AI type (claude, gemini, cursor, all)} 
+                            {ai? : AI type (claude, gemini, cursor, all)} 
+                            {--all : Generate for all AI types}
                             {--path= : Path to project directory}
                             {--force : Force regeneration even if files are up to date}';
 
@@ -22,19 +23,34 @@ class GenerateCommand extends Command
 
     public function handle()
     {
-        $ai = strtolower($this->argument('ai'));
+        $ai = $this->argument('ai');
+        $allFlag = $this->option('all');
         $path = $this->option('path') ?: getcwd();
         $force = $this->option('force');
-        
-        $zeriPath = $path . '/.zeri';
-        
-        if (!File::exists($zeriPath)) {
+
+        // Handle --all flag or missing ai argument
+        if ($allFlag || ! $ai) {
+            if ($allFlag) {
+                $ai = 'all';
+            } elseif (! $ai) {
+                $this->error('Please specify an AI type or use --all flag. Valid options: '.implode(', ', array_slice($this->validAIs, 0, -1)).', or --all');
+
+                return 1;
+            }
+        }
+
+        $ai = strtolower($ai);
+        $zeriPath = $path.'/.zeri';
+
+        if (! File::exists($zeriPath)) {
             $this->error('.zeri directory not found. Run "zeri init" first.');
+
             return 1;
         }
 
-        if (!in_array($ai, $this->validAIs)) {
-            $this->error("Invalid AI type. Valid options: " . implode(', ', $this->validAIs));
+        if (! in_array($ai, $this->validAIs)) {
+            $this->error('Invalid AI type. Valid options: '.implode(', ', $this->validAIs));
+
             return 1;
         }
 
@@ -44,10 +60,10 @@ class GenerateCommand extends Command
 
         foreach ($generators as $name => $generator) {
             $this->line("Generating {$name} file...");
-            
+
             try {
                 $wasGenerated = $generator->generate($force);
-                
+
                 if ($wasGenerated) {
                     $files = $generator->getGeneratedFiles();
                     foreach ($files as $filename) {
@@ -64,21 +80,22 @@ class GenerateCommand extends Command
                     $this->line("⏭️  Skipped: {$primaryFile} (up to date)");
                 }
             } catch (\Exception $e) {
-                $this->error("❌ Failed to generate {$name}: " . $e->getMessage());
+                $this->error("❌ Failed to generate {$name}: ".$e->getMessage());
+
                 return 1;
             }
         }
 
         // Summary
         $this->line('');
-        if (!empty($generated)) {
+        if (! empty($generated)) {
             $this->info('Generated files:');
             foreach ($generated as $file) {
                 $this->line("  📄 {$file}");
             }
         }
 
-        if (!empty($skipped)) {
+        if (! empty($skipped)) {
             $this->line('Skipped files (use --force to regenerate):');
             foreach ($skipped as $file) {
                 $this->line("  📄 {$file}");
@@ -88,7 +105,6 @@ class GenerateCommand extends Command
         if (empty($generated) && empty($skipped)) {
             $this->line('No files to generate.');
         }
-
 
         $this->line('');
         $this->line('💡 Tip: Use --force to regenerate files even when up to date');
@@ -120,7 +136,6 @@ class GenerateCommand extends Command
 
         return $generators;
     }
-
 
     public function schedule(Schedule $schedule): void
     {
