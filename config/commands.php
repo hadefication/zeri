@@ -40,8 +40,8 @@ return [
     */
 
     'add' => [
-        // Custom self-update command (Laravel Zero's has signing issues)
-        // \LaravelZero\Framework\Components\Updater\SelfUpdateCommand::class,
+        // Laravel Zero's built-in self-update command
+        \LaravelZero\Framework\Components\Updater\SelfUpdateCommand::class,
     ],
 
     /*
