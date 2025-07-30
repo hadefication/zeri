@@ -4,50 +4,23 @@
 
 ## REFERENCED FILES
 
+**MANDATORY:** READ ALL REFERENCED FILES FOR COMPLETE CONTEXT
+
 **CORE FILES:**
-- `.zeri/context.md` → PROJECT OVERVIEW AND TECH STACK
-- `.zeri/standards.md` → CODE STANDARDS AND BEST PRACTICES
+- [@.zeri/context.md](.zeri/context.md) → PROJECT OVERVIEW AND TECH STACK
+- [@.zeri/standards.md](.zeri/standards.md) → CODE STANDARDS AND BEST PRACTICES
 
 **WORKFLOW FILES:**
-- `.zeri/workflows/coding.md` → DEVELOPMENT PROCESS
-- `.zeri/workflows/planning.md` → FEATURE PLANNING
-- `.zeri/workflows/debugging.md` → DEBUGGING WORKFLOW
+- [@.zeri/workflows/coding.md](.zeri/workflows/coding.md) → DEVELOPMENT PROCESS
+- [@.zeri/workflows/planning.md](.zeri/workflows/planning.md) → FEATURE PLANNING
+- [@.zeri/workflows/debugging.md](.zeri/workflows/debugging.md) → DEBUGGING WORKFLOW
 
 **PROJECT FILES:**
-- `.zeri/project/roadmap.md` → CURRENT PRIORITIES
-- `.zeri/project/decisions.md` → ARCHITECTURE DECISIONS
-- `.zeri/project/patterns.md` → CODE PATTERNS
+- [@.zeri/project/roadmap.md](.zeri/project/roadmap.md) → CURRENT PRIORITIES
+- [@.zeri/project/decisions.md](.zeri/project/decisions.md) → ARCHITECTURE DECISIONS
+- [@.zeri/project/patterns.md](.zeri/project/patterns.md) → CODE PATTERNS
 
-**ACTIVE SPECIFICATIONS:**
-{{SPECIFICATIONS_LIST}}
-
----
-
-## PROJECT CONTEXT
-
-{{PROJECT_CONTEXT}}
-
-## CODING STANDARDS
-
-{{PROJECT_STANDARDS}}
-
-## DEVELOPMENT WORKFLOW
-
-{{PROJECT_WORKFLOWS}}
-
-## CURRENT PRIORITIES
-
-{{PROJECT_ROADMAP}}
-
-## ARCHITECTURE DECISIONS
-
-{{PROJECT_DECISIONS}}
-
-## CODE PATTERNS
-
-{{PROJECT_PATTERNS}}
-
-{{ACTIVE_SPECIFICATIONS}}
+{{ACTIVE_SPECIFICATIONS_REFERENCES}}
 
 ---
 
