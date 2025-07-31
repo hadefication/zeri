@@ -193,8 +193,11 @@ This creates a structured specification file in `.zeri/specs/` that should be fi
    - Implementation plan and considerations
 3. **Review specification** with team/stakeholders if applicable
 4. **Implement feature** following the specification
-5. **Update specification** with any changes made during implementation
-6. **AI context automatically updates** when .zeri files change
+5. **Mark TODO items as complete** during implementation to track progress and manage AI usage limits
+6. **Update specification** with any changes made during implementation
+7. **AI context automatically updates** when .zeri files change
+
+**Important**: Always mark TODO checkboxes (`- [x]`) as you complete each implementation step. This helps track progress and manage AI assistant usage limits effectively.
 
 ### Adding a New Command
 
@@ -256,6 +259,8 @@ The `zeri add-spec` command generates lean, focused specification files with:
 - **TODO**: Checkbox list for tracking implementation progress
 
 The TODO section uses markdown checkboxes that can be marked as complete by AI assistants during implementation to track progress and manage usage limits effectively.
+
+**Usage**: Mark items as complete (`- [x]`) as you implement each step. This provides clear progress tracking and helps manage AI assistant usage efficiently.
 
 ## Debugging
 
