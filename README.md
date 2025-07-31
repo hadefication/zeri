@@ -263,8 +263,6 @@ zeri generate claude
 ### Templates
 Edit the template files in `.zeri/templates/` to customize the format of new specifications and tasks.
 
-### Stubs
-The application uses stub files for consistent file generation. You can modify project templates in `.zeri/templates/` to customize specification formats.
 
 ## Development
 
