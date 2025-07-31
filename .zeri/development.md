@@ -254,7 +254,7 @@ sudo chown $(whoami) /usr/local/bin/zeri
 
 ### ⚠️ Important: TODO Marking Requirements
 
-**ALWAYS mark TODO items as complete when implementing specifications:**
+**ALWAYS mark TODO items as complete when implementing specifications in `.zeri/specs/`:**
 
 - Mark checkboxes as `- [x]` when completing each implementation step
 - This helps track progress and manage AI assistant usage limits
