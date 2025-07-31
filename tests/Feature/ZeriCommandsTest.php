@@ -24,12 +24,11 @@ it('can initialize a project structure', function () {
 
     // Verify structure was created
     expect(File::exists($testDir.'/.zeri'))->toBeTrue();
-    expect(File::exists($testDir.'/.zeri/context.md'))->toBeTrue();
-    expect(File::exists($testDir.'/.zeri/standards.md'))->toBeTrue();
-    expect(File::exists($testDir.'/.zeri/workflows'))->toBeTrue();
-    expect(File::exists($testDir.'/.zeri/project'))->toBeTrue();
+    expect(File::exists($testDir.'/.zeri/project.md'))->toBeTrue();
+    expect(File::exists($testDir.'/.zeri/development.md'))->toBeTrue();
     expect(File::exists($testDir.'/.zeri/specs'))->toBeTrue();
     expect(File::exists($testDir.'/.zeri/templates'))->toBeTrue();
+    expect(File::exists($testDir.'/.zeri/templates/spec.md'))->toBeTrue();
 
     // Cleanup
     File::deleteDirectory($testDir);

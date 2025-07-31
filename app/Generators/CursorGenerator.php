@@ -71,12 +71,12 @@ class CursorGenerator extends BaseGenerator
         }
 
         // Extract tech stack rule
-        $context = $this->readFile('context.md');
+        $context = $this->readFile('project.md');
         $techStack = $this->extractTechStack($context);
         $techStackRule = $techStack ? "- Use {$techStack} as primary technology stack\n" : '';
 
         // Extract code style rules
-        $standards = $this->readFile('standards.md');
+        $standards = $this->readFile('development.md');
         $codeStyleRules = '';
         if ($standards) {
             $rules = $this->extractCodeStyleRules($standards);
@@ -107,7 +107,7 @@ class CursorGenerator extends BaseGenerator
 
     private function buildWorkflowFromStub(): string
     {
-        $patterns = $this->readFile('project/patterns.md');
+        $patterns = $this->readFile('development.md');
 
         // Build file organization section
         $fileOrgSection = '';
