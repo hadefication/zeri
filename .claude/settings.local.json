@@ -29,7 +29,8 @@
       "Bash(git commit:*)",
       "Bash(git tag:*)",
       "Bash(gh release create:*)",
-      "Bash(git remote add:*)"
+      "Bash(git remote add:*)",
+      "Bash(./vendor/bin/pest)"
     ],
     "deny": []
   }

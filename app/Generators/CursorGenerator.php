@@ -14,10 +14,19 @@ class CursorGenerator extends BaseGenerator
         return ['.cursor/rules/generate.mdc', '.cursor/rules/workflow.mdc'];
     }
 
-    public function generate(bool $force = false): bool
+    public function generate(bool $force = false, bool $backup = false, bool $interactive = false): bool
     {
-        if (! $this->shouldRegenerate($force)) {
+        $generateFile = $this->outputPath.'/.cursor/rules/generate.mdc';
+        $workflowFile = $this->outputPath.'/.cursor/rules/workflow.mdc';
+
+        // Check if either file needs regeneration
+        if (! $this->shouldRegenerateEither($generateFile, $workflowFile, $force)) {
             return false; // No regeneration needed
+        }
+
+        // Handle existing files
+        if (! $this->handleExistingFiles([$generateFile, $workflowFile], $backup, $interactive)) {
+            return false; // User chose not to overwrite
         }
 
         $generateContent = $this->buildGenerateFromStub();
@@ -30,6 +39,23 @@ class CursorGenerator extends BaseGenerator
         $workflowWritten = $this->writeFile('.cursor/rules/workflow.mdc', $workflowContent);
 
         return $generateWritten && $workflowWritten;
+    }
+
+    private function shouldRegenerateEither(string $generateFile, string $workflowFile, bool $force): bool
+    {
+        return $this->shouldRegenerate($force, $generateFile) || 
+               $this->shouldRegenerate($force, $workflowFile);
+    }
+
+    private function handleExistingFiles(array $files, bool $backup, bool $interactive): bool
+    {
+        foreach ($files as $file) {
+            if (! $this->handleExistingFile($file, $backup, $interactive)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function buildGenerateFromStub(): string

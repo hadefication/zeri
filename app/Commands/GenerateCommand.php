@@ -15,7 +15,9 @@ class GenerateCommand extends Command
                             {ai? : AI type (claude, gemini, cursor, all)} 
                             {--all : Generate for all AI types}
                             {--path= : Path to project directory}
-                            {--force : Force regeneration even if files are up to date}';
+                            {--force : Force regeneration even if files are up to date}
+                            {--backup : Create backup of existing files before overwriting}
+                            {--interactive : Ask before overwriting files with manual changes}';
 
     protected $description = 'Generate AI-specific instruction files';
 
@@ -27,6 +29,8 @@ class GenerateCommand extends Command
         $allFlag = $this->option('all');
         $path = $this->option('path') ?: getcwd();
         $force = $this->option('force');
+        $backup = $this->option('backup');
+        $interactive = $this->option('interactive');
 
         // Handle --all flag or missing ai argument
         if ($allFlag || ! $ai) {
@@ -62,7 +66,7 @@ class GenerateCommand extends Command
             $this->line("Generating {$name} file...");
 
             try {
-                $wasGenerated = $generator->generate($force);
+                $wasGenerated = $generator->generate($force, $backup, $interactive);
 
                 if ($wasGenerated) {
                     $files = $generator->getGeneratedFiles();
