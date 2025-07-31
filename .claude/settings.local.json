@@ -32,7 +32,10 @@
       "Bash(git remote add:*)",
       "Bash(./vendor/bin/pest)",
       "Bash(cat:*)",
-      "Bash(gh release upload:*)"
+      "Bash(gh release upload:*)",
+      "Bash(../builds/zeri init claude)",
+      "Bash(../builds/zeri add-spec \"test-new-format\")",
+      "Bash(builds/zeri --version)"
     ],
     "deny": []
   }
