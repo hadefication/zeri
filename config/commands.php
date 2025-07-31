@@ -40,8 +40,7 @@ return [
     */
 
     'add' => [
-        // Laravel Zero's built-in self-update command
-        \LaravelZero\Framework\Components\Updater\SelfUpdateCommand::class,
+        // Custom commands are auto-discovered from app/Commands/
     ],
 
     /*
