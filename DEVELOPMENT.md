@@ -32,6 +32,9 @@ cd zeri
 
 # Install dependencies
 composer install
+
+# Initialize Zeri structure for AI context (recommended)
+php application init claude
 ```
 
 ### Development Commands
@@ -173,13 +176,34 @@ Generators extend `BaseGenerator` and implement:
 
 ## Adding New Features
 
+**IMPORTANT**: Before implementing any new feature, you must create a specification using:
+
+```bash
+zeri add-spec "feature-name"
+```
+
+This creates a structured specification file in `.zeri/specs/` that should be filled out with requirements, technical design, and implementation details before coding begins.
+
+### Feature Development Workflow
+
+1. **Create Specification**: `zeri add-spec "feature-name"`
+2. **Fill out specification** in `.zeri/specs/feature-name.md` with:
+   - Requirements and acceptance criteria
+   - Technical design and architecture decisions
+   - Implementation plan and considerations
+3. **Review specification** with team/stakeholders if applicable
+4. **Implement feature** following the specification
+5. **Update specification** with any changes made during implementation
+6. **Regenerate AI context**: `zeri generate claude --force`
+
 ### Adding a New Command
 
-1. Create command class in `app/Commands/`
-2. Extend `LaravelZero\Framework\Commands\Command`
-3. Define `$signature` and `$description` properties
-4. Implement `handle()` method
-5. Add to `config/commands.php` if needed (auto-discovery usually handles this)
+1. **Create specification first**: `zeri add-spec "new-command"`
+2. Create command class in `app/Commands/`
+3. Extend `LaravelZero\Framework\Commands\Command`
+4. Define `$signature` and `$description` properties
+5. Implement `handle()` method
+6. Add to `config/commands.php` if needed (auto-discovery usually handles this)
 
 **Example:**
 ```php
@@ -208,11 +232,12 @@ class ExampleCommand extends Command
 
 ### Adding a New AI Generator
 
-1. Create generator class in `app/Generators/`
-2. Extend `BaseGenerator`
-3. Implement required methods
-4. Create corresponding stub file in `stubs/`
-5. Update `GenerateCommand::getGenerators()`
+1. **Create specification first**: `zeri add-spec "new-ai-generator"`
+2. Create generator class in `app/Generators/`
+3. Extend `BaseGenerator`
+4. Implement required methods
+5. Create corresponding stub file in `stubs/`
+6. Update `GenerateCommand::getGenerators()`
 
 ### Adding New Stub Templates
 
@@ -308,20 +333,26 @@ This project uses Laravel Pint for code formatting:
 
 1. Fork the repository
 2. Create feature branch: `git checkout -b feature/new-feature`
-3. Make changes and add tests
-4. Run tests: `php application test`
-5. Format code: `./vendor/bin/pint`
-6. Build and test: `./build.sh && ./builds/zeri --version`
-7. Commit and push changes
-8. Create pull request
+3. **Create specification**: `zeri add-spec "new-feature"`
+4. **Fill out specification** with requirements and design
+5. Make changes and add tests following the specification
+6. Run tests: `php application test`
+7. Format code: `./vendor/bin/pint`
+8. Build and test: `./build.sh && ./builds/zeri --version`
+9. **Update AI context**: `zeri generate claude --force`
+10. Commit and push changes (including specification files)
+11. Create pull request with reference to specification
 
 ### Guidelines
 
+- **Always create specifications before implementing features** using `zeri add-spec`
 - Follow PSR-12 coding standards
 - Add tests for new functionality
 - Update documentation for new features
 - Keep commit messages clear and descriptive
 - Ensure backward compatibility
+- Include specification files in commits
+- Reference specifications in pull requests
 
 ## Troubleshooting
 
