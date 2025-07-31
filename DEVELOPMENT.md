@@ -254,16 +254,45 @@ During development, generated files are created in the current directory or spec
 
 Update version in:
 - `config/app.php` - Application version
-- `config/self-update.php` - Self-update version check
 
 ### Creating Releases
 
-1. Update version numbers
-2. Build production PHAR: `./build.sh`
-3. Test executable: `./builds/zeri --version`
-4. Create Git tag: `git tag v1.0.1`
-5. Push: `git push origin v1.0.1`
-6. Create GitHub release with binary attachment
+**IMPORTANT**: Always update version numbers BEFORE building to ensure the binary contains the correct version.
+
+1. **Update version numbers first**:
+   ```bash
+   # Edit config/app.php to update 'version' => 'x.y.z'
+   ```
+
+2. **Build production PHAR**:
+   ```bash
+   ./build.sh
+   ```
+
+3. **Verify version**:
+   ```bash
+   ./builds/zeri --version  # Should show the updated version
+   ```
+
+4. **Commit version change**:
+   ```bash
+   git add config/app.php
+   git commit -m "Bump version to vx.y.z"
+   ```
+
+5. **Create and push Git tag**:
+   ```bash
+   git tag vx.y.z
+   git push origin vx.y.z
+   git push origin main
+   ```
+
+6. **Create GitHub release**:
+   ```bash
+   gh release create vx.y.z builds/zeri --title "vx.y.z - Release Title" --notes "Release notes..."
+   ```
+
+**Common Issue**: If you build first and then update the version, the binary will have the old version number and update verification will fail. Always update `config/app.php` first.
 
 ## Contributing
 
