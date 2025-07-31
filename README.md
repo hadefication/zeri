@@ -16,7 +16,7 @@ When working with AI assistants on development projects, providing consistent, c
 
 - **Project Context Management**: Organize project information, standards, and workflows
 - **AI-Specific Generation**: Create optimized instruction files for different AI tools
-- **Smart Regeneration**: Only regenerate files when source content changes
+- **Smart Regeneration**: AI files automatically reflect changes to .zeri source files
 - **Template-Based**: Consistent file creation with customizable templates
 - **Specification Management**: Create and manage feature specifications
 - **Self-Update**: Built-in update mechanism for easy maintenance
@@ -136,7 +136,7 @@ zeri generate <ai> [options]
 
 **Options:**
 - `--path`: Specify project directory
-- `--force`: Force regeneration even if files are up to date
+- `--force`: Force regeneration from scratch (overwrites existing AI files)
 
 ### `self-update`
 Update Zeri to the latest version.
@@ -236,8 +236,9 @@ zeri init claude
 zeri add-spec "user-registration"
 zeri add-spec "payment-processing"
 
-# 4. Regenerate AI files after changes (if needed)
-zeri generate claude --force
+# 4. AI files automatically reflect .zeri changes
+# Only use --force to regenerate from scratch if needed
+# zeri generate claude --force
 
 # 5. Use generated files with your AI tools
 # - Copy CLAUDE.md content when working with Claude

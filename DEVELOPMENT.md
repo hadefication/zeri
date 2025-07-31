@@ -194,7 +194,7 @@ This creates a structured specification file in `.zeri/specs/` that should be fi
 3. **Review specification** with team/stakeholders if applicable
 4. **Implement feature** following the specification
 5. **Update specification** with any changes made during implementation
-6. **Regenerate AI context**: `zeri generate claude --force`
+6. **AI context automatically updates** when .zeri files change
 
 ### Adding a New Command
 
@@ -247,6 +247,16 @@ class ExampleCommand extends Command
 4. Handle newline conversion with `\n` in placeholders
 
 ## Debugging
+
+### Important: AI File Regeneration
+
+**Understanding `--force` vs Automatic Updates:**
+
+- **Normal behavior**: AI files (CLAUDE.md, GEMINI.md, etc.) automatically reflect changes when you modify `.zeri/` source files
+- **Use `--force` only when**: You need to completely regenerate files from scratch (e.g., after template changes or corruption)
+- **Don't use `--force`** as part of normal development workflow - it's not needed for reflecting .zeri changes
+
+**Key Point**: Once AI files are generated and you start working with an AI assistant, those files serve as a stable interface. The AI assistant should reference the structured `.zeri/` files for the most current information.
 
 ### Enable Verbose Output
 
@@ -339,7 +349,7 @@ This project uses Laravel Pint for code formatting:
 6. Run tests: `php application test`
 7. Format code: `./vendor/bin/pint`
 8. Build and test: `./build.sh && ./builds/zeri --version`
-9. **Update AI context**: `zeri generate claude --force`
+9. **AI context files automatically reflect changes to .zeri files**
 10. Commit and push changes (including specification files)
 11. Create pull request with reference to specification
 
