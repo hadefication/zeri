@@ -9,10 +9,16 @@ class ClaudeGenerator extends BaseGenerator
         return 'CLAUDE.md';
     }
 
-    public function generate(bool $force = false): bool
+    public function generate(bool $force = false, bool $backup = false, bool $interactive = false): bool
     {
-        if (! $this->shouldRegenerate($force)) {
+        $outputFile = $this->outputPath.'/'.$this->getOutputFileName();
+
+        if (! $this->shouldRegenerate($force, $outputFile)) {
             return false; // No regeneration needed
+        }
+
+        if (! $this->handleExistingFile($outputFile, $backup, $interactive)) {
+            return false; // User chose not to overwrite
         }
 
         $content = $this->buildFromStub();
