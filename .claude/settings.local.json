@@ -23,7 +23,12 @@
       "WebFetch(domain:docs.cursor.com)",
       "Bash(./zeri app:build)",
       "Bash(composer run:*)",
-      "Bash(touch:*)"
+      "Bash(touch:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(git commit:*)",
+      "Bash(git tag:*)",
+      "Bash(gh release create:*)"
     ],
     "deny": []
   }
