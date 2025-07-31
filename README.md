@@ -96,6 +96,7 @@ zeri init [ai] [--path=/path/to/project] [--force]
 **Options:**
 - `--path`: Specify a different directory (default: current directory)
 - `--force`: Force regeneration of AI files even if they already exist
+- `--roadmap`: Include project roadmap section (disabled by default)
 
 **Examples:**
 ```bash
@@ -200,19 +201,10 @@ When you run `zeri init`, the following structure is created:
 
 ```
 .zeri/
-├── context.md           # Project overview & tech stack
-├── standards.md         # Code style & best practices
-├── workflows/
-│   ├── coding.md        # Development task template
-│   ├── planning.md      # Feature planning template
-│   └── debugging.md     # Debugging workflow
-├── project/
-│   ├── roadmap.md       # Current priorities & goals
-│   ├── decisions.md     # Architecture decisions log
-│   └── patterns.md      # Common code patterns
+├── project.md           # Project overview, tech stack & architecture
+├── development.md       # Standards, decisions, patterns & workflows
 ├── specs/               # Feature specifications
 └── templates/
-    ├── task.md          # Generic task template
     └── spec.md          # Feature specification template
 ```
 
@@ -225,8 +217,7 @@ Comprehensive, conversational format with full context optimized for Claude's re
 Directive, action-oriented format with clear rules and protocols optimized for Gemini.
 
 ### Cursor (.cursor/rules/)
-- **generate.mdc**: Code generation rules and development guidelines
-- **workflow.mdc**: Development workflow and organizational rules
+- **zeri.mdc**: Unified development context, rules, and workflow guidelines
 
 Concise .mdc format optimized for Cursor IDE integration with proper metadata headers.
 
@@ -239,7 +230,7 @@ Concise .mdc format optimized for Cursor IDE integration with proper metadata he
 zeri init claude
 
 # 2. Edit .zeri files to match your project needs
-# Edit .zeri/context.md, .zeri/standards.md, etc.
+# Edit .zeri/project.md, .zeri/development.md
 
 # 3. Add feature specifications
 zeri add-spec "user-registration"
@@ -251,7 +242,7 @@ zeri generate claude --force
 # 5. Use generated files with your AI tools
 # - Copy CLAUDE.md content when working with Claude
 # - Copy GEMINI.md content when working with Gemini  
-# - Cursor will automatically use .cursor/rules/ files
+# - Cursor will automatically use .cursor/rules/zeri.mdc file
 ```
 
 ### Working with Different Projects

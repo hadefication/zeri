@@ -138,15 +138,13 @@ config/
 
 ```
 stubs/                  # Template files for generation
-├── context.md.stub
-├── standards.md.stub
+├── project.md.stub
+├── development.md.stub
 ├── CLAUDE.md.stub
 ├── GEMINI.md.stub
-├── cursor-generate.mdc.stub
-├── cursor-workflow.mdc.stub
-├── project/
-├── workflows/
+├── cursor-zeri.mdc.stub
 └── templates/
+    └── spec.md.stub
 ```
 
 ## Architecture
@@ -237,8 +235,7 @@ During development, generated files are created in the current directory or spec
 
 - `CLAUDE.md`
 - `GEMINI.md` 
-- `.cursor/rules/generate.mdc`
-- `.cursor/rules/workflow.mdc`
+- `.cursor/rules/zeri.mdc`
 
 ### Common Issues
 
