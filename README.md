@@ -20,16 +20,18 @@ When working with AI assistants on development projects, providing consistent, c
 - **Template-Based**: Consistent file creation with customizable templates
 - **Specification Management**: Create and manage feature specifications
 - **Self-Update**: Built-in update mechanism for easy maintenance
-- **Cross-Platform**: Works on macOS, Linux, and Windows
+- **Cross-Platform**: Works on macOS, Linux, and Windows (via WSL)
 
 ## Installation
 
 ### Quick Install (Recommended)
 
-**Install Script (Linux/macOS)**
+**Install Script (Linux/macOS/Windows WSL)**
 ```bash
 curl -fsSL https://raw.githubusercontent.com/hadefication/zeri/main/scripts/install.sh | bash
 ```
+
+> **Windows Users**: Zeri requires a Unix-like environment. Please use [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/install) to run Zeri on Windows.
 
 ### Manual Installation
 
