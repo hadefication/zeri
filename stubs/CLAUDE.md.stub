@@ -35,6 +35,7 @@ When working on this project:
 4. **Follow the development workflow** for implementation steps
 5. **Reference current priorities** to align with project goals
 6. **Check active specifications** for feature-specific requirements
+7. **ONLY implement or start coding when files in @.zeri/specs are referenced** - Do not write code without specific feature specifications
 
 ## Key Reminders
 

@@ -33,6 +33,7 @@
 3. **DOCUMENTATION:** UPDATE docs for any architectural changes
 4. **SECURITY:** IMPLEMENT proper input validation and error handling
 5. **PERFORMANCE:** OPTIMIZE for speed and resource efficiency
+6. **SPECIFICATION DEPENDENCY:** ONLY implement or start coding when files in @.zeri/specs are referenced - NO code without specific feature specifications
 
 **WORKFLOW COMPLIANCE:**
 
