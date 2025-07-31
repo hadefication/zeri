@@ -255,7 +255,7 @@ The `zeri add-spec` command generates lean, focused specification files with:
 - **Implementation Notes**: Technical considerations and dependencies
 - **TODO**: Checkbox list for tracking implementation progress
 
-The TODO section uses GitHub-compatible markdown checkboxes that can be marked as complete by AI assistants during implementation.
+The TODO section uses markdown checkboxes that can be marked as complete by AI assistants during implementation to track progress and manage usage limits effectively.
 
 ## Debugging
 

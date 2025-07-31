@@ -192,15 +192,9 @@ class InitCommand extends Command
         $this->createFromStub($path, 'templates/spec.md', [
             'SPEC_NAME' => '{{SPEC_NAME}}',
             'SPEC_OVERVIEW' => '{{SPEC_OVERVIEW}}',
-            'USER_STORIES' => '{{USER_STORIES}}',
-            'FUNCTIONAL_REQUIREMENTS' => '{{FUNCTIONAL_REQUIREMENTS}}',
-            'NON_FUNCTIONAL_REQUIREMENTS' => '{{NON_FUNCTIONAL_REQUIREMENTS}}',
-            'API_SPECIFICATIONS' => '{{API_SPECIFICATIONS}}',
-            'DATABASE_CHANGES' => '{{DATABASE_CHANGES}}',
-            'UI_UX_CONSIDERATIONS' => '{{UI_UX_CONSIDERATIONS}}',
-            'SECURITY_CONSIDERATIONS' => '{{SECURITY_CONSIDERATIONS}}',
-            'TESTING_STRATEGY' => '{{TESTING_STRATEGY}}',
-            'IMPLEMENTATION_PLAN' => '{{IMPLEMENTATION_PLAN}}',
+            'REQUIREMENTS' => '{{REQUIREMENTS}}',
+            'IMPLEMENTATION_NOTES' => '{{IMPLEMENTATION_NOTES}}',
+            'TODO_ITEMS' => '{{TODO_ITEMS}}',
         ]);
 
         $this->info('✅ Zeri project structure initialized successfully!');

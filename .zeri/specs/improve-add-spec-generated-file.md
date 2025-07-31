@@ -30,7 +30,7 @@ No database changes required.
 ## UI/UX Considerations
 - Command output should be clean and informative
 - Generated specification should be immediately usable
-- TODO section should use standard markdown checkboxes for GitHub integration
+- TODO section should use markdown checkboxes for AI implementation tracking
 
 ## Security Considerations
 No security implications - this is a local file generation feature.
