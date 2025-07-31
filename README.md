@@ -210,16 +210,18 @@ When you run `zeri init`, the following structure is created:
 
 ## Generated Files
 
+Each AI-specific file serves as the **single source of truth** for that AI assistant, providing a stable interface while referencing the structured `.zeri/` files for current information.
+
 ### Claude (CLAUDE.md)
-Comprehensive, conversational format with full context optimized for Claude's reasoning style.
+Comprehensive, conversational format with full context optimized for Claude's reasoning style. This file serves as Claude's primary context reference and automatically reflects changes to your `.zeri/` source files.
 
 ### Gemini (GEMINI.md) 
-Directive, action-oriented format with clear rules and protocols optimized for Gemini.
+Directive, action-oriented format with clear rules and protocols optimized for Gemini. This file serves as Gemini's primary context reference and automatically reflects changes to your `.zeri/` source files.
 
 ### Cursor (.cursor/rules/)
 - **zeri.mdc**: Unified development context, rules, and workflow guidelines
 
-Concise .mdc format optimized for Cursor IDE integration with proper metadata headers.
+Concise .mdc format optimized for Cursor IDE integration with proper metadata headers. This file serves as Cursor's primary context reference and automatically reflects changes to your `.zeri/` source files.
 
 ## Examples
 
