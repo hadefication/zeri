@@ -150,31 +150,14 @@ abstract class BaseGenerator
 
         // Core files
         $coreFiles = [
-            'context.md',
-            'standards.md',
+            'project.md',
+            'development.md',
         ];
 
         foreach ($coreFiles as $file) {
             $files[] = $this->zeriPath.'/'.$file;
         }
 
-        // Workflow files
-        $workflowDir = $this->zeriPath.'/workflows';
-        if (File::exists($workflowDir)) {
-            $workflowFiles = File::files($workflowDir);
-            foreach ($workflowFiles as $file) {
-                $files[] = $file->getPathname();
-            }
-        }
-
-        // Project files
-        $projectDir = $this->zeriPath.'/project';
-        if (File::exists($projectDir)) {
-            $projectFiles = File::files($projectDir);
-            foreach ($projectFiles as $file) {
-                $files[] = $file->getPathname();
-            }
-        }
 
         // Specification files
         $specsDir = $this->zeriPath.'/specs';

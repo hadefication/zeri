@@ -8,18 +8,8 @@ Generated on: {{GENERATION_DATE}}
 Please read the following project files for complete context:
 
 **Core Configuration:**
-- [@.zeri/context.md](.zeri/context.md) - Project overview, tech stack, and architecture
-- [@.zeri/standards.md](.zeri/standards.md) - Code standards and best practices
-
-**Development Workflows:**
-- [@.zeri/workflows/coding.md](.zeri/workflows/coding.md) - Development process and implementation steps
-- [@.zeri/workflows/planning.md](.zeri/workflows/planning.md) - Feature planning and requirements gathering
-- [@.zeri/workflows/debugging.md](.zeri/workflows/debugging.md) - Debugging process and troubleshooting
-
-**Project Documentation:**
-- [@.zeri/project/roadmap.md](.zeri/project/roadmap.md) - Current priorities and goals
-- [@.zeri/project/decisions.md](.zeri/project/decisions.md) - Architecture decisions and technology choices
-- [@.zeri/project/patterns.md](.zeri/project/patterns.md) - Common code patterns and examples
+- [@.zeri/project.md](.zeri/project.md) - Project overview, tech stack, and architecture
+- [@.zeri/development.md](.zeri/development.md) - Standards, decisions, patterns, and development workflows
 
 {{ACTIVE_SPECIFICATIONS_REFERENCES}}
 

@@ -5,14 +5,8 @@ alwaysApply: false
 
 # Referenced Files
 
-@.zeri/context.md
-@.zeri/standards.md
-@.zeri/workflows/coding.md
-@.zeri/workflows/planning.md
-@.zeri/workflows/debugging.md
-@.zeri/project/roadmap.md
-@.zeri/project/decisions.md
-@.zeri/project/patterns.md
+@.zeri/project.md
+@.zeri/development.md
 {{SPECIFICATION_REFERENCES}}
 
 # Development Rules

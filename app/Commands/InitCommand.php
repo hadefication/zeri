@@ -8,7 +8,7 @@ use LaravelZero\Framework\Commands\Command;
 
 class InitCommand extends Command
 {
-    protected $signature = 'init {ai? : AI type to generate after init (claude, gemini, cursor, all)} {--path= : Path to initialize .zeri directory} {--force : Force regeneration of AI files even if they exist}';
+    protected $signature = 'init {ai? : AI type to generate after init (claude, gemini, cursor, all)} {--path= : Path to initialize .zeri directory} {--force : Force regeneration of AI files even if they exist} {--roadmap : Include project roadmap section}';
 
     protected $description = 'Initialize .zeri directory structure in current project';
 
@@ -19,6 +19,7 @@ class InitCommand extends Command
         $ai = $this->argument('ai');
         $path = $this->option('path') ?: getcwd();
         $force = $this->option('force');
+        $includeRoadmap = $this->option('roadmap');
         $zeriPath = $path.'/.zeri';
 
         // Validate AI parameter if provided
@@ -103,8 +104,6 @@ class InitCommand extends Command
         // Create .zeri directory structure
         $directories = [
             '.zeri',
-            '.zeri/workflows',
-            '.zeri/project',
             '.zeri/specs',
             '.zeri/templates',
         ];
@@ -119,8 +118,14 @@ class InitCommand extends Command
         $techStack = $this->ask('Primary tech stack', 'PHP, Laravel');
         $currentFocus = $this->ask('Current development focus', 'Initial setup and core features');
 
+        // Create roadmap section if requested
+        $roadmapSection = '';
+        if ($includeRoadmap) {
+            $roadmapSection = "\n---\n\n## Project Roadmap\n\n### Current Sprint\nProject setup and initial development\n\n### Next Sprint\nCore feature implementation\n\n### Short-term Goals (2-4 weeks)\nMVP development, basic functionality\n\n### Medium-term Goals (1-3 months)\nFeature expansion, performance optimization\n\n### Long-term Vision (3+ months)\nFull product launch, scaling considerations\n\n### Priority Features\nUser management, core business logic\n\n### Technical Debt\nNone identified yet";
+        }
+
         // Create files from stubs
-        $this->createFromStub($path, 'context.md', [
+        $this->createFromStub($path, 'project.md', [
             'PROJECT_NAME' => $projectName,
             'PROJECT_DESCRIPTION' => $projectDescription,
             'TECH_STACK' => $techStack,
@@ -129,45 +134,51 @@ class InitCommand extends Command
             'CURRENT_FOCUS' => $currentFocus,
             'ENVIRONMENT_SETUP' => 'To be documented',
             'IMPORTANT_NOTES' => 'To be documented',
+            'ROADMAP_SECTION' => $roadmapSection,
         ]);
 
-        $this->createFromStub($path, 'standards.md', [
+        // Create consolidated development file
+        $this->createFromStub($path, 'development.md', [
             'PROJECT_NAME' => $projectName,
+            // Standards
             'CODE_STYLE' => 'Follow PSR-12 standards',
             'NAMING_CONVENTIONS' => 'CamelCase for classes, snake_case for variables',
             'FILE_ORGANIZATION' => 'Organize by feature/domain',
             'DOCUMENTATION_STANDARDS' => 'Use PHPDoc for all public methods',
-            'TESTING_REQUIREMENTS' => 'Write tests for all new features',
             'SECURITY_GUIDELINES' => 'Sanitize all inputs, use prepared statements',
             'PERFORMANCE_CONSIDERATIONS' => 'Optimize database queries, cache where appropriate',
-            'CODE_REVIEW_GUIDELINES' => 'All code must be reviewed before merge',
-        ]);
-
-        // Create workflow files
-        $this->createFromStub($path, 'workflows/coding.md', [
-            'PROJECT_NAME' => $projectName,
+            // Decisions
+            'RECENT_DECISIONS' => 'Initial technology stack selection',
+            'KEY_ARCHITECTURE_DECISIONS' => 'Framework choice, database selection, deployment strategy',
+            'TECHNOLOGY_CHOICES' => $techStack.' - chosen for team expertise and project requirements',
+            'DESIGN_PATTERNS' => 'MVC pattern, Repository pattern for data access',
+            // Patterns
+            'STANDARD_PATTERNS' => 'MVC, Repository, Service Layer patterns',
+            'COMPONENT_PATTERNS' => 'Reusable components, consistent API structure',
+            'DATA_HANDLING_PATTERNS' => 'Eloquent models, validation, serialization',
+            'ERROR_HANDLING_PATTERNS' => 'Custom exceptions, error logging, user-friendly messages',
+            'TESTING_PATTERNS' => 'Arrange-Act-Assert, test factories, mocking external services',
+            'CONFIGURATION_PATTERNS' => 'Environment-based config, feature flags',
+            'PATTERN_EXAMPLES' => 'Service classes for business logic, Resource classes for API responses',
+            // Workflows
             'DEVELOPMENT_PROCESS' => 'Feature branch workflow with code review',
             'BEFORE_STARTING' => 'Check latest main branch, create feature branch',
             'IMPLEMENTATION_STEPS' => '1. Write tests 2. Implement feature 3. Run tests 4. Code review',
             'TESTING_WORKFLOW' => 'Unit tests, integration tests, manual testing',
+            'TESTING_REQUIREMENTS' => 'Write tests for all new features',
             'CODE_REVIEW_PROCESS' => 'Pull request review with at least one approval',
+            'CODE_REVIEW_GUIDELINES' => 'All code must be reviewed before merge',
             'DEPLOYMENT_STEPS' => 'Deploy to staging, test, deploy to production',
             'TROUBLESHOOTING' => 'Check logs, reproduce issue, write failing test, fix, verify',
-        ]);
-
-        $this->createFromStub($path, 'workflows/planning.md', [
-            'PROJECT_NAME' => $projectName,
+            // Planning
             'PLANNING_PROCESS' => 'Requirements gathering, technical design, estimation',
             'REQUIREMENTS_GATHERING' => 'Stakeholder interviews, user stories, acceptance criteria',
             'TECHNICAL_ANALYSIS' => 'Architecture review, dependency analysis, risk assessment',
             'DESIGN_CONSIDERATIONS' => 'User experience, performance, security, maintainability',
             'IMPLEMENTATION_PLANNING' => 'Break down into tasks, estimate effort, plan sprints',
-            'RISK_ASSESSMENT' => 'Identify technical risks, mitigation strategies',
+            'RISK_ASSESSMENT' => 'Identify technical risks, mitigation strategies',  
             'TIMELINE_ESTIMATION' => 'Story points, velocity tracking, buffer for unknowns',
-        ]);
-
-        $this->createFromStub($path, 'workflows/debugging.md', [
-            'PROJECT_NAME' => $projectName,
+            // Debugging
             'DEBUGGING_PROCESS' => 'Reproduce, isolate, identify root cause, fix, verify',
             'COMMON_ISSUES' => 'Database connection, configuration errors, dependency issues',
             'DEBUGGING_TOOLS' => 'Debugger, logging, profiler, monitoring tools',
@@ -177,49 +188,7 @@ class InitCommand extends Command
             'RESOLUTION_DOCUMENTATION' => 'Document solution, update runbooks, share learnings',
         ]);
 
-        // Create project files
-        $this->createFromStub($path, 'project/roadmap.md', [
-            'PROJECT_NAME' => $projectName,
-            'CURRENT_SPRINT' => 'Project setup and initial development',
-            'NEXT_SPRINT' => 'Core feature implementation',
-            'SHORT_TERM_GOALS' => 'MVP development, basic functionality',
-            'MEDIUM_TERM_GOALS' => 'Feature expansion, performance optimization',
-            'LONG_TERM_VISION' => 'Full product launch, scaling considerations',
-            'PRIORITY_FEATURES' => 'User management, core business logic',
-            'TECHNICAL_DEBT' => 'None identified yet',
-        ]);
-
-        $this->createFromStub($path, 'project/decisions.md', [
-            'PROJECT_NAME' => $projectName,
-            'RECENT_DECISIONS' => 'Initial technology stack selection',
-            'KEY_ARCHITECTURE_DECISIONS' => 'Framework choice, database selection, deployment strategy',
-            'TECHNOLOGY_CHOICES' => $techStack.' - chosen for team expertise and project requirements',
-            'DESIGN_PATTERNS' => 'MVC pattern, Repository pattern for data access',
-        ]);
-
-        $this->createFromStub($path, 'project/patterns.md', [
-            'PROJECT_NAME' => $projectName,
-            'STANDARD_PATTERNS' => 'MVC, Repository, Service Layer patterns',
-            'COMPONENT_PATTERNS' => 'Reusable components, consistent API structure',
-            'DATA_HANDLING_PATTERNS' => 'Eloquent models, validation, serialization',
-            'ERROR_HANDLING_PATTERNS' => 'Custom exceptions, error logging, user-friendly messages',
-            'TESTING_PATTERNS' => 'Arrange-Act-Assert, test factories, mocking external services',
-            'CONFIGURATION_PATTERNS' => 'Environment-based config, feature flags',
-            'PATTERN_EXAMPLES' => 'Service classes for business logic, Resource classes for API responses',
-        ]);
-
         // Create template files
-        $this->createFromStub($path, 'templates/task.md', [
-            'TASK_NAME' => '{{TASK_NAME}}',
-            'TASK_DESCRIPTION' => '{{TASK_DESCRIPTION}}',
-            'ACCEPTANCE_CRITERIA' => '{{ACCEPTANCE_CRITERIA}}',
-            'TECHNICAL_REQUIREMENTS' => '{{TECHNICAL_REQUIREMENTS}}',
-            'IMPLEMENTATION_NOTES' => '{{IMPLEMENTATION_NOTES}}',
-            'DEPENDENCIES' => '{{DEPENDENCIES}}',
-            'TESTING_REQUIREMENTS' => '{{TESTING_REQUIREMENTS}}',
-            'DOCUMENTATION_UPDATES' => '{{DOCUMENTATION_UPDATES}}',
-        ]);
-
         $this->createFromStub($path, 'templates/spec.md', [
             'SPEC_NAME' => '{{SPEC_NAME}}',
             'SPEC_OVERVIEW' => '{{SPEC_OVERVIEW}}',
@@ -298,19 +267,10 @@ class InitCommand extends Command
 
         // Show .zeri structure
         $this->line('├── .zeri/');
-        $this->line('│   ├── context.md               # Project overview & tech stack');
-        $this->line('│   ├── standards.md             # Code style & best practices');
-        $this->line('│   ├── workflows/');
-        $this->line('│   │   ├── coding.md            # Development process');
-        $this->line('│   │   ├── planning.md          # Feature planning');
-        $this->line('│   │   └── debugging.md         # Debugging workflow');
-        $this->line('│   ├── project/');
-        $this->line('│   │   ├── roadmap.md           # Current priorities & goals');
-        $this->line('│   │   ├── decisions.md         # Architecture decisions');
-        $this->line('│   │   └── patterns.md          # Common code patterns');
+        $this->line('│   ├── project.md               # Project overview, tech stack & architecture');
+        $this->line('│   ├── development.md           # Standards, decisions, patterns & workflows');
         $this->line('│   ├── specs/                   # Feature specifications (empty)');
         $this->line('│   └── templates/');
-        $this->line('│       ├── task.md              # Task template');
         $this->line('│       └── spec.md              # Specification template');
 
         // Show AI files if generated
