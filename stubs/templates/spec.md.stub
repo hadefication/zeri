@@ -11,3 +11,5 @@
 
 ## TODO
 {{TODO_ITEMS}}
+
+*Remember: Mark TODO items as complete (`- [x]`) during implementation to track progress and manage AI usage limits.*
