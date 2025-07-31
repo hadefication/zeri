@@ -247,3 +247,27 @@ sudo chown $(whoami) /usr/local/bin/zeri
 - Document fixes in commit messages
 - Update DEVELOPMENT.md for recurring issues
 - Share solutions in GitHub issues/discussions
+
+---
+
+## Specification Implementation
+
+### ⚠️ Important: TODO Marking Requirements
+
+**ALWAYS mark TODO items as complete when implementing specifications:**
+
+- Mark checkboxes as `- [x]` when completing each implementation step
+- This helps track progress and manage AI assistant usage limits
+- Essential for efficient development workflow with AI assistance
+- Update TODOs in real-time during implementation, not after completion
+
+**Example:**
+```markdown
+## TODO
+- [x] Design and plan implementation
+- [x] Implement core functionality
+- [ ] Add tests
+- [ ] Update documentation
+- [ ] Review and refine
+- [ ] Mark specification as complete
+```
