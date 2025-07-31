@@ -31,7 +31,8 @@
       "Bash(gh release create:*)",
       "Bash(git remote add:*)",
       "Bash(./vendor/bin/pest)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(gh release upload:*)"
     ],
     "deny": []
   }
