@@ -60,15 +60,9 @@ class AddSpecCommand extends Command
         $replacements = [
             '{{SPEC_NAME}}' => $name,
             '{{SPEC_OVERVIEW}}' => $this->ask('Brief overview of this feature', 'Feature description'),
-            '{{USER_STORIES}}' => 'As a user, I want...',
-            '{{FUNCTIONAL_REQUIREMENTS}}' => '- Requirement 1\n- Requirement 2',
-            '{{NON_FUNCTIONAL_REQUIREMENTS}}' => '- Performance: < 200ms response time\n- Security: Authentication required',
-            '{{API_SPECIFICATIONS}}' => 'API endpoints and data structures',
-            '{{DATABASE_CHANGES}}' => 'New tables, columns, or modifications needed',
-            '{{UI_UX_CONSIDERATIONS}}' => 'User interface and experience requirements',
-            '{{SECURITY_CONSIDERATIONS}}' => 'Authentication, authorization, data protection',
-            '{{TESTING_STRATEGY}}' => 'Unit tests, integration tests, acceptance criteria',
-            '{{IMPLEMENTATION_PLAN}}' => 'Phase 1: ...\nPhase 2: ...',
+            '{{REQUIREMENTS}}' => '- Requirement 1\n- Requirement 2\n- Requirement 3',
+            '{{IMPLEMENTATION_NOTES}}' => 'Any technical considerations, dependencies, or important implementation details.',
+            '{{TODO_ITEMS}}' => '- [ ] Design and plan implementation\n- [ ] Implement core functionality\n- [ ] Add tests\n- [ ] Update documentation\n- [ ] Review and refine\n- [ ] Mark specification as complete',
         ];
 
         foreach ($replacements as $placeholder => $value) {

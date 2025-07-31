@@ -246,6 +246,17 @@ class ExampleCommand extends Command
 3. Update generator to use `createFromStub()` method
 4. Handle newline conversion with `\n` in placeholders
 
+### Specification Format
+
+The `zeri add-spec` command generates lean, focused specification files with:
+
+- **Overview**: Brief description of the feature
+- **Requirements**: Essential functional requirements
+- **Implementation Notes**: Technical considerations and dependencies
+- **TODO**: Checkbox list for tracking implementation progress
+
+The TODO section uses GitHub-compatible markdown checkboxes that can be marked as complete by AI assistants during implementation.
+
 ## Debugging
 
 ### Important: AI File Regeneration
