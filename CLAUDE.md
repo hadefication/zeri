@@ -1,7 +1,7 @@
 # Development Context for Claude
 
 This file provides context for Claude to assist with development tasks.
-Generated on: 2025-07-31 11:32:30
+Generated on: 2025-07-31 15:18:42
 
 ## Referenced Files
 
@@ -11,6 +11,10 @@ Please read the following project files for complete context:
 - [@.zeri/project.md](.zeri/project.md) - Project overview, tech stack, and architecture
 - [@.zeri/development.md](.zeri/development.md) - Standards, decisions, patterns, and development workflows
 
+
+**Active Specifications:**
+- [@.zeri/specs/development-md-spec-instructions.md](.zeri/specs/development-md-spec-instructions.md) - development-md-spec-instructions specification
+- [@.zeri/specs/improve-add-spec-generated-file.md](.zeri/specs/improve-add-spec-generated-file.md) - improve-add-spec-generated-file specification
 
 
 ---

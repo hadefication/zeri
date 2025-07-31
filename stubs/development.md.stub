@@ -155,6 +155,45 @@
 
 ## Specification Implementation
 
+### Creating Specifications
+
+**Use `zeri add-spec <name>` to create new feature specifications:**
+
+```bash
+# Create a new specification
+zeri add-spec "feature-name"
+
+# This creates .zeri/specs/feature-name.md with the standard template
+```
+
+**Specification Structure:**
+- **Overview**: Brief description of the feature or enhancement
+- **Requirements**: Detailed list of functional requirements
+- **Implementation Notes**: Technical considerations and dependencies
+- **TODO**: Checklist for tracking implementation progress
+
+### Specification Workflow
+
+1. **Create Specification**: Use `zeri add-spec` to create structured requirements
+2. **Plan Implementation**: Break down requirements into actionable tasks
+3. **Implement Features**: Follow the TODO checklist step by step
+4. **Mark Progress**: Update TODOs in real-time during development
+5. **Review and Complete**: Ensure all requirements are met
+
+### Best Practices
+
+**Specification Content:**
+- Write clear, actionable requirements
+- Include technical considerations and dependencies
+- Reference existing patterns and conventions
+- Consider testing and documentation needs
+
+**Implementation Process:**
+- Always start with a specification for non-trivial features
+- Break complex features into smaller, manageable tasks
+- Follow established coding patterns and conventions
+- Write tests alongside implementation
+
 ### ⚠️ Important: TODO Marking Requirements
 
 **ALWAYS mark TODO items as complete when implementing specifications in `.zeri/specs/`:**
@@ -173,4 +212,15 @@
 - [ ] Update documentation
 - [ ] Review and refine
 - [ ] Mark specification as complete
+```
+
+### Specification Directory Structure
+
+```
+.zeri/
+├── specs/                    # Feature specifications
+│   ├── feature-name.md      # Individual specification files
+│   └── another-feature.md   # Each spec is self-contained
+└── templates/
+    └── spec.md              # Template for new specifications
 ```
