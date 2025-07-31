@@ -145,6 +145,53 @@ zeri self-update [--check]
 **Options:**
 - `--check`: Check for updates without downloading
 
+## Updating Zeri
+
+### For Versions v1.2.0+
+If you have Zeri v1.2.0 or later, you can use the built-in self-update feature:
+
+```bash
+zeri self-update
+```
+
+### For Older Versions (v1.0.1, v1.1.0)
+If you have an older version without self-update capability, use our update script:
+
+```bash
+# Automatic update script
+curl -sSL https://raw.githubusercontent.com/hadefication/zeri/main/scripts/update.sh | bash
+```
+
+Or update manually:
+
+```bash
+# Download latest version
+curl -L https://github.com/hadefication/zeri/releases/latest/download/zeri -o zeri
+chmod +x zeri
+
+# Replace existing installation (find location with: which zeri)
+sudo mv zeri $(which zeri)
+
+# Verify update
+zeri --version
+```
+
+**Update Script Features:**
+- ✅ Automatically detects current installation
+- ✅ Downloads and verifies latest release
+- ✅ Creates backup before updating
+- ✅ Restores backup if update fails
+- ✅ Works with any installation method
+
+**Options:**
+```bash
+# Force update even if on latest version
+curl -sSL https://raw.githubusercontent.com/hadefication/zeri/main/scripts/update.sh | bash -s -- --force
+
+# Show help
+curl -sSL https://raw.githubusercontent.com/hadefication/zeri/main/scripts/update.sh | bash -s -- --help
+```
+
 ## Directory Structure
 
 When you run `zeri init`, the following structure is created:
