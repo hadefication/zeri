@@ -7,6 +7,8 @@ alwaysApply: true
 
 # Development Workflow
 
+**CRITICAL:** Only implement or start coding when files in @.zeri/specs are referenced - Do not write code without specific feature specifications.
+
 1. Create feature branch
 2. Write failing tests
 3. Implement feature
