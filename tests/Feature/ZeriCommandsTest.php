@@ -75,14 +75,13 @@ it('can generate AI files', function () {
     $this->artisan('generate', ['ai' => 'all', '--path' => $testDir])
         ->expectsOutput('✅ Generated: CLAUDE.md')
         ->expectsOutput('✅ Generated: GEMINI.md')
-        ->expectsOutput('✅ Generated: .cursor/rules/generate.mdc')
+        ->expectsOutput('✅ Generated: .cursor/rules/zeri.mdc')
         ->assertSuccessful();
 
     // Verify files were created
     expect(File::exists($testDir.'/CLAUDE.md'))->toBeTrue();
     expect(File::exists($testDir.'/GEMINI.md'))->toBeTrue();
-    expect(File::exists($testDir.'/.cursor/rules/generate.mdc'))->toBeTrue();
-    expect(File::exists($testDir.'/.cursor/rules/workflow.mdc'))->toBeTrue();
+    expect(File::exists($testDir.'/.cursor/rules/zeri.mdc'))->toBeTrue();
 
     // Cleanup
     File::deleteDirectory($testDir);

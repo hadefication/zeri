@@ -1,0 +1,38 @@
+---
+description: Zeri-generated development context and rules
+alwaysApply: true
+---
+
+# Referenced Files
+
+@.zeri/project.md
+@.zeri/development.md
+{{SPECIFICATION_REFERENCES}}
+
+# Development Rules
+
+{{TECH_STACK_RULE}}{{CODE_STYLE_RULES}}
+- Write comprehensive tests for all new features
+- Follow security best practices
+- Optimize for performance and maintainability
+- Use meaningful variable and function names
+- Include proper error handling
+
+# Development Workflow
+
+{{FILE_ORGANIZATION_SECTION}}**CRITICAL:** Only implement or start coding when files in @.zeri/specs are referenced - Do not write code without specific feature specifications.
+
+## Process Steps
+1. Create feature branch
+2. Write failing tests
+3. Implement feature
+4. Ensure tests pass
+5. Code review
+6. Merge to main
+
+## Testing Requirements
+- Unit tests for business logic
+- Integration tests for API endpoints
+- Feature tests for user workflows
+
+{{COMMON_PATTERNS_SECTION}}{{CURRENT_WORK_SECTION}}

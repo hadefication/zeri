@@ -6,115 +6,67 @@ class CursorGenerator extends BaseGenerator
 {
     public function getOutputFileName(): string
     {
-        return '.cursor/rules/generate.mdc';
+        return '.cursor/rules/zeri.mdc';
     }
 
     public function getGeneratedFiles(): array
     {
-        return ['.cursor/rules/generate.mdc', '.cursor/rules/workflow.mdc'];
+        return ['.cursor/rules/zeri.mdc'];
     }
 
     public function generate(bool $force = false, bool $backup = false, bool $interactive = false): bool
     {
-        $generateFile = $this->outputPath.'/.cursor/rules/generate.mdc';
-        $workflowFile = $this->outputPath.'/.cursor/rules/workflow.mdc';
+        $zeriFile = $this->outputPath.'/.cursor/rules/zeri.mdc';
 
-        // Check if either file needs regeneration
-        if (! $this->shouldRegenerateEither($generateFile, $workflowFile, $force)) {
+        // Check if file needs regeneration
+        if (! $this->shouldRegenerate($force, $zeriFile)) {
             return false; // No regeneration needed
         }
 
-        // Handle existing files
-        if (! $this->handleExistingFiles([$generateFile, $workflowFile], $backup, $interactive)) {
+        // Handle existing file
+        if (! $this->handleExistingFile($zeriFile, $backup, $interactive)) {
             return false; // User chose not to overwrite
         }
 
-        $generateContent = $this->buildGenerateFromStub();
-        $workflowContent = $this->buildWorkflowFromStub();
+        $content = $this->buildUnifiedFromStub();
 
-        // Write generate.mdc
-        $generateWritten = $this->writeOutput($generateContent);
-
-        // Write workflow.mdc
-        $workflowWritten = $this->writeFile('.cursor/rules/workflow.mdc', $workflowContent);
-
-        return $generateWritten && $workflowWritten;
+        // Write zeri.mdc
+        return $this->writeOutput($content);
     }
 
-    private function shouldRegenerateEither(string $generateFile, string $workflowFile, bool $force): bool
-    {
-        return $this->shouldRegenerate($force, $generateFile) || 
-               $this->shouldRegenerate($force, $workflowFile);
-    }
-
-    private function handleExistingFiles(array $files, bool $backup, bool $interactive): bool
-    {
-        foreach ($files as $file) {
-            if (! $this->handleExistingFile($file, $backup, $interactive)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private function buildGenerateFromStub(): string
+    private function buildUnifiedFromStub(): string
     {
         $specs = $this->getSpecifications();
+        $context = $this->readFile('project.md');
+        $development = $this->readFile('development.md');
 
         // Build specification references
         $specReferences = '';
         if (! empty($specs)) {
             foreach ($specs as $spec) {
-                $specReferences .= "@.zeri/specs/{$spec['name']}.md\n";
+                $specReferences .= "\n@.zeri/specs/{$spec['name']}.md";
             }
         }
 
         // Extract tech stack rule
-        $context = $this->readFile('project.md');
         $techStack = $this->extractTechStack($context);
         $techStackRule = $techStack ? "- Use {$techStack} as primary technology stack\n" : '';
 
         // Extract code style rules
-        $standards = $this->readFile('development.md');
         $codeStyleRules = '';
-        if ($standards) {
-            $rules = $this->extractCodeStyleRules($standards);
+        if ($development) {
+            $rules = $this->extractCodeStyleRules($development);
             foreach ($rules as $rule) {
                 $codeStyleRules .= "- {$rule}\n";
             }
         }
 
-        // Build current work section
-        $currentWorkSection = '';
-        if (! empty($specs)) {
-            $currentWorkSection = "\n# Current Work\n\nActive specifications:\n";
-            foreach ($specs as $spec) {
-                $summary = $this->extractSpecSummary($spec['content']);
-                $currentWorkSection .= "- {$spec['name']}: {$summary}\n";
-            }
-        }
-
-        $replacements = [
-            'SPECIFICATION_REFERENCES' => trim($specReferences),
-            'TECH_STACK_RULE' => $techStackRule,
-            'CODE_STYLE_RULES' => $codeStyleRules,
-            'CURRENT_WORK_SECTION' => $currentWorkSection,
-        ];
-
-        return $this->createFromStub('cursor-generate.mdc.stub', $replacements);
-    }
-
-    private function buildWorkflowFromStub(): string
-    {
-        $patterns = $this->readFile('development.md');
-
         // Build file organization section
         $fileOrgSection = '';
-        if ($patterns) {
-            $orgRules = $this->extractOrganizationRules($patterns);
+        if ($development) {
+            $orgRules = $this->extractOrganizationRules($development);
             if (! empty($orgRules)) {
-                $fileOrgSection = "# File Organization\n\n";
+                $fileOrgSection = "## File Organization\n";
                 foreach ($orgRules as $rule) {
                     $fileOrgSection .= "- {$rule}\n";
                 }
@@ -124,22 +76,36 @@ class CursorGenerator extends BaseGenerator
 
         // Build common patterns section
         $commonPatternsSection = '';
-        if ($patterns) {
-            $commonPatterns = $this->extractCommonPatterns($patterns);
+        if ($development) {
+            $commonPatterns = $this->extractCommonPatterns($development);
             if (! empty($commonPatterns)) {
-                $commonPatternsSection = "\n# Common Patterns\n\n";
+                $commonPatternsSection = "\n## Common Patterns\n";
                 foreach ($commonPatterns as $pattern) {
                     $commonPatternsSection .= "- {$pattern}\n";
                 }
             }
         }
 
+        // Build current work section
+        $currentWorkSection = '';
+        if (! empty($specs)) {
+            $currentWorkSection = "\n# Current Work\n\nActive specifications:";
+            foreach ($specs as $spec) {
+                $summary = $this->extractSpecSummary($spec['content']);
+                $currentWorkSection .= "\n- {$spec['name']}: {$summary}";
+            }
+        }
+
         $replacements = [
+            'SPECIFICATION_REFERENCES' => $specReferences,
+            'TECH_STACK_RULE' => $techStackRule,
+            'CODE_STYLE_RULES' => $codeStyleRules,
             'FILE_ORGANIZATION_SECTION' => $fileOrgSection,
             'COMMON_PATTERNS_SECTION' => $commonPatternsSection,
+            'CURRENT_WORK_SECTION' => $currentWorkSection,
         ];
 
-        return $this->createFromStub('cursor-workflow.mdc.stub', $replacements);
+        return $this->createFromStub('cursor-zeri.mdc.stub', $replacements);
     }
 
     private function extractTechStack(string $content): string
