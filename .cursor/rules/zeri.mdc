@@ -1,0 +1,103 @@
+---
+description: Zeri-generated development context and rules
+alwaysApply: true
+---
+
+# Referenced Files
+
+@.zeri/project.md
+@.zeri/development.md
+
+@.zeri/specs/development-md-spec-instructions.md
+@.zeri/specs/improve-add-spec-generated-file.md
+
+# Development Rules
+
+- Use - PHP 8.2+ as primary technology stack
+- CamelCase for classes (e.g., `InitCommand`, `ClaudeGenerator`)
+- snake_case for variables and functions
+- Kebab-case for command names (e.g., `add-spec`)
+- Use PHPDoc for all public methods
+- Document command signatures and descriptions
+
+- Write comprehensive tests for all new features
+- Follow security best practices
+- Optimize for performance and maintainability
+- Use meaningful variable and function names
+- Include proper error handling
+
+# Development Workflow
+
+## File Organization
+- Organize files by feature/domain
+- Keep related files together
+- Use consistent naming conventions
+
+**CRITICAL:** Only implement or start coding when files in @.zeri/specs are referenced - Do not write code without specific feature specifications.
+
+## ⚠️ MANDATORY: Specification Creation Rules
+
+**CRITICAL:** When creating new feature specifications, you MUST follow these rules:
+
+### Creating Specifications
+**⚠️ MANDATORY: Always use `zeri add-spec <name>` to create new feature specifications.**
+
+**DO NOT manually create specification files. Use the command:**
+
+```bash
+# Create a new specification  
+zeri add-spec "feature-name"
+
+# This creates .zeri/specs/feature-name.md with the standard template
+```
+
+### Specification Workflow
+1. **⚠️ REQUIRED: Create Specification**: ALWAYS use `zeri add-spec` command to create structured requirements
+2. **Plan Implementation**: Break down requirements into actionable tasks
+3. **Implement Features**: Follow the TODO checklist step by step
+4. **Mark Progress**: Update TODOs in real-time during development
+5. **Review and Complete**: Ensure all requirements are met
+
+### Implementation Process Rules
+- **MANDATORY**: Always use `zeri add-spec` command - never manually create .md files in .zeri/specs/
+- Always start with a specification for non-trivial features
+- Break complex features into smaller, manageable tasks
+- Follow established coding patterns and conventions
+- Write tests alongside implementation
+
+### ⚠️ Important: TODO Marking Requirements
+**ALWAYS mark TODO items as complete when implementing specifications in `.zeri/specs/`:**
+
+- Mark checkboxes as `- [x]` when completing each implementation step
+- This helps track progress and manage AI assistant usage limits
+- Essential for efficient development workflow with AI assistance
+- Update TODOs in real-time during implementation, not after completion
+
+### ⚠️ File Editing Rules
+- Primarily edit files in the .zeri/ directory - NEVER remove zeri file references from generated AI files (CLAUDE.md, GEMINI.md, cursor-zeri.mdc)
+- Generated AI files can be edited but preserve all @.zeri/ file references and mandatory instructions
+
+## Process Steps
+1. Create feature branch
+2. Write failing tests
+3. Implement feature
+4. Ensure tests pass
+5. Code review
+6. Merge to main
+
+## Testing Requirements
+- Unit tests for business logic
+- Integration tests for API endpoints
+- Feature tests for user workflows
+
+
+## Common Patterns
+- , Repository pattern for data access
+- for AI file generators
+- for CLI operations
+
+# Current Work
+
+Active specifications:
+- development-md-spec-instructions: Enhance the generated development.md file to include instructions for working with specifications when using `zeri add-spec`. This will provide clear guidance to developers on how to properly create and manage specifications in the `.zeri/specs/` directory.
+- improve-add-spec-generated-file: Revamp the add-spec command to generate lean, focused specification files with a TODO section that can be marked as complete by AI assistants once implemented. Replace verbose template with essential sections only.
