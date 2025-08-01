@@ -176,7 +176,7 @@ class InitCommand extends Command
             'TECHNICAL_ANALYSIS' => 'Architecture review, dependency analysis, risk assessment',
             'DESIGN_CONSIDERATIONS' => 'User experience, performance, security, maintainability',
             'IMPLEMENTATION_PLANNING' => 'Break down into tasks, estimate effort, plan sprints',
-            'RISK_ASSESSMENT' => 'Identify technical risks, mitigation strategies',  
+            'RISK_ASSESSMENT' => 'Identify technical risks, mitigation strategies',
             'TIMELINE_ESTIMATION' => 'Story points, velocity tracking, buffer for unknowns',
             // Debugging
             'DEBUGGING_PROCESS' => 'Reproduce, isolate, identify root cause, fix, verify',

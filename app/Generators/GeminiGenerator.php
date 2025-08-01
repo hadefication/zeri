@@ -46,5 +46,4 @@ class GeminiGenerator extends BaseGenerator
 
         return $this->createFromStub('GEMINI.md.stub', $replacements);
     }
-
 }

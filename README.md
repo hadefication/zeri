@@ -16,7 +16,6 @@ When working with AI assistants on development projects, providing consistent, c
 
 - **Project Context Management**: Organize project information, standards, and workflows
 - **AI-Specific Generation**: Create optimized instruction files for different AI tools
-- **Smart Regeneration**: AI files automatically reflect changes to .zeri source files
 - **Template-Based**: Consistent file creation with customizable templates
 - **Specification Management**: Create and manage feature specifications
 - **Self-Update**: Built-in update mechanism for easy maintenance
@@ -213,15 +212,15 @@ When you run `zeri init`, the following structure is created:
 Each AI-specific file serves as the **single source of truth** for that AI assistant, providing a stable interface while referencing the structured `.zeri/` files for current information.
 
 ### Claude (CLAUDE.md)
-Comprehensive, conversational format with full context optimized for Claude's reasoning style. This file serves as Claude's primary context reference and automatically reflects changes to your `.zeri/` source files.
+Comprehensive, conversational format with full context optimized for Claude's reasoning style. This file serves as Claude's primary context reference.
 
 ### Gemini (GEMINI.md) 
-Directive, action-oriented format with clear rules and protocols optimized for Gemini. This file serves as Gemini's primary context reference and automatically reflects changes to your `.zeri/` source files.
+Directive, action-oriented format with clear rules and protocols optimized for Gemini. This file serves as Gemini's primary context reference.
 
 ### Cursor (.cursor/rules/)
 - **zeri.mdc**: Unified development context, rules, and workflow guidelines
 
-Concise .mdc format optimized for Cursor IDE integration with proper metadata headers. This file serves as Cursor's primary context reference and automatically reflects changes to your `.zeri/` source files.
+Concise .mdc format optimized for Cursor IDE integration with proper metadata headers. This file serves as Cursor's primary context reference.
 
 ## Examples
 
@@ -238,8 +237,8 @@ zeri init claude
 zeri add-spec "user-registration"
 zeri add-spec "payment-processing"
 
-# 4. AI files automatically reflect .zeri changes
-# Only use --force to regenerate from scratch if needed
+# 4. Regenerate AI files when needed
+# Use --force to regenerate from scratch if needed
 # zeri generate claude --force
 
 # 5. Use generated files with your AI tools

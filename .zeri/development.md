@@ -8,6 +8,8 @@ Follow PSR-12 coding standards with Laravel Pint for formatting:
 ./vendor/bin/pint
 ```
 
+**⚠️ MANDATORY: Run `./vendor/bin/pint` after every PHP file modification**
+
 ### Naming Conventions
 - CamelCase for classes (e.g., `InitCommand`, `ClaudeGenerator`)
 - snake_case for variables and functions
@@ -60,6 +62,7 @@ app/
 - **Framework Selection**: Laravel Zero for CLI framework (Project inception)
 - **Build System**: Box for PHAR creation (Project inception)
 - **Template System**: Two-level template system (stubs + user templates) (Project inception)
+- **AI Instruction Architecture**: Separate AI-specific instructions from source documentation (v1.6.0)
 
 ### Key Architecture Decisions
 
@@ -86,43 +89,59 @@ app/
 - **Rationale**: Stubs for initial structure, templates for user customization
 - **Consequences**: More complex but highly flexible system
 
+#### AI Instruction Architecture
+- **Date**: v1.6.0 release
+- **Decision**: Separate AI-specific instructions from source documentation
+- **Context**: AI assistants were editing source documentation inappropriately
+- **Options Considered**: Keep instructions in development.md, move to generated files, hybrid approach
+- **Chosen Option**: Move mandatory instructions to generated AI files
+- **Rationale**: Prevents inappropriate editing while maintaining workflow enforcement
+- **Consequences**: Clear separation of concerns, better AI workflow control
+
 ### Technology Choices
 PHP 8.2+ with Laravel Zero - chosen for team expertise and project requirements
 
 ### Design Patterns
-MVC pattern, Repository pattern for data access
+MVC pattern, Repository pattern for data access, Generator pattern for AI file creation
 
 ---
 
 ## Code Patterns
 
 ### Standard Patterns
-All generators extend BaseGenerator, commands extend LaravelZero Framework Command
+- Generator pattern for AI file generators extending BaseGenerator
+- Command pattern for CLI operations extending Laravel Zero Command
+- Template processing with placeholder replacement using {{PLACEHOLDER}} format
 
 ### Component Patterns
 - Generator pattern for AI file generators
 - Command pattern for CLI operations
 - Template processing with placeholder replacement
+- Two-level template system (stubs + user templates)
 
 ### Data Handling Patterns
 - File operations through Laravel's File facade
 - Template content processing with string replacement
 - PHAR building with Box configuration
+- Specification creation through AddSpecCommand workflow
 
 ### Error Handling Patterns
 - Laravel Zero's built-in error handling
 - Return appropriate exit codes (0 for success, non-zero for errors)
 - User-friendly error messages
+- Graceful handling of missing files and directories
 
 ### Testing Patterns
 - Feature tests for command functionality in `tests/Feature/`
 - Unit tests for individual components in `tests/Unit/`
 - Use Pest testing framework
+- Arrange-Act-Assert pattern for test structure
 
 ### Configuration Patterns
 - Box configuration for PHAR building
 - Laravel Zero application configuration
 - Template-based configuration for different AI platforms
+- Environment-based settings and feature flags
 
 ### Pattern Examples
 ```php
@@ -178,7 +197,7 @@ composer install
 1. **Write tests first** - Create failing tests for new functionality
 2. **Implement feature** - Write minimal code to pass tests
 3. **Run tests** - `php application test` or `./vendor/bin/pest`
-4. **Format code** - `./vendor/bin/pint`
+4. **Format code** - `./vendor/bin/pint` (REQUIRED for every PHP file update)
 5. **Build and test** - `./build.sh && ./builds/zeri --version`
 6. **Code review** - Create PR for review
 
@@ -195,17 +214,18 @@ php application test
 ```
 
 ### Testing Requirements
-Write tests for all new functionality
+Write tests for all new functionality, including command functionality and generator behavior
 
 ### Code Review Process
-Pull request review with at least one approval
+Pull request review with at least one approval, focusing on functionality and architectural consistency
 
 ### Code Review Guidelines
 - All code must be reviewed before merge
-- Check for PSR-12 compliance
+- Check for PSR-12 compliance (ensure `./vendor/bin/pint` was run)
 - Verify tests pass and cover new functionality
 - Ensure backward compatibility
 - Review security implications
+- Confirm all PHP files are properly formatted with Pint
 
 ### Deployment Steps
 **Always update version BEFORE building:**
@@ -241,25 +261,25 @@ sudo chown $(whoami) /usr/local/bin/zeri
 ## Feature Planning
 
 ### Planning Process
-Requirements gathering, technical design, estimation
+Requirements gathering, technical design, estimation with focus on CLI tool usability
 
 ### Requirements Gathering
-Stakeholder interviews, user stories, acceptance criteria
+Stakeholder interviews, user stories, acceptance criteria focused on developer workflow needs
 
 ### Technical Analysis
-Architecture review, dependency analysis, risk assessment
+Architecture review, dependency analysis, risk assessment for CLI tool distribution
 
 ### Design Considerations
-User experience, performance, security, maintainability
+User experience for CLI tools, performance for file operations, security for template processing, maintainability
 
 ### Implementation Planning
-Break down into tasks, estimate effort, plan sprints
+Break down into tasks, estimate effort, plan sprints with focus on PHAR building requirements
 
 ### Risk Assessment
-Identify technical risks, mitigation strategies
+Identify technical risks including PHAR distribution challenges, template security, cross-platform compatibility
 
 ### Timeline Estimation
-Story points, velocity tracking, buffer for unknowns
+Story points, velocity tracking, buffer for unknowns especially around CLI tool complexity
 
 ---
 
@@ -320,15 +340,16 @@ sudo chown $(whoami) /usr/local/bin/zeri
 - Laravel Zero's built-in logging
 
 ### Log Analysis
-Check application logs, error logs, system logs
+Check application logs, error logs, system logs for CLI tool specific issues
 
 ### Performance Debugging
 - Profile file operations for large projects
 - Monitor memory usage during template processing
 - Optimize string operations for large files
+- Consider PHAR size optimization
 
 ### Error Tracking
-Use error tracking service, categorize errors, prioritize fixes
+Use error tracking service, categorize errors, prioritize fixes with focus on CLI tool reliability
 
 ### Resolution Documentation
 - Document fixes in commit messages

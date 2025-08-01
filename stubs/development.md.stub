@@ -5,6 +5,8 @@
 ### Code Style
 {{CODE_STYLE}}
 
+**⚠️ MANDATORY: Run `./vendor/bin/pint` after every PHP file modification**
+
 ### Naming Conventions
 {{NAMING_CONVENTIONS}}
 
