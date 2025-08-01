@@ -61,7 +61,7 @@ class AddSpecCommand extends Command
         if (empty($overview)) {
             $overview = "Brief description of the {$name} feature or enhancement. Explain what this feature does and why it's needed.";
         }
-        
+
         $replacements = [
             '{{SPEC_NAME}}' => $name,
             '{{SPEC_OVERVIEW}}' => $overview,

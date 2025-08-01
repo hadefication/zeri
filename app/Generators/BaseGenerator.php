@@ -26,7 +26,7 @@ abstract class BaseGenerator
         return [$this->getOutputFileName()];
     }
 
-    protected function shouldRegenerate(bool $force, string $outputFile = null): bool
+    protected function shouldRegenerate(bool $force, ?string $outputFile = null): bool
     {
         if ($force) {
             return true;
@@ -121,7 +121,7 @@ abstract class BaseGenerator
         if ($interactive && $hasManualChanges) {
             $relativePath = str_replace($this->outputPath.'/', '', $outputFile);
             echo "File {$relativePath} appears to have manual modifications.\n";
-            echo "Do you want to overwrite it? [y/N]: ";
+            echo 'Do you want to overwrite it? [y/N]: ';
             $handle = fopen('php://stdin', 'r');
             $response = trim(fgets($handle));
             fclose($handle);
@@ -157,7 +157,6 @@ abstract class BaseGenerator
         foreach ($coreFiles as $file) {
             $files[] = $this->zeriPath.'/'.$file;
         }
-
 
         // Specification files
         $specsDir = $this->zeriPath.'/specs';

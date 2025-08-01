@@ -14,11 +14,11 @@ alwaysApply: true
 # Development Rules
 
 - Use - PHP 8.2+ as primary technology stack
+- *⚠️ MANDATORY: Run `./vendor/bin/pint` after every PHP file modification**
 - CamelCase for classes (e.g., `InitCommand`, `ClaudeGenerator`)
 - snake_case for variables and functions
 - Kebab-case for command names (e.g., `add-spec`)
 - Use PHPDoc for all public methods
-- Document command signatures and descriptions
 
 - Write comprehensive tests for all new features
 - Follow security best practices
@@ -92,9 +92,9 @@ zeri add-spec "feature-name"
 
 
 ## Common Patterns
-- , Repository pattern for data access
-- for AI file generators
-- for CLI operations
+- , Repository pattern for data access, Generator pattern for AI file creation
+- for AI file generators extending BaseGenerator
+- for CLI operations extending Laravel Zero Command
 
 # Current Work
 

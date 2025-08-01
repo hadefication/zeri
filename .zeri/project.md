@@ -1,14 +1,16 @@
 # zeri - Project Context
 
 ## Overview
-Zeri is a CLI tool for generating AI assistant context files. Built with Laravel Zero, it creates structured documentation for Claude, Gemini, and Cursor AI assistants.
+Zeri is a CLI tool for generating AI assistant context files. Built with Laravel Zero, it creates structured documentation for Claude, Gemini, and Cursor AI assistants with advanced workflow management and specification creation capabilities.
 
 **Key Features:**
 - Initialize project structure with `.zeri/` directory
-- Generate AI-specific context files from templates
-- Support for multiple AI platforms (Claude, Gemini, Cursor)
+- Generate AI-specific context files from templates with mandatory workflow instructions
+- Support for multiple AI platforms (Claude, Gemini, Cursor) with platform-specific instructions
+- Specification creation workflow with `zeri add-spec` command
 - Self-updating capabilities
 - PHAR distribution for easy installation
+- Separation of AI instructions from source documentation (v1.6.0)
 
 ## Tech Stack
 - PHP 8.2+
@@ -50,10 +52,12 @@ Generators extend `BaseGenerator` and implement:
 - `getGeneratedFiles()`: List of all files created (for multi-file generators)
 
 ## Current Focus
-This project generates AI context files. When making changes:
+This project generates AI context files with enhanced workflow management. When making changes:
 - Consider how it affects all supported AI platforms (Claude, Gemini, Cursor)
 - Ensure stub templates remain flexible for different project types
 - Maintain clean separation between core application and generated content
+- Preserve the separation of AI instructions from source documentation (v1.6.0 architecture)
+- Ensure mandatory workflow instructions are properly enforced across all AI platforms
 
 ## Environment Setup
 - PHP 8.2 or higher
