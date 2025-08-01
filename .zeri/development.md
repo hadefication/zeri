@@ -47,7 +47,23 @@ app/
 
 ## Architecture Decisions
 
-### Framework Selection
+### Decision Template
+- **Date**: 
+- **Decision**: 
+- **Context**: 
+- **Options Considered**: 
+- **Chosen Option**: 
+- **Rationale**: 
+- **Consequences**: 
+
+### Recent Decisions
+- **Framework Selection**: Laravel Zero for CLI framework (Project inception)
+- **Build System**: Box for PHAR creation (Project inception)
+- **Template System**: Two-level template system (stubs + user templates) (Project inception)
+
+### Key Architecture Decisions
+
+#### Framework Selection
 - **Date**: Project inception
 - **Decision**: Use Laravel Zero for CLI framework
 - **Context**: Need robust CLI framework with built-in features
@@ -56,27 +72,61 @@ app/
 - **Rationale**: Provides console features, dependency injection, testing framework, and PHAR building
 - **Consequences**: Leverages Laravel ecosystem, established patterns
 
-### Build System
+#### Build System
 - **Date**: Project inception  
 - **Decision**: Use Box for PHAR creation
 - **Context**: Need distributable single-file executable
 - **Rationale**: Box is the standard for PHP PHAR building with compression and optimization
 - **Consequences**: Easy distribution, but requires proper configuration
 
-### Template System
+#### Template System
 - **Date**: Project inception
 - **Decision**: Two-level template system (stubs + user templates)
 - **Context**: Need flexibility for different project types while maintaining structure
 - **Rationale**: Stubs for initial structure, templates for user customization
 - **Consequences**: More complex but highly flexible system
 
+### Technology Choices
+PHP 8.2+ with Laravel Zero - chosen for team expertise and project requirements
+
+### Design Patterns
+MVC pattern, Repository pattern for data access
+
 ---
 
 ## Code Patterns
 
-### Command Pattern
-All CLI commands extend `LaravelZero\Framework\Commands\Command`:
+### Standard Patterns
+All generators extend BaseGenerator, commands extend LaravelZero Framework Command
+
+### Component Patterns
+- Generator pattern for AI file generators
+- Command pattern for CLI operations
+- Template processing with placeholder replacement
+
+### Data Handling Patterns
+- File operations through Laravel's File facade
+- Template content processing with string replacement
+- PHAR building with Box configuration
+
+### Error Handling Patterns
+- Laravel Zero's built-in error handling
+- Return appropriate exit codes (0 for success, non-zero for errors)
+- User-friendly error messages
+
+### Testing Patterns
+- Feature tests for command functionality in `tests/Feature/`
+- Unit tests for individual components in `tests/Unit/`
+- Use Pest testing framework
+
+### Configuration Patterns
+- Box configuration for PHAR building
+- Laravel Zero application configuration
+- Template-based configuration for different AI platforms
+
+### Pattern Examples
 ```php
+// Command Pattern
 class ExampleCommand extends Command
 {
     protected $signature = 'example {name} {--option}';
@@ -88,37 +138,21 @@ class ExampleCommand extends Command
         return 0;
     }
 }
-```
 
-### Generator Pattern
-All generators extend `BaseGenerator`:
-```php
+// Generator Pattern
 abstract class BaseGenerator
 {
     abstract protected function getOutputFileName(): string;
     abstract public function generate(): bool;
     public function getGeneratedFiles(): array { return [$this->getOutputFileName()]; }
 }
-```
 
-### Template Processing
-Use `{{PLACEHOLDER}}` format with `createFromStub()` method:
-```php
+// Template Processing
 $content = $this->createFromStub('template.stub', [
     'PROJECT_NAME' => $projectName,
     'DESCRIPTION' => $description
 ]);
 ```
-
-### Error Handling
-- Use Laravel Zero's built-in error handling
-- Return appropriate exit codes (0 for success, non-zero for errors)
-- Provide user-friendly error messages
-
-### Testing Patterns
-- Feature tests for command functionality in `tests/Feature/`
-- Unit tests for individual components in `tests/Unit/`
-- Use Pest testing framework
 
 ---
 
@@ -160,6 +194,12 @@ php application test
 ./vendor/bin/pest --coverage
 ```
 
+### Testing Requirements
+Write tests for all new functionality
+
+### Code Review Process
+Pull request review with at least one approval
+
 ### Code Review Guidelines
 - All code must be reviewed before merge
 - Check for PSR-12 compliance
@@ -167,7 +207,7 @@ php application test
 - Ensure backward compatibility
 - Review security implications
 
-### Build Process
+### Deployment Steps
 **Always update version BEFORE building:**
 ```bash
 # 1. Update version in config/app.php
@@ -179,6 +219,47 @@ php application test
 git add config/app.php
 git commit -m "Bump version to vx.y.z"
 ```
+
+### Troubleshooting Common Issues
+
+**Build fails with missing stubs:**
+- Ensure all stub files are included in `box.json` directories
+- Check `stubs/` directory is being packaged correctly
+
+**Self-update signature errors:**
+- Development uses custom `SelfUpdateCommand` to avoid signing issues
+- Production would need proper PHAR signing setup
+
+**Permission issues:**
+```bash
+chmod +x builds/zeri
+sudo chown $(whoami) /usr/local/bin/zeri
+```
+
+---
+
+## Feature Planning
+
+### Planning Process
+Requirements gathering, technical design, estimation
+
+### Requirements Gathering
+Stakeholder interviews, user stories, acceptance criteria
+
+### Technical Analysis
+Architecture review, dependency analysis, risk assessment
+
+### Design Considerations
+User experience, performance, security, maintainability
+
+### Implementation Planning
+Break down into tasks, estimate effort, plan sprints
+
+### Risk Assessment
+Identify technical risks, mitigation strategies
+
+### Timeline Estimation
+Story points, velocity tracking, buffer for unknowns
 
 ---
 
@@ -238,10 +319,16 @@ sudo chown $(whoami) /usr/local/bin/zeri
 - Use `var_dump()` or `dd()` for debugging during development
 - Laravel Zero's built-in logging
 
+### Log Analysis
+Check application logs, error logs, system logs
+
 ### Performance Debugging
 - Profile file operations for large projects
 - Monitor memory usage during template processing
 - Optimize string operations for large files
+
+### Error Tracking
+Use error tracking service, categorize errors, prioritize fixes
 
 ### Resolution Documentation
 - Document fixes in commit messages
@@ -254,7 +341,9 @@ sudo chown $(whoami) /usr/local/bin/zeri
 
 ### Creating Specifications
 
-**Use `zeri add-spec <name>` to create new feature specifications:**
+**⚠️ MANDATORY: Always use `zeri add-spec <name>` to create new feature specifications.**
+
+**DO NOT manually create specification files. Use the command:**
 
 ```bash
 # Create a new specification
@@ -271,7 +360,7 @@ zeri add-spec "feature-name"
 
 ### Specification Workflow
 
-1. **Create Specification**: Use `zeri add-spec` to create structured requirements
+1. **⚠️ REQUIRED: Create Specification**: ALWAYS use `zeri add-spec` command to create structured requirements
 2. **Plan Implementation**: Break down requirements into actionable tasks
 3. **Implement Features**: Follow the TODO checklist step by step
 4. **Mark Progress**: Update TODOs in real-time during development
@@ -286,6 +375,7 @@ zeri add-spec "feature-name"
 - Consider testing and documentation needs
 
 **Implementation Process:**
+- **MANDATORY**: Always use `zeri add-spec` command - never manually create .md files in .zeri/specs/
 - Always start with a specification for non-trivial features
 - Break complex features into smaller, manageable tasks
 - Follow established coding patterns and conventions
