@@ -57,11 +57,16 @@ class AddSpecCommand extends Command
         $content = File::get($templatePath);
 
         // Replace placeholders with actual values
+        $overview = $this->ask('Brief overview of this feature', '');
+        if (empty($overview)) {
+            $overview = "Brief description of the {$name} feature or enhancement. Explain what this feature does and why it's needed.";
+        }
+        
         $replacements = [
             '{{SPEC_NAME}}' => $name,
-            '{{SPEC_OVERVIEW}}' => $this->ask('Brief overview of this feature', 'Feature description'),
-            '{{REQUIREMENTS}}' => '- Requirement 1\n- Requirement 2\n- Requirement 3',
-            '{{IMPLEMENTATION_NOTES}}' => 'Any technical considerations, dependencies, or important implementation details.',
+            '{{SPEC_OVERVIEW}}' => $overview,
+            '{{REQUIREMENTS}}' => "- Define the core functionality requirements\n- Specify any user interface requirements\n- List integration or compatibility requirements\n- Note any performance or security requirements",
+            '{{IMPLEMENTATION_NOTES}}' => "- Technical considerations and dependencies\n- Files or components that need modification\n- Integration points with existing systems\n- Any architectural decisions or patterns to follow\n- Testing strategy and requirements",
             '{{TODO_ITEMS}}' => '- [ ] Design and plan implementation\n- [ ] Implement core functionality\n- [ ] Add tests\n- [ ] Update documentation\n- [ ] Review and refine\n- [ ] Mark specification as complete',
         ];
 
