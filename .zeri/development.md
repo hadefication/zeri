@@ -341,9 +341,7 @@ Use error tracking service, categorize errors, prioritize fixes
 
 ### Creating Specifications
 
-**⚠️ MANDATORY: Always use `zeri add-spec <name>` to create new feature specifications.**
-
-**DO NOT manually create specification files. Use the command:**
+Use `zeri add-spec <name>` to create new feature specifications:
 
 ```bash
 # Create a new specification
@@ -360,7 +358,7 @@ zeri add-spec "feature-name"
 
 ### Specification Workflow
 
-1. **⚠️ REQUIRED: Create Specification**: ALWAYS use `zeri add-spec` command to create structured requirements
+1. **Create Specification**: Use `zeri add-spec` command to create structured requirements
 2. **Plan Implementation**: Break down requirements into actionable tasks
 3. **Implement Features**: Follow the TODO checklist step by step
 4. **Mark Progress**: Update TODOs in real-time during development
@@ -375,20 +373,18 @@ zeri add-spec "feature-name"
 - Consider testing and documentation needs
 
 **Implementation Process:**
-- **MANDATORY**: Always use `zeri add-spec` command - never manually create .md files in .zeri/specs/
 - Always start with a specification for non-trivial features
 - Break complex features into smaller, manageable tasks
 - Follow established coding patterns and conventions
 - Write tests alongside implementation
 
-### ⚠️ Important: TODO Marking Requirements
+### TODO Marking
 
-**ALWAYS mark TODO items as complete when implementing specifications in `.zeri/specs/`:**
+Mark TODO items as complete when implementing specifications:
 
 - Mark checkboxes as `- [x]` when completing each implementation step
-- This helps track progress and manage AI assistant usage limits
-- Essential for efficient development workflow with AI assistance
-- Update TODOs in real-time during implementation, not after completion
+- This helps track progress and manage development workflow
+- Update TODOs in real-time during implementation
 
 **Example:**
 ```markdown

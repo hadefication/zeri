@@ -41,8 +41,50 @@
 
 ---
 
+## ⚠️ CRITICAL: SPECIFICATION CREATION PROTOCOL
+
+**MANDATORY SPECIFICATION RULES - NEVER VIOLATE THESE:**
+
+### SPECIFICATION CREATION MANDATE
+**⚠️ MANDATORY: ALWAYS use `zeri add-spec <name>` to create new feature specifications.**
+
+**NEVER MANUALLY CREATE SPECIFICATION FILES. USE THE COMMAND:**
+
+```bash
+# Create a new specification
+zeri add-spec "feature-name"
+
+# This creates .zeri/specs/feature-name.md with the standard template
+```
+
+### SPECIFICATION WORKFLOW REQUIREMENTS
+1. **⚠️ REQUIRED: Create Specification**: ALWAYS use `zeri add-spec` command to create structured requirements
+2. **Plan Implementation**: Break down requirements into actionable tasks
+3. **Implement Features**: Follow the TODO checklist step by step
+4. **Mark Progress**: Update TODOs in real-time during development
+5. **Review and Complete**: Ensure all requirements are met
+
+### IMPLEMENTATION PROCESS MANDATES
+- **MANDATORY**: Always use `zeri add-spec` command - NEVER manually create .md files in .zeri/specs/
+- ALWAYS start with a specification for non-trivial features
+- BREAK complex features into smaller, manageable tasks
+- FOLLOW established coding patterns and conventions
+- WRITE tests alongside implementation
+
+### ⚠️ TODO MARKING REQUIREMENTS
+**ALWAYS mark TODO items as complete when implementing specifications in `.zeri/specs/`:**
+
+- MARK checkboxes as `- [x]` when completing each implementation step
+- THIS helps track progress and manage AI assistant usage limits
+- ESSENTIAL for efficient development workflow with AI assistance
+- UPDATE TODOs in real-time during implementation, NOT after completion
+
+---
+
 ## CRITICAL REMINDERS
 
+⚠️ **PRIMARILY edit files in the .zeri/ directory - NEVER remove zeri file references from generated AI files (GEMINI.md, CLAUDE.md, cursor-zeri.mdc)**
+⚠️ **GENERATED AI files can be edited but PRESERVE all @.zeri/ file references and mandatory instructions**
 ⚠️ **NEVER bypass established workflows**
 ⚠️ **ALWAYS validate inputs and handle errors**
 ⚠️ **ENSURE backward compatibility**
