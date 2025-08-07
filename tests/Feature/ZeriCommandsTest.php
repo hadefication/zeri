@@ -76,12 +76,14 @@ it('can generate AI files', function () {
         ->expectsOutput('✅ Generated: CLAUDE.md')
         ->expectsOutput('✅ Generated: GEMINI.md')
         ->expectsOutput('✅ Generated: .cursor/rules/zeri.mdc')
+        ->expectsOutput('✅ Generated: CODEX.md')
         ->assertSuccessful();
 
     // Verify files were created
     expect(File::exists($testDir.'/CLAUDE.md'))->toBeTrue();
     expect(File::exists($testDir.'/GEMINI.md'))->toBeTrue();
     expect(File::exists($testDir.'/.cursor/rules/zeri.mdc'))->toBeTrue();
+    expect(File::exists($testDir.'/CODEX.md'))->toBeTrue();
 
     // Cleanup
     File::deleteDirectory($testDir);
@@ -101,4 +103,33 @@ it('handles errors when .zeri directory does not exist', function () {
 
     // Cleanup
     rmdir($testDir);
+});
+
+it('can generate codex file specifically', function () {
+    $testDir = '/tmp/zeri-test-'.uniqid();
+    mkdir($testDir);
+
+    // First initialize
+    $this->artisan('init', ['--path' => $testDir])
+        ->expectsQuestion('Project name', 'Test Project')
+        ->expectsQuestion('Project description', 'A test project')
+        ->expectsQuestion('Primary tech stack', 'PHP, Laravel')
+        ->expectsQuestion('Current development focus', 'Testing')
+        ->assertSuccessful();
+
+    // Generate codex file specifically
+    $this->artisan('generate', ['ai' => 'codex', '--path' => $testDir])
+        ->expectsOutput('✅ Generated: CODEX.md')
+        ->assertSuccessful();
+
+    // Verify file was created
+    expect(File::exists($testDir.'/CODEX.md'))->toBeTrue();
+
+    // Verify file content contains expected sections
+    $content = File::get($testDir.'/CODEX.md');
+    expect($content)->toContain('Development Context for Codex');
+    expect($content)->toContain('Referenced Files');
+
+    // Cleanup
+    File::deleteDirectory($testDir);
 });

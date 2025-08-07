@@ -1,6 +1,6 @@
 # GEMINI DEVELOPMENT INSTRUCTIONS
 
-**GENERATION DATE:** 2025-08-07 00:19:59
+**GENERATION DATE:** 2025-08-07 02:43:32
 
 ## REFERENCED FILES
 
@@ -12,6 +12,8 @@
 
 
 **ACTIVE SPECIFICATIONS:**
+@.zeri/specs/codex-ai-generator.md.md
+@.zeri/specs/codex-support.md
 @.zeri/specs/development-md-spec-instructions.md
 @.zeri/specs/fix-gemini-import-warnings.md
 @.zeri/specs/improve-add-spec-generated-file.md

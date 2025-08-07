@@ -1,7 +1,7 @@
 # Development Context for Claude
 
 This file provides context for Claude to assist with development tasks.
-Generated on: 2025-08-01 08:17:13
+Generated on: 2025-08-07 02:43:32
 
 ## Referenced Files
 
@@ -13,7 +13,10 @@ Please read the following project files for complete context:
 
 
 **Active Specifications:**
+- [@.zeri/specs/codex-ai-generator.md.md](.zeri/specs/codex-ai-generator.md.md) - codex-ai-generator.md specification
+- [@.zeri/specs/codex-support.md](.zeri/specs/codex-support.md) - codex-support specification
 - [@.zeri/specs/development-md-spec-instructions.md](.zeri/specs/development-md-spec-instructions.md) - development-md-spec-instructions specification
+- [@.zeri/specs/fix-gemini-import-warnings.md](.zeri/specs/fix-gemini-import-warnings.md) - fix-gemini-import-warnings specification
 - [@.zeri/specs/improve-add-spec-generated-file.md](.zeri/specs/improve-add-spec-generated-file.md) - improve-add-spec-generated-file specification
 
 

@@ -8,7 +8,10 @@ alwaysApply: true
 @.zeri/project.md
 @.zeri/development.md
 
+@.zeri/specs/codex-ai-generator.md.md
+@.zeri/specs/codex-support.md
 @.zeri/specs/development-md-spec-instructions.md
+@.zeri/specs/fix-gemini-import-warnings.md
 @.zeri/specs/improve-add-spec-generated-file.md
 
 # Development Rules
@@ -99,5 +102,8 @@ zeri add-spec "feature-name"
 # Current Work
 
 Active specifications:
+- codex-ai-generator.md: Create an AI generator for Codex (OpenAI) that integrates with the existing zeri CLI tool. This generator will create a CODEX.md file with instructions for using Codex AI assistant, following the established pattern of other AI generators in the system.
+- codex-support: Implement comprehensive support for Codex AI integration within the zeri CLI tool. This includes creating a CodexGenerator that produces CODEX.md files with proper instructions and context for Codex AI assistant, following the established pattern of other AI generators in the system.
 - development-md-spec-instructions: Enhance the generated development.md file to include instructions for working with specifications when using `zeri add-spec`. This will provide clear guidance to developers on how to properly create and manage specifications in the `.zeri/specs/` directory.
+- fix-gemini-import-warnings: Fix the import processor warnings in the Gemini generator that occur when attempting to import .md files. The warnings indicate that the import processor only supports .md files but is receiving file references with .md extensions in the link format [file.md](file.md), which it's interpreting as non-md files.
 - improve-add-spec-generated-file: Revamp the add-spec command to generate lean, focused specification files with a TODO section that can be marked as complete by AI assistants once implemented. Replace verbose template with essential sections only.
