@@ -86,7 +86,7 @@ php application app:build        # Manual build
 ### Instructions for Claude
 When working on this project:
 
-1. **Reference @DEVELOPMENT.md** for detailed setup, architecture, and contribution guidelines
+1. **Reference** @DEVELOPMENT.md for detailed setup, architecture, and contribution guidelines
 2. **Use development commands** (`php application`) rather than built binary during development
 3. **Follow Laravel Zero patterns** - this is a console application framework
 4. **Test thoroughly** - run tests and build before suggesting changes
