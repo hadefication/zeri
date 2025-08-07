@@ -7,8 +7,8 @@
 **MANDATORY:** READ ALL REFERENCED FILES FOR COMPLETE CONTEXT
 
 **CORE FILES:**
-- [@.zeri/project.md](.zeri/project.md) → PROJECT OVERVIEW AND TECH STACK
-- [@.zeri/development.md](.zeri/development.md) → STANDARDS, DECISIONS, PATTERNS, AND WORKFLOWS
+@.zeri/project.md
+@.zeri/development.md
 
 {{ACTIVE_SPECIFICATIONS_REFERENCES}}
 

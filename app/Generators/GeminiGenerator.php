@@ -34,8 +34,7 @@ class GeminiGenerator extends BaseGenerator
         if (! empty($specs)) {
             $specsReferences = "\n**ACTIVE SPECIFICATIONS:**\n";
             foreach ($specs as $spec) {
-                $specName = strtoupper(str_replace('-', ' ', $spec['name']));
-                $specsReferences .= "- [@.zeri/specs/{$spec['name']}.md](.zeri/specs/{$spec['name']}.md) → {$specName} SPECIFICATION\n";
+                $specsReferences .= "@.zeri/specs/{$spec['name']}.md\n";
             }
         }
 
