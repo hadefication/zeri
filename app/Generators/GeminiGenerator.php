@@ -32,7 +32,7 @@ class GeminiGenerator extends BaseGenerator
         $specs = $this->getSpecifications();
         $specsReferences = '';
         if (! empty($specs)) {
-            $specsReferences = "\n**ACTIVE SPECIFICATIONS:**\n";
+            $specsReferences = "\n**ACTIVE SPECIFICATIONS:**\n\n";
             foreach ($specs as $spec) {
                 $specsReferences .= "@.zeri/specs/{$spec['name']}.md\n";
             }

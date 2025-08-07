@@ -20,7 +20,7 @@ alwaysApply: true
 
 # Development Workflow
 
-{{FILE_ORGANIZATION_SECTION}}**CRITICAL:** Only implement or start coding when files in @.zeri/specs are referenced - Do not write code without specific feature specifications.
+{{FILE_ORGANIZATION_SECTION}}**CRITICAL:** Only implement or start coding when files in .zeri/specs are referenced - Do not write code without specific feature specifications.
 
 ## ⚠️ MANDATORY: Specification Creation Rules
 
@@ -62,7 +62,7 @@ zeri add-spec "feature-name"
 
 ### ⚠️ File Editing Rules
 - Primarily edit files in the .zeri/ directory - NEVER remove zeri file references from generated AI files (CLAUDE.md, GEMINI.md, cursor-zeri.mdc)
-- Generated AI files can be edited but preserve all @.zeri/ file references and mandatory instructions
+- Generated AI files can be edited but preserve all .zeri/ file references and mandatory instructions
 
 ## Process Steps
 1. Create feature branch

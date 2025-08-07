@@ -1,7 +1,7 @@
 # Development Context for Claude
 
 This file provides context for Claude to assist with development tasks.
-Generated on: 2025-08-01 08:17:13
+Generated on: 2025-08-07 02:00:00
 
 ## Referenced Files
 
@@ -14,6 +14,7 @@ Please read the following project files for complete context:
 
 **Active Specifications:**
 - [@.zeri/specs/development-md-spec-instructions.md](.zeri/specs/development-md-spec-instructions.md) - development-md-spec-instructions specification
+- [@.zeri/specs/fix-gemini-import-warnings.md](.zeri/specs/fix-gemini-import-warnings.md) - fix-gemini-import-warnings specification
 - [@.zeri/specs/improve-add-spec-generated-file.md](.zeri/specs/improve-add-spec-generated-file.md) - improve-add-spec-generated-file specification
 
 
@@ -29,7 +30,7 @@ When working on this project:
 4. **Follow the development workflow** for implementation steps
 5. **Reference current priorities** to align with project goals
 6. **Check active specifications** for feature-specific requirements
-7. **ONLY implement or start coding when files in @.zeri/specs are referenced** - Do not write code without specific feature specifications
+7. **ONLY implement or start coding when files in .zeri/specs are referenced** - Do not write code without specific feature specifications
 
 ## ⚠️ MANDATORY: Specification Creation Rules
 
@@ -72,7 +73,7 @@ zeri add-spec "feature-name"
 ## Key Reminders
 
 - Primarily edit files in the .zeri/ directory - NEVER remove zeri file references from generated AI files (CLAUDE.md, GEMINI.md, cursor-zeri.mdc)
-- Generated AI files can be edited but preserve all @.zeri/ file references and mandatory instructions
+- Generated AI files can be edited but preserve all .zeri/ file references and mandatory instructions
 - Always write tests for new functionality
 - Follow the established code review process
 - Consider performance and security implications

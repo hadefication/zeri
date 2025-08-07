@@ -1,17 +1,19 @@
 # GEMINI DEVELOPMENT INSTRUCTIONS
 
-**GENERATION DATE:** 2025-08-07 00:19:59
+**GENERATION DATE:** 2025-08-07 02:26:10
 
 ## REFERENCED FILES
 
 **MANDATORY:** READ ALL REFERENCED FILES FOR COMPLETE CONTEXT
 
 **CORE FILES:**
+
 @.zeri/project.md
 @.zeri/development.md
 
 
 **ACTIVE SPECIFICATIONS:**
+
 @.zeri/specs/development-md-spec-instructions.md
 @.zeri/specs/fix-gemini-import-warnings.md
 @.zeri/specs/improve-add-spec-generated-file.md
@@ -28,7 +30,7 @@
 3. **DOCUMENTATION:** UPDATE docs for any architectural changes
 4. **SECURITY:** IMPLEMENT proper input validation and error handling
 5. **PERFORMANCE:** OPTIMIZE for speed and resource efficiency
-6. **SPECIFICATION DEPENDENCY:** ONLY implement or start coding when files in @.zeri/specs are referenced - NO code without specific feature specifications
+6. **SPECIFICATION DEPENDENCY:** ONLY implement or start coding when files in .zeri/specs are referenced - NO code without specific feature specifications
 
 **WORKFLOW COMPLIANCE:**
 
@@ -89,7 +91,7 @@ zeri add-spec "feature-name"
 ## CRITICAL REMINDERS
 
 ⚠️ **PRIMARILY edit files in the .zeri/ directory - NEVER remove zeri file references from generated AI files (GEMINI.md, CLAUDE.md, cursor-zeri.mdc)**
-⚠️ **GENERATED AI files can be edited but PRESERVE all @.zeri/ file references and mandatory instructions**
+⚠️ **GENERATED AI files can be edited but PRESERVE all .zeri/ file references and mandatory instructions**
 ⚠️ **NEVER bypass established workflows**
 ⚠️ **ALWAYS validate inputs and handle errors**
 ⚠️ **ENSURE backward compatibility**
