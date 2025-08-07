@@ -35,7 +35,9 @@
       "Bash(gh release upload:*)",
       "Bash(../builds/zeri init claude)",
       "Bash(../builds/zeri add-spec \"test-new-format\")",
-      "Bash(builds/zeri --version)"
+      "Bash(builds/zeri --version)",
+      "Bash(./vendor/bin/pint)",
+      "Bash(./vendor/bin/pest tests/Feature/)"
     ],
     "deny": []
   }

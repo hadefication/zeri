@@ -1,19 +1,20 @@
 # GEMINI DEVELOPMENT INSTRUCTIONS
 
-**GENERATION DATE:** 2025-08-01 08:17:13
+**GENERATION DATE:** 2025-08-07 00:19:59
 
 ## REFERENCED FILES
 
 **MANDATORY:** READ ALL REFERENCED FILES FOR COMPLETE CONTEXT
 
 **CORE FILES:**
-- [@.zeri/project.md](.zeri/project.md) → PROJECT OVERVIEW AND TECH STACK
-- [@.zeri/development.md](.zeri/development.md) → STANDARDS, DECISIONS, PATTERNS, AND WORKFLOWS
+@.zeri/project.md
+@.zeri/development.md
 
 
 **ACTIVE SPECIFICATIONS:**
-- [@.zeri/specs/development-md-spec-instructions.md](.zeri/specs/development-md-spec-instructions.md) → DEVELOPMENT MD SPEC INSTRUCTIONS SPECIFICATION
-- [@.zeri/specs/improve-add-spec-generated-file.md](.zeri/specs/improve-add-spec-generated-file.md) → IMPROVE ADD SPEC GENERATED FILE SPECIFICATION
+@.zeri/specs/development-md-spec-instructions.md
+@.zeri/specs/fix-gemini-import-warnings.md
+@.zeri/specs/improve-add-spec-generated-file.md
 
 
 ---
