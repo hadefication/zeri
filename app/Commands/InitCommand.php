@@ -8,7 +8,7 @@ use LaravelZero\Framework\Commands\Command;
 
 class InitCommand extends Command
 {
-    protected $signature = 'init {ai? : AI type to generate after init (claude, gemini, cursor, all)} {--path= : Path to initialize .zeri directory} {--force : Force regeneration of AI files even if they exist} {--roadmap : Include project roadmap section}';
+    protected $signature = 'init {ai? : AI type to generate after init (claude, gemini, cursor, all)} {--path= : Path to initialize .zeri directory} {--force : Force regeneration of AI files even if they exist} {--roadmap : Include project roadmap section} {--yes : Skip all questions and use defaults}';
 
     protected $description = 'Initialize .zeri directory structure in current project';
 
@@ -20,6 +20,7 @@ class InitCommand extends Command
         $path = $this->option('path') ?: getcwd();
         $force = $this->option('force');
         $includeRoadmap = $this->option('roadmap');
+        $skipQuestions = $this->option('yes');
         $zeriPath = $path.'/.zeri';
 
         // Validate AI parameter if provided
@@ -52,7 +53,7 @@ class InitCommand extends Command
 
             $this->line('');
 
-            if (! $this->confirm('Do you want to continue and remove these files?', false)) {
+            if (! $skipQuestions && ! $this->confirm('Do you want to continue and remove these files?', false)) {
                 $this->info('Operation cancelled.');
 
                 return 0;
@@ -113,10 +114,24 @@ class InitCommand extends Command
         }
 
         // Gather project information
-        $projectName = $this->ask('Project name', basename($path));
-        $projectDescription = $this->ask('Project description', 'A new project');
-        $techStack = $this->ask('Primary tech stack', 'PHP, Laravel');
-        $currentFocus = $this->ask('Current development focus', 'Initial setup and core features');
+        if ($skipQuestions) {
+            $projectName = basename($path);
+            $projectDescription = 'A new project';
+            $techStack = 'To be defined';
+            $currentFocus = 'Initial setup and core features';
+
+            $this->line('Using default values:');
+            $this->line("  Project name: {$projectName}");
+            $this->line("  Description: {$projectDescription}");
+            $this->line("  Tech stack: {$techStack}");
+            $this->line("  Current focus: {$currentFocus}");
+            $this->line('');
+        } else {
+            $projectName = $this->ask('Project name', basename($path));
+            $projectDescription = $this->ask('Project description', 'A new project');
+            $techStack = $this->ask('Primary tech stack', 'To be defined');
+            $currentFocus = $this->ask('Current development focus', 'Initial setup and core features');
+        }
 
         // Create roadmap section if requested
         $roadmapSection = '';
@@ -141,25 +156,25 @@ class InitCommand extends Command
         $this->createFromStub($path, 'development.md', [
             'PROJECT_NAME' => $projectName,
             // Standards
-            'CODE_STYLE' => 'Follow PSR-12 standards',
-            'NAMING_CONVENTIONS' => 'CamelCase for classes, snake_case for variables',
+            'CODE_STYLE' => 'Follow established code style standards',
+            'NAMING_CONVENTIONS' => 'Consistent naming conventions based on language and framework',
             'FILE_ORGANIZATION' => 'Organize by feature/domain',
-            'DOCUMENTATION_STANDARDS' => 'Use PHPDoc for all public methods',
-            'SECURITY_GUIDELINES' => 'Sanitize all inputs, use prepared statements',
-            'PERFORMANCE_CONSIDERATIONS' => 'Optimize database queries, cache where appropriate',
+            'DOCUMENTATION_STANDARDS' => 'Document all public APIs and complex business logic',
+            'SECURITY_GUIDELINES' => 'Sanitize all inputs, validate data, follow security best practices',
+            'PERFORMANCE_CONSIDERATIONS' => 'Optimize critical paths, cache expensive operations',
             // Decisions
             'RECENT_DECISIONS' => 'Initial technology stack selection',
             'KEY_ARCHITECTURE_DECISIONS' => 'Framework choice, database selection, deployment strategy',
-            'TECHNOLOGY_CHOICES' => $techStack.' - chosen for team expertise and project requirements',
-            'DESIGN_PATTERNS' => 'MVC pattern, Repository pattern for data access',
+            'TECHNOLOGY_CHOICES' => $techStack === 'To be defined' ? 'To be defined - choose based on team expertise and project requirements' : $techStack.' - chosen for team expertise and project requirements',
+            'DESIGN_PATTERNS' => 'Appropriate patterns for the architecture and domain',
             // Patterns
-            'STANDARD_PATTERNS' => 'MVC, Repository, Service Layer patterns',
+            'STANDARD_PATTERNS' => 'Consistent architectural patterns',
             'COMPONENT_PATTERNS' => 'Reusable components, consistent API structure',
-            'DATA_HANDLING_PATTERNS' => 'Eloquent models, validation, serialization',
+            'DATA_HANDLING_PATTERNS' => 'Data models, validation, serialization',
             'ERROR_HANDLING_PATTERNS' => 'Custom exceptions, error logging, user-friendly messages',
-            'TESTING_PATTERNS' => 'Arrange-Act-Assert, test factories, mocking external services',
+            'TESTING_PATTERNS' => 'Arrange-Act-Assert pattern, test data setup, mocking external services',
             'CONFIGURATION_PATTERNS' => 'Environment-based config, feature flags',
-            'PATTERN_EXAMPLES' => 'Service classes for business logic, Resource classes for API responses',
+            'PATTERN_EXAMPLES' => 'Service layer for business logic, data transfer objects for APIs',
             // Workflows
             'DEVELOPMENT_PROCESS' => 'Feature branch workflow with code review',
             'BEFORE_STARTING' => 'Check latest main branch, create feature branch',
