@@ -41,7 +41,8 @@
       "WebSearch",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:help.openai.com)",
-      "Bash(./release.sh:*)"
+      "Bash(./release.sh:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": []
   }
