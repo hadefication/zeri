@@ -18,23 +18,23 @@ DRY_RUN=false
 
 # Print colored output
 print_info() {
-    echo -e "${BLUE}ℹ️  $1${NC}"
+    printf "${BLUE}ℹ️  %s${NC}\n" "$1"
 }
 
 print_success() {
-    echo -e "${GREEN}✅ $1${NC}"
+    printf "${GREEN}✅ %s${NC}\n" "$1"
 }
 
 print_warning() {
-    echo -e "${YELLOW}⚠️  $1${NC}"
+    printf "${YELLOW}⚠️  %s${NC}\n" "$1"
 }
 
 print_error() {
-    echo -e "${RED}❌ $1${NC}"
+    printf "${RED}❌ %s${NC}\n" "$1" >&2
 }
 
 print_dry_run() {
-    echo -e "${PURPLE}🔍 [DRY RUN] $1${NC}"
+    printf "${PURPLE}🔍 [DRY RUN] %s${NC}\n" "$1"
 }
 
 # Check if we're in a clean git state
