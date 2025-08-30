@@ -1,6 +1,6 @@
 # GEMINI DEVELOPMENT INSTRUCTIONS
 
-**GENERATION DATE:** 2025-08-07 02:26:10
+**GENERATION DATE:** 2025-08-30 01:07:31
 
 ## REFERENCED FILES
 
@@ -14,6 +14,8 @@
 
 **ACTIVE SPECIFICATIONS:**
 
+@.zeri/specs/add-codex-openai-support.md
+@.zeri/specs/add-yes-flag-to-init-command.md
 @.zeri/specs/development-md-spec-instructions.md
 @.zeri/specs/fix-gemini-import-warnings.md
 @.zeri/specs/improve-add-spec-generated-file.md

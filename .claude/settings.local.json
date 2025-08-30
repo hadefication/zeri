@@ -37,7 +37,10 @@
       "Bash(../builds/zeri add-spec \"test-new-format\")",
       "Bash(builds/zeri --version)",
       "Bash(./vendor/bin/pint)",
-      "Bash(./vendor/bin/pest tests/Feature/)"
+      "Bash(./vendor/bin/pest tests/Feature/)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:help.openai.com)"
     ],
     "deny": []
   }

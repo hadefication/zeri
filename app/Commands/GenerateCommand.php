@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Generators\ClaudeGenerator;
+use App\Generators\CodexGenerator;
 use App\Generators\CursorGenerator;
 use App\Generators\GeminiGenerator;
 use Illuminate\Console\Scheduling\Schedule;
@@ -12,7 +13,7 @@ use LaravelZero\Framework\Commands\Command;
 class GenerateCommand extends Command
 {
     protected $signature = 'generate 
-                            {ai? : AI type (claude, gemini, cursor, all)} 
+                            {ai? : AI type (claude, gemini, cursor, codex, all)} 
                             {--all : Generate for all AI types}
                             {--path= : Path to project directory}
                             {--force : Force regeneration even if files are up to date}
@@ -21,7 +22,7 @@ class GenerateCommand extends Command
 
     protected $description = 'Generate AI-specific instruction files';
 
-    private array $validAIs = ['claude', 'gemini', 'cursor', 'all'];
+    private array $validAIs = ['claude', 'gemini', 'cursor', 'codex', 'all'];
 
     public function handle()
     {
@@ -124,6 +125,7 @@ class GenerateCommand extends Command
             $generators['Claude'] = new ClaudeGenerator($zeriPath, $outputPath);
             $generators['Gemini'] = new GeminiGenerator($zeriPath, $outputPath);
             $generators['Cursor'] = new CursorGenerator($zeriPath, $outputPath);
+            $generators['Codex'] = new CodexGenerator($zeriPath, $outputPath);
         } else {
             switch ($ai) {
                 case 'claude':
@@ -134,6 +136,9 @@ class GenerateCommand extends Command
                     break;
                 case 'cursor':
                     $generators['Cursor'] = new CursorGenerator($zeriPath, $outputPath);
+                    break;
+                case 'codex':
+                    $generators['Codex'] = new CodexGenerator($zeriPath, $outputPath);
                     break;
             }
         }
