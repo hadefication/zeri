@@ -1,7 +1,7 @@
 # Development Context for Claude
 
 This file provides context for Claude to assist with development tasks.
-Generated on: 2025-08-07 02:00:00
+Generated on: 2025-08-30 01:07:31
 
 ## Referenced Files
 
@@ -13,6 +13,8 @@ Please read the following project files for complete context:
 
 
 **Active Specifications:**
+- [@.zeri/specs/add-codex-openai-support.md](.zeri/specs/add-codex-openai-support.md) - add-codex-openai-support specification
+- [@.zeri/specs/add-yes-flag-to-init-command.md](.zeri/specs/add-yes-flag-to-init-command.md) - add-yes-flag-to-init-command specification
 - [@.zeri/specs/development-md-spec-instructions.md](.zeri/specs/development-md-spec-instructions.md) - development-md-spec-instructions specification
 - [@.zeri/specs/fix-gemini-import-warnings.md](.zeri/specs/fix-gemini-import-warnings.md) - fix-gemini-import-warnings specification
 - [@.zeri/specs/improve-add-spec-generated-file.md](.zeri/specs/improve-add-spec-generated-file.md) - improve-add-spec-generated-file specification
