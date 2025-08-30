@@ -413,8 +413,8 @@ main() {
     echo "  3. Update version in config/app.php ($current_version → $new_version)"
     echo "  4. Build the application"
     echo "  5. Commit version change and create git tag v$new_version"
-    echo "  6. Create GitHub release with binary"
-    echo "  7. Push all changes and tags to remote"
+    echo "  6. Push all changes and tags to remote"
+    echo "  7. Create GitHub release with binary"
     echo ""
     
     if [ "$DRY_RUN" = false ]; then
@@ -438,8 +438,8 @@ main() {
     update_version "$new_version"
     build_application
     create_git_tag "$new_version"
-    create_github_release "$new_version"
     push_changes "$new_version"
+    create_github_release "$new_version"
     
     echo ""
     if [ "$DRY_RUN" = true ]; then
