@@ -37,22 +37,36 @@ print_dry_run() {
     printf "${PURPLE}🔍 [DRY RUN] %s${NC}\n" "$1"
 }
 
-# Check if we're in a clean git state
-check_git_status() {
+# Check git status and commit any changes
+check_and_commit_changes() {
     print_info "Checking git status..."
-    
-    if [ -n "$(git status --porcelain)" ]; then
-        print_error "Working directory is not clean. Please commit or stash changes."
-        git status --short
-        exit 1
-    fi
     
     if [ "$(git branch --show-current)" != "main" ]; then
         print_error "Not on main branch. Please switch to main branch."
         exit 1
     fi
     
-    print_success "Git status is clean and on main branch"
+    # Check if there are uncommitted changes
+    if [ -n "$(git status --porcelain)" ]; then
+        if [ "$DRY_RUN" = true ]; then
+            print_dry_run "Would commit all changes:"
+            git status --short | sed 's/^/    /'
+            print_dry_run "Would run: git add . && git commit -m 'Pre-release commit - prepare for v$1'"
+            return
+        fi
+        
+        print_info "Found uncommitted changes. Committing them..."
+        git status --short | sed 's/^/  /'
+        
+        # Add all changes and commit
+        git add .
+        git commit -m "Pre-release commit - prepare for v$1"
+        print_success "Committed all changes"
+    else
+        print_success "Working directory is clean"
+    fi
+    
+    print_success "Ready for release on main branch"
 }
 
 # Get current version from config/app.php
@@ -394,13 +408,13 @@ main() {
     else
         echo "This will:"
     fi
-    echo "  1. Check git status and branch"
+    echo "  1. Commit any uncommitted changes"
     echo "  2. Run tests and code formatting"
     echo "  3. Update version in config/app.php ($current_version → $new_version)"
     echo "  4. Build the application"
     echo "  5. Commit version change and create git tag v$new_version"
     echo "  6. Create GitHub release with binary"
-    echo "  7. Push changes to remote"
+    echo "  7. Push all changes and tags to remote"
     echo ""
     
     if [ "$DRY_RUN" = false ]; then
@@ -418,7 +432,7 @@ main() {
     echo ""
     
     # Execute release steps
-    check_git_status
+    check_and_commit_changes "$new_version"
     run_tests
     run_formatting
     update_version "$new_version"
