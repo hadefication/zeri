@@ -40,7 +40,8 @@
       "Bash(./vendor/bin/pest tests/Feature/)",
       "WebSearch",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:help.openai.com)"
+      "WebFetch(domain:help.openai.com)",
+      "Bash(./release.sh:*)"
     ],
     "deny": []
   }
