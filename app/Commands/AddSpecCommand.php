@@ -8,7 +8,7 @@ use LaravelZero\Framework\Commands\Command;
 
 class AddSpecCommand extends Command
 {
-    protected $signature = 'add-spec {name : Name of the specification} {--path= : Path to .zeri directory} {--force : Force overwrite if specification already exists}';
+    protected $signature = 'add-spec {name : Name of the specification} {--path= : Path to .zeri directory} {--force : Force overwrite if specification already exists} {--no-branch : Skip git branch creation} {--force-git : Proceed with dirty working directory (auto-stash)}';
 
     protected $description = 'Create a new specification file';
 
@@ -78,12 +78,145 @@ class AddSpecCommand extends Command
 
         File::put($specPath, $content);
 
+        // Handle git branch creation
+        $this->handleGitBranch($specName, $name);
+
         $this->info("✅ Specification '{$name}' created successfully!");
         $this->line("📄 {$specPath}");
         $this->line('');
         $this->line('Edit the specification file to add your requirements and details.');
 
         return 0;
+    }
+
+    private function handleGitBranch($specName, $displayName)
+    {
+        // Skip if --no-branch flag is provided
+        if ($this->option('no-branch')) {
+            return;
+        }
+
+        // Check if this is a git repository
+        if (! $this->isGitRepository()) {
+            return; // Silently skip for non-git projects
+        }
+
+        // Check for dirty working directory
+        if ($this->isWorkingDirectoryDirty()) {
+            if (! $this->option('force-git')) {
+                $this->warn('Working directory has uncommitted changes.');
+                $this->line('Please commit or stash changes before creating a spec branch, or use --force-git to auto-stash.');
+
+                return;
+            } else {
+                // Auto-stash changes
+                $this->stashChanges($specName);
+            }
+        }
+
+        // Create and switch to new branch
+        $branchName = $this->createBranchName($specName);
+        $this->createAndSwitchBranch($branchName, $displayName);
+    }
+
+    private function isGitRepository()
+    {
+        return File::exists(getcwd().'/.git') || $this->runGitCommand('git rev-parse --git-dir') !== null;
+    }
+
+    private function isWorkingDirectoryDirty()
+    {
+        $output = $this->runGitCommand('git status --porcelain');
+
+        return ! empty(trim($output));
+    }
+
+    private function stashChanges($specName)
+    {
+        $datetime = date('Y-M-d g:ia');
+        $message = "zeri add-spec auto-stash: {$specName} at {$datetime}";
+
+        $this->info('Stashing uncommitted changes before creating branch...');
+        $this->runGitCommand("git stash push -m \"{$message}\"");
+        $this->line('To recover stashed changes later, use: git stash pop');
+        $this->line('');
+    }
+
+    private function createBranchName($specName)
+    {
+        $baseBranchName = "feature/{$specName}";
+
+        // Check if branch exists
+        if ($this->branchExists($baseBranchName)) {
+            // Create pretty datetime suffix
+            $datetime = $this->getPrettyDatetime();
+
+            return "{$baseBranchName}-{$datetime}";
+        }
+
+        return $baseBranchName;
+    }
+
+    private function branchExists($branchName)
+    {
+        $output = $this->runGitCommand("git show-ref --verify --quiet refs/heads/{$branchName}");
+
+        return $output !== null;
+    }
+
+    private function getPrettyDatetime()
+    {
+        $year = date('Y');
+        $month = strtolower(date('M'));
+        $day = date('d');
+        $hour = date('g');
+        $minute = $this->roundMinutes(date('i'));
+        $ampm = date('a');
+
+        return "{$year}-{$month}-{$day}-{$hour}{$minute}{$ampm}";
+    }
+
+    private function roundMinutes($minutes)
+    {
+        $min = intval($minutes);
+        if ($min <= 14) {
+            return '00';
+        }
+        if ($min <= 29) {
+            return '15';
+        }
+        if ($min <= 44) {
+            return '30';
+        }
+
+        return '45';
+    }
+
+    private function createAndSwitchBranch($branchName, $displayName)
+    {
+        $this->info("Creating and switching to branch: {$branchName}");
+
+        $output = $this->runGitCommand("git checkout -b {$branchName}");
+        if ($output !== null) {
+            $this->line("✅ Switched to new branch '{$branchName}'");
+        } else {
+            $this->warn("Failed to create branch '{$branchName}'");
+        }
+        $this->line('');
+    }
+
+    private function runGitCommand($command)
+    {
+        $output = [];
+        $returnCode = 0;
+
+        exec($command.' 2>/dev/null', $output, $returnCode);
+
+        if ($returnCode === 0) {
+            return implode("\n", $output);
+        }
+
+        return null;
     }
 
     public function schedule(Schedule $schedule): void
