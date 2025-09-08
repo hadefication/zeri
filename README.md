@@ -273,7 +273,7 @@ Edit the template files in `.zeri/templates/` to customize the format of new spe
 
 ## Development
 
-For development setup, building from source, testing, and contributing guidelines, see [DEVELOPMENT.md](DEVELOPMENT.md).
+For development setup, building from source, testing, and contributing guidelines, see [DEV.md](DEV.md).
 
 ## License
 
@@ -281,7 +281,7 @@ This project is open-sourced software licensed under the [MIT license](LICENSE).
 
 ## Contributing
 
-Contributions are welcome! Please see [DEVELOPMENT.md](DEVELOPMENT.md) for setup instructions and contribution guidelines.
+Contributions are welcome! Please see [DEV.md](DEV.md) for setup instructions and contribution guidelines.
 
 ---
 

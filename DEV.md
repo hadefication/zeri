@@ -45,11 +45,13 @@ For development, use the `php application` command instead of the built `zeri` b
 # Run commands during development
 php application init
 php application generate claude
+php application generate codex
 php application add-spec "test-feature"
 
 # After global installation, use:
 zeri init
 zeri generate claude
+zeri generate codex
 zeri add-spec "test-feature"
 ```
 
@@ -124,6 +126,7 @@ app/
 └── Generators/         # AI file generators
     ├── BaseGenerator.php
     ├── ClaudeGenerator.php
+    ├── CodexGenerator.php
     ├── GeminiGenerator.php
     └── CursorGenerator.php
 ```
@@ -159,6 +162,12 @@ stubs/                  # Template files for generation
 3. **GenerateCommand**: Processes `.zeri/` files through generators
 4. **Generators**: Read source files and apply templates to create AI-specific outputs
 
+Supported AI agents and their output files:
+- **Claude**: `CLAUDE.md`
+- **Gemini**: `GEMINI.md`
+- **Cursor**: `.cursor/rules/zeri.mdc`
+- **Codex (OpenAI Codex CLI)**: `AGENTS.md`
+
 ### Stub System
 
 The application uses a two-level template system:
@@ -183,6 +192,24 @@ zeri add-spec "feature-name"
 ```
 
 This creates a structured specification file in `.zeri/specs/` that should be filled out with requirements, technical design, and implementation details before coding begins.
+
+### Supported AI Agents
+
+Zeri currently supports generating context files for multiple AI agents:
+- `claude` → generates `CLAUDE.md`
+- `gemini` → generates `GEMINI.md`
+- `cursor` → generates `.cursor/rules/zeri.mdc`
+- `codex` → generates `AGENTS.md` for the OpenAI Codex CLI
+
+Generate for a specific agent or all:
+```bash
+php application generate codex
+php application generate all
+
+# Or after install
+zeri generate codex
+zeri generate all
+```
 
 ### Feature Development Workflow
 
@@ -286,6 +313,7 @@ During development, generated files are created in the current directory or spec
 
 - `CLAUDE.md`
 - `GEMINI.md` 
+- `AGENTS.md` (Codex)
 - `.cursor/rules/zeri.mdc`
 
 ### Common Issues
@@ -301,49 +329,49 @@ During development, generated files are created in the current directory or spec
 
 ## Release Process
 
-### Version Management
+We use the `release.sh` script to automate releases end‑to‑end.
 
-Update version in:
-- `config/app.php` - Application version
+### Prerequisites
 
-### Creating Releases
+- On branch `main` and working tree clean (script will commit pending changes).
+- Optional: GitHub CLI `gh` installed and authenticated to auto‑create releases.
+- Make sure `release.sh` is executable: `chmod +x release.sh`.
 
-**IMPORTANT**: Always update version numbers BEFORE building to ensure the binary contains the correct version.
+### Standard Release (Recommended)
 
-1. **Update version numbers first**:
-   ```bash
-   # Edit config/app.php to update 'version' => 'x.y.z'
-   ```
+```bash
+# Interactive mode (choose patch/minor/major/custom)
+./release.sh
 
-2. **Build production PHAR**:
-   ```bash
-   ./build.sh
-   ```
+# Auto‑increment
+./release.sh patch   # 1.7.0 → 1.7.1
+./release.sh minor   # 1.7.0 → 1.8.0
+./release.sh major   # 1.7.0 → 2.0.0
 
-3. **Verify version**:
-   ```bash
-   ./builds/zeri --version  # Should show the updated version
-   ```
+# Set an explicit version
+./release.sh 1.8.5
 
-4. **Commit version change**:
-   ```bash
-   git add config/app.php
-   git commit -m "Bump version to vx.y.z"
-   ```
+# Preview actions without changing anything
+./release.sh patch --dry-run
+```
 
-5. **Create and push Git tag**:
-   ```bash
-   git tag vx.y.z
-   git push origin vx.y.z
-   git push origin main
-   ```
+The script will:
+- Run tests and code formatting.
+- Update `config/app.php` version automatically.
+- Build the PHAR via `./build.sh` (outputs to `builds/zeri`).
+- Commit the version bump and create tag `vX.Y.Z`.
+- Push `main` and the tag.
+- Create a GitHub release and attach `builds/zeri` (skips if `gh` not available).
 
-6. **Create GitHub release**:
-   ```bash
-   gh release create vx.y.z builds/zeri --title "vx.y.z - Release Title" --notes "Release notes..."
-   ```
+After completion, verify with:
+```bash
+./builds/zeri --version
+```
 
-**Common Issue**: If you build first and then update the version, the binary will have the old version number and update verification will fail. Always update `config/app.php` first.
+### Manual Fallback (If Needed)
+
+Only if you cannot use `release.sh`:
+1) Update `config/app.php` version. 2) `./build.sh`. 3) Verify `./builds/zeri --version`. 4) Commit: `git add config/app.php && git commit -m "Bump version to vX.Y.Z"`. 5) Tag and push: `git tag vX.Y.Z && git push origin main && git push origin vX.Y.Z`. 6) Create GitHub release (attach `builds/zeri`).
 
 ## Contributing
 
