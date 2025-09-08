@@ -1,7 +1,7 @@
 # Development Context for OpenAI Codex
 
 This file provides structured context for OpenAI Codex CLI to assist with development tasks.
-Generated on: 2025-08-30 01:07:31
+Generated on: 2025-09-08 12:42:56
 
 ## Project Overview
 
@@ -14,15 +14,6 @@ Please read the following project files for complete context:
 **Core Configuration:**
 - [@.zeri/project.md](.zeri/project.md) - Project overview, tech stack, and architecture
 - [@.zeri/development.md](.zeri/development.md) - Standards, decisions, patterns, and development workflows
-
-
-**Active Specifications:**
-- [@.zeri/specs/add-codex-openai-support.md](.zeri/specs/add-codex-openai-support.md) - add-codex-openai-support specification
-- [@.zeri/specs/add-yes-flag-to-init-command.md](.zeri/specs/add-yes-flag-to-init-command.md) - add-yes-flag-to-init-command specification
-- [@.zeri/specs/development-md-spec-instructions.md](.zeri/specs/development-md-spec-instructions.md) - development-md-spec-instructions specification
-- [@.zeri/specs/fix-gemini-import-warnings.md](.zeri/specs/fix-gemini-import-warnings.md) - fix-gemini-import-warnings specification
-- [@.zeri/specs/improve-add-spec-generated-file.md](.zeri/specs/improve-add-spec-generated-file.md) - improve-add-spec-generated-file specification
-
 
 ---
 
@@ -56,41 +47,37 @@ When creating new features:
 - Write tests alongside implementation
 - Update TODOs in real-time during development
 
+### TODO Creation and Marking Requirements
+
+**When creating specifications, use detailed, actionable TODO items:**
+
+```markdown
+## TODO
+- [ ] Analyze requirements and design implementation approach
+- [ ] Identify files and components that need modification
+- [ ] Implement core functionality following established patterns
+- [ ] Write comprehensive tests for new functionality
+- [ ] Update relevant documentation and help text
+- [ ] Run tests and ensure code formatting compliance
+- [ ] Review implementation against requirements
+- [ ] Mark specification as complete
+```
+
+**TODO Best Practices:**
+- Include specific technical tasks (file modifications, command updates, testing strategies)
+- Reference actual file paths and component names when known
+- Break down complex features into granular, measurable steps
+- Use detailed, actionable descriptions rather than generic steps
+
+**Always mark TODO items as complete when implementing specifications:**
+- Mark checkboxes as `- [x]` when completing each implementation step
+- This helps track progress and manage development workflow
+- Essential for efficient workflow with AI assistance
+- Update TODOs in real-time during implementation, not after completion
+
 ## Code Quality Standards
 
-### Required Actions
-- Run `./vendor/bin/pint` after every PHP file modification
-- Write tests for all new functionality
-- Follow PSR-12 coding standards
-- Use established naming conventions (CamelCase for classes, snake_case for variables)
-- Maintain backward compatibility
-
-### Testing Requirements
-- Feature tests in `tests/Feature/`
-- Unit tests in `tests/Unit/`
-- Use Pest testing framework
-- Run tests with `php application test`
-
-## Build and Development Commands
-
-### Development Commands
-```bash
-# Use during development (not built binary)
-php application init              # Initialize .zeri structure
-php application generate codex    # Generate AGENTS.md from .zeri files
-php application add-spec "name"   # Add new specification
-php application test             # Run tests
-
-# Code quality
-./vendor/bin/pint                # Format code (MANDATORY)
-./vendor/bin/pest                # Run tests
-```
-
-### Build Commands
-```bash
-./build.sh                       # Recommended build method
-php application app:build        # Manual build
-```
+Follow the established coding standards, testing requirements, and development commands outlined in the referenced development.md file.
 
 ## Key Development Notes
 
@@ -99,7 +86,7 @@ php application app:build        # Manual build
 - Generated AI files can be edited but preserve all .zeri/ references
 - Consider performance and security implications
 - Update documentation when making architectural changes
-- Use Laravel Zero patterns for console applications
+- Follow established architectural patterns and frameworks
 
 ---
 *This context file is automatically generated from your .zeri configuration for OpenAI Codex CLI compatibility. Update the source files in .zeri/ to modify this content.*

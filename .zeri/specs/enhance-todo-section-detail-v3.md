@@ -1,33 +1,33 @@
-# Feature Specification: enhance-todo-section-detail
+# Feature Specification: enhance-todo-section-detail-v3
 
 ## Overview
-Enhance the TODO section in generated specification files to be more elaborate and detailed. Currently, the TODO section contains generic steps that don't reflect the actual implementation requirements of each specific feature. This enhancement will make the TODO section more useful by listing detailed, actionable steps that correspond to the actual work needed for each specification.
+Enhance the TODO section in specification files created by AI assistants to be more elaborate and detailed. When AI creates specifications, the TODO section should contain detailed, actionable steps that reflect the actual implementation requirements. Manual `zeri add-spec` usage keeps the simpler default format for user flexibility.
 
 ## Requirements
-- Update the specification template to generate more detailed TODO sections
-- TODO items should reflect the actual implementation steps needed for the feature
-- Include specific technical tasks like file modifications, command updates, testing strategies
-- Maintain the checkbox format for progress tracking by AI assistants
-- Ensure TODO items are actionable and measurable
-- Keep the ability to customize TODO sections for different types of specifications
+- AI assistants should create specifications with detailed, actionable TODO items
+- TODO items should reflect specific implementation steps needed for each feature
+- Include technical tasks like file modifications, command updates, testing strategies  
+- Maintain checkbox format for progress tracking by AI assistants
+- Manual `zeri add-spec` command retains simple default TODO format for user flexibility
 - Preserve backward compatibility with existing specifications
 
 ## Implementation Notes
-- Need to update the stub template at `stubs/templates/spec.md.stub`
-- The template currently uses generic TODO items that don't vary based on the specification content
-- Consider adding placeholder variables that can generate TODO items based on the specification type or requirements
-- May need to update `AddSpecCommand` to provide more detailed TODO generation
-- Should examine existing specifications to identify common implementation patterns
-- The enhanced TODO section should guide developers through the complete implementation lifecycle
+- AI TODO guidelines added to generated AI files (CLAUDE.md, GEMINI.md, cursor-zeri.mdc, AGENTS.md)
+- These files are stable and specifically designed for AI assistant instructions
+- Keep the default `AddSpecCommand` simple for manual user flexibility
+- AI assistants will read the guidelines from their respective context files
+- Guidelines include detailed TODO format examples and best practices
+- Maintain the established checkbox format: `- [ ] Task description`
 
 ## TODO
-- [ ] Analyze existing specifications to identify common implementation patterns
-- [ ] Design a system for generating detailed, spec-specific TODO items
-- [ ] Update the spec template stub file with enhanced TODO format
-- [ ] Modify AddSpecCommand if needed to support detailed TODO generation
-- [ ] Test TODO generation with sample specifications
-- [ ] Ensure TODO items are clear, actionable, and measurable
-- [ ] Verify compatibility with AI assistant workflow expectations
-- [ ] Update any related documentation about specification creation
-- [ ] Review and validate the enhanced TODO format works for different spec types
-- [ ] Mark specification as complete
+- [x] Analyze existing specifications to identify common implementation patterns
+- [x] Design a system for generating detailed, spec-specific TODO items
+- [x] Keep AddSpecCommand simple for manual usage flexibility
+- [x] Add AI TODO guidelines to Claude generator (claude.md.stub)
+- [x] Add AI TODO guidelines to Gemini generator (gemini.md.stub) 
+- [x] Add AI TODO guidelines to Cursor generator (cursor-zeri.mdc.stub)
+- [x] Add AI TODO guidelines to Codex generator (agents.md.stub)
+- [x] Ensure TODO items are clear, actionable, and measurable
+- [x] Verify compatibility with AI assistant workflow expectations
+- [x] Validate the enhanced TODO format works for different spec types
+- [x] Mark specification as complete
