@@ -1,12 +1,12 @@
 # zeri - Project Context
 
 ## Overview
-Zeri is a CLI tool for generating AI assistant context files. Built with Laravel Zero, it creates structured documentation for Claude, Gemini, and Cursor AI assistants with advanced workflow management and specification creation capabilities.
+Zeri is a CLI tool for generating AI assistant context files. Built with Laravel Zero, it creates structured documentation for Claude, Gemini, Cursor, and Codex AI assistants with advanced workflow management and specification creation capabilities.
 
 **Key Features:**
 - Initialize project structure with `.zeri/` directory
 - Generate AI-specific context files from templates with mandatory workflow instructions
-- Support for multiple AI platforms (Claude, Gemini, Cursor) with platform-specific instructions
+- Support for multiple AI platforms (Claude, Gemini, Cursor, Codex) with platform-specific instructions
 - Specification creation workflow with `zeri add-spec` command
 - Self-updating capabilities
 - PHAR distribution for easy installation

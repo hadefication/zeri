@@ -1,6 +1,6 @@
 # GEMINI DEVELOPMENT INSTRUCTIONS
 
-**GENERATION DATE:** 2025-09-08 12:45:03
+**GENERATION DATE:** 2025-09-08 13:16:58
 
 ## REFERENCED FILES
 
@@ -40,11 +40,11 @@
 
 ---
 
-## ⚠️ CRITICAL: SPECIFICATION CREATION PROTOCOL
+## ⚠️ MANDATORY: Specification Creation Rules
 
-**MANDATORY SPECIFICATION RULES - NEVER VIOLATE THESE:**
+**CRITICAL:** When creating new feature specifications, you MUST follow these rules:
 
-### SPECIFICATION CREATION MANDATE
+### Creating Specifications
 **⚠️ MANDATORY: ALWAYS use `zeri add-spec <name>` to create new feature specifications.**
 
 **NEVER MANUALLY CREATE SPECIFICATION FILES. USE THE COMMAND:**
@@ -56,21 +56,21 @@ zeri add-spec "feature-name"
 # This creates .zeri/specs/feature-name.md with the standard template
 ```
 
-### SPECIFICATION WORKFLOW REQUIREMENTS
+### Specification Workflow
 1. **⚠️ REQUIRED: Create Specification**: ALWAYS use `zeri add-spec` command to create structured requirements
 2. **Plan Implementation**: Break down requirements into actionable tasks
 3. **Implement Features**: Follow the TODO checklist step by step
 4. **Mark Progress**: Update TODOs in real-time during development
 5. **Review and Complete**: Ensure all requirements are met
 
-### IMPLEMENTATION PROCESS MANDATES
+### Implementation Process Rules
 - **MANDATORY**: Always use `zeri add-spec` command - NEVER manually create .md files in .zeri/specs/
 - ALWAYS start with a specification for non-trivial features
 - BREAK complex features into smaller, manageable tasks
 - FOLLOW established coding patterns and conventions
 - WRITE tests alongside implementation
 
-### ⚠️ TODO CREATION AND MARKING REQUIREMENTS
+### ⚠️ Important: TODO Creation and Marking Requirements
 
 **WHEN CREATING SPECIFICATIONS, USE DETAILED, ACTIONABLE TODO ITEMS:**
 

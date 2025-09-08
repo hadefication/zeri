@@ -8,18 +8,16 @@ alwaysApply: true
 @.zeri/project.md
 @.zeri/development.md
 
-# Development Rules
+# Instructions for Cursor
 
-{{TECH_STACK_RULE}}{{CODE_STYLE_RULES}}
-- Write comprehensive tests for all new features
-- Follow security best practices
-- Optimize for performance and maintainability
-- Use meaningful variable and function names
-- Include proper error handling
+When working on this project:
 
-# Development Workflow
-
-{{FILE_ORGANIZATION_SECTION}}**CRITICAL:** Only implement or start coding when files in .zeri/specs are referenced - Do not write code without specific feature specifications.
+1. **Follow the established patterns** described in the development practices
+2. **Adhere to coding standards** outlined in the referenced files
+3. **Consider architectural decisions** when proposing changes
+4. **Follow the development workflow** for implementation steps
+5. **Reference active specifications** for feature-specific requirements
+6. **ONLY implement or start coding when files in .zeri/specs are referenced** - Do not write code without specific feature specifications
 
 ## ⚠️ MANDATORY: Specification Creation Rules
 
@@ -83,17 +81,12 @@ zeri add-spec "feature-name"
 - Primarily edit files in the .zeri/ directory - NEVER remove zeri file references from generated AI files (CLAUDE.md, GEMINI.md, cursor-zeri.mdc)
 - Generated AI files can be edited but preserve all .zeri/ file references and mandatory instructions
 
-## Process Steps
-1. Create feature branch
-2. Write failing tests
-3. Implement feature
-4. Ensure tests pass
-5. Code review
-6. Merge to main
+## Key Reminders
 
-## Testing Requirements
-- Unit tests for business logic
-- Integration tests for API endpoints
-- Feature tests for user workflows
-
-{{COMMON_PATTERNS_SECTION}}{{CURRENT_WORK_SECTION}}
+- Primarily edit files in the .zeri/ directory - NEVER remove zeri file references from generated AI files (CLAUDE.md, GEMINI.md, cursor-zeri.mdc)
+- Generated AI files can be edited but preserve all .zeri/ file references and mandatory instructions
+- Always write tests for new functionality
+- Follow the established code review process
+- Consider performance and security implications
+- Update documentation when making architectural changes
+- Communicate clearly about implementation decisions

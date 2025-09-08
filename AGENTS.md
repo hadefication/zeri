@@ -1,7 +1,7 @@
 # Development Context for OpenAI Codex
 
 This file provides structured context for OpenAI Codex CLI to assist with development tasks.
-Generated on: 2025-09-08 12:42:56
+Generated on: 2025-09-08 13:16:03
 
 ## Project Overview
 
@@ -28,26 +28,37 @@ When working on this project:
 5. **Reference active specifications** for feature-specific requirements
 6. **ONLY implement when specifications are referenced** - Do not write code without specific feature specifications
 
-## Code Development Rules
+## ⚠️ MANDATORY: Specification Creation Rules
+
+**CRITICAL:** When creating new feature specifications, you MUST follow these rules:
+
+### Creating Specifications
+**⚠️ MANDATORY: Always use `zeri add-spec <name>` to create new feature specifications.**
+
+**DO NOT manually create specification files. Use the command:**
+
+```bash
+# Create a new specification
+zeri add-spec "feature-name"
+
+# This creates .zeri/specs/feature-name.md with the standard template
+```
 
 ### Specification Workflow
-When creating new features:
-
-1. **Create Specification**: Use `zeri add-spec "feature-name"` command
+1. **⚠️ REQUIRED: Create Specification**: ALWAYS use `zeri add-spec` command to create structured requirements
 2. **Plan Implementation**: Break down requirements into actionable tasks
 3. **Implement Features**: Follow the TODO checklist step by step
-4. **Mark Progress**: Update TODOs as `- [x]` when completing steps
+4. **Mark Progress**: Update TODOs in real-time during development
 5. **Review and Complete**: Ensure all requirements are met
 
-### Implementation Process
-- Always use `zeri add-spec` command for new feature specifications
-- Start with a specification for non-trivial features
+### Implementation Process Rules
+- **MANDATORY**: Always use `zeri add-spec` command - never manually create .md files in .zeri/specs/
+- Always start with a specification for non-trivial features
 - Break complex features into smaller, manageable tasks
 - Follow established coding patterns and conventions
 - Write tests alongside implementation
-- Update TODOs in real-time during development
 
-### TODO Creation and Marking Requirements
+### ⚠️ Important: TODO Creation and Marking Requirements
 
 **When creating specifications, use detailed, actionable TODO items:**
 

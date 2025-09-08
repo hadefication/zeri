@@ -1,6 +1,6 @@
 # Zeri CLI
 
-A CLI tool for managing AI development contexts. Zeri helps developers create and maintain AI-specific instruction files for their projects, generating optimized context files for Claude, Gemini, and Cursor IDE integration.
+A CLI tool for managing AI development contexts. Zeri helps developers create and maintain AI-specific instruction files for their projects, generating optimized context files for Claude, Gemini, Cursor, and Codex AI assistants.
 
 ## Why Zeri?
 
@@ -76,6 +76,7 @@ zeri generate all
 zeri generate claude
 zeri generate gemini
 zeri generate cursor
+zeri generate codex
 ```
 
 Once the files are generated, you can share them with your AI assistant (Claude, Gemini, etc.) to help you fill in project-specific details, brainstorm feature specifications, or enhance your project documentation with context-aware suggestions.
@@ -90,7 +91,7 @@ zeri init [ai] [--path=/path/to/project] [--force]
 ```
 
 **Arguments:**
-- `ai`: Optional AI type to auto-generate after init (`claude`, `gemini`, `cursor`, or `all`)
+- `ai`: Optional AI type to auto-generate after init (`claude`, `gemini`, `cursor`, `codex`, or `all`)
 
 **Options:**
 - `--path`: Specify a different directory (default: current directory)
@@ -131,7 +132,7 @@ zeri generate <ai> [options]
 ```
 
 **Arguments:**
-- `ai`: AI type (`claude`, `gemini`, `cursor`, or `all`)
+- `ai`: AI type (`claude`, `gemini`, `cursor`, `codex`, or `all`)
 
 **Options:**
 - `--path`: Specify project directory
@@ -222,6 +223,9 @@ Directive, action-oriented format with clear rules and protocols optimized for G
 
 Concise .mdc format optimized for Cursor IDE integration with proper metadata headers. This file serves as Cursor's primary context reference.
 
+### Codex (AGENTS.md)
+Structured context file optimized for OpenAI Codex CLI's "Memory with project docs" functionality. This file serves as Codex's primary context reference with clear development instructions and project context.
+
 ## Examples
 
 ### Basic Workflow
@@ -245,6 +249,7 @@ zeri add-spec "payment-processing"
 # - Copy CLAUDE.md content when working with Claude
 # - Copy GEMINI.md content when working with Gemini  
 # - Cursor will automatically use .cursor/rules/zeri.mdc file
+# - Codex CLI will use AGENTS.md for memory and project context
 ```
 
 ### Working with Different Projects
