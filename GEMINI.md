@@ -1,6 +1,6 @@
 # GEMINI DEVELOPMENT INSTRUCTIONS
 
-**GENERATION DATE:** 2025-08-30 01:07:31
+**GENERATION DATE:** 2025-09-08 12:45:03
 
 ## REFERENCED FILES
 
@@ -10,16 +10,6 @@
 
 @.zeri/project.md
 @.zeri/development.md
-
-
-**ACTIVE SPECIFICATIONS:**
-
-@.zeri/specs/add-codex-openai-support.md
-@.zeri/specs/add-yes-flag-to-init-command.md
-@.zeri/specs/development-md-spec-instructions.md
-@.zeri/specs/fix-gemini-import-warnings.md
-@.zeri/specs/improve-add-spec-generated-file.md
-
 
 ---
 
@@ -80,9 +70,29 @@ zeri add-spec "feature-name"
 - FOLLOW established coding patterns and conventions
 - WRITE tests alongside implementation
 
-### ⚠️ TODO MARKING REQUIREMENTS
-**ALWAYS mark TODO items as complete when implementing specifications in `.zeri/specs/`:**
+### ⚠️ TODO CREATION AND MARKING REQUIREMENTS
 
+**WHEN CREATING SPECIFICATIONS, USE DETAILED, ACTIONABLE TODO ITEMS:**
+
+```markdown
+## TODO
+- [ ] Analyze requirements and design implementation approach
+- [ ] Identify files and components that need modification
+- [ ] Implement core functionality following established patterns
+- [ ] Write comprehensive tests for new functionality
+- [ ] Update relevant documentation and help text
+- [ ] Run tests and ensure code formatting compliance
+- [ ] Review implementation against requirements
+- [ ] Mark specification as complete
+```
+
+**TODO BEST PRACTICES:**
+- INCLUDE specific technical tasks (file modifications, command updates, testing strategies)
+- REFERENCE actual file paths and component names when known
+- BREAK DOWN complex features into granular, measurable steps
+- USE detailed, actionable descriptions rather than generic steps
+
+**ALWAYS MARK TODO ITEMS AS COMPLETE WHEN IMPLEMENTING SPECIFICATIONS:**
 - MARK checkboxes as `- [x]` when completing each implementation step
 - THIS helps track progress and manage AI assistant usage limits
 - ESSENTIAL for efficient development workflow with AI assistance

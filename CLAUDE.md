@@ -1,7 +1,7 @@
 # Development Context for Claude
 
 This file provides context for Claude to assist with development tasks.
-Generated on: 2025-08-30 01:07:31
+Generated on: 2025-09-08 12:42:48
 
 ## Referenced Files
 
@@ -10,15 +10,6 @@ Please read the following project files for complete context:
 **Core Configuration:**
 - [@.zeri/project.md](.zeri/project.md) - Project overview, tech stack, and architecture
 - [@.zeri/development.md](.zeri/development.md) - Standards, decisions, patterns, and development workflows
-
-
-**Active Specifications:**
-- [@.zeri/specs/add-codex-openai-support.md](.zeri/specs/add-codex-openai-support.md) - add-codex-openai-support specification
-- [@.zeri/specs/add-yes-flag-to-init-command.md](.zeri/specs/add-yes-flag-to-init-command.md) - add-yes-flag-to-init-command specification
-- [@.zeri/specs/development-md-spec-instructions.md](.zeri/specs/development-md-spec-instructions.md) - development-md-spec-instructions specification
-- [@.zeri/specs/fix-gemini-import-warnings.md](.zeri/specs/fix-gemini-import-warnings.md) - fix-gemini-import-warnings specification
-- [@.zeri/specs/improve-add-spec-generated-file.md](.zeri/specs/improve-add-spec-generated-file.md) - improve-add-spec-generated-file specification
-
 
 ---
 
@@ -64,9 +55,29 @@ zeri add-spec "feature-name"
 - Follow established coding patterns and conventions
 - Write tests alongside implementation
 
-### ⚠️ Important: TODO Marking Requirements
-**ALWAYS mark TODO items as complete when implementing specifications in `.zeri/specs/`:**
+### ⚠️ Important: TODO Creation and Marking Requirements
 
+**When creating specifications, use detailed, actionable TODO items:**
+
+```markdown
+## TODO
+- [ ] Analyze requirements and design implementation approach
+- [ ] Identify files and components that need modification
+- [ ] Implement core functionality following established patterns
+- [ ] Write comprehensive tests for new functionality
+- [ ] Update relevant documentation and help text
+- [ ] Run tests and ensure code formatting compliance
+- [ ] Review implementation against requirements
+- [ ] Mark specification as complete
+```
+
+**TODO Best Practices:**
+- Include specific technical tasks (file modifications, command updates, testing strategies)
+- Reference actual file paths and component names when known
+- Break down complex features into granular, measurable steps
+- Use detailed, actionable descriptions rather than generic steps
+
+**ALWAYS mark TODO items as complete when implementing specifications:**
 - Mark checkboxes as `- [x]` when completing each implementation step
 - This helps track progress and manage AI assistant usage limits
 - Essential for efficient development workflow with AI assistance

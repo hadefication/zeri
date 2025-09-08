@@ -11,8 +11,6 @@ Please read the following project files for complete context:
 - [@.zeri/project.md](.zeri/project.md) - Project overview, tech stack, and architecture
 - [@.zeri/development.md](.zeri/development.md) - Standards, decisions, patterns, and development workflows
 
-{{ACTIVE_SPECIFICATIONS_REFERENCES}}
-
 ---
 
 ## Instructions for Claude
@@ -57,9 +55,29 @@ zeri add-spec "feature-name"
 - Follow established coding patterns and conventions
 - Write tests alongside implementation
 
-### ⚠️ Important: TODO Marking Requirements
-**ALWAYS mark TODO items as complete when implementing specifications in `.zeri/specs/`:**
+### ⚠️ Important: TODO Creation and Marking Requirements
 
+**When creating specifications, use detailed, actionable TODO items:**
+
+```markdown
+## TODO
+- [ ] Analyze requirements and design implementation approach
+- [ ] Identify files and components that need modification
+- [ ] Implement core functionality following established patterns
+- [ ] Write comprehensive tests for new functionality
+- [ ] Update relevant documentation and help text
+- [ ] Run tests and ensure code formatting compliance
+- [ ] Review implementation against requirements
+- [ ] Mark specification as complete
+```
+
+**TODO Best Practices:**
+- Include specific technical tasks (file modifications, command updates, testing strategies)
+- Reference actual file paths and component names when known
+- Break down complex features into granular, measurable steps
+- Use detailed, actionable descriptions rather than generic steps
+
+**ALWAYS mark TODO items as complete when implementing specifications:**
 - Mark checkboxes as `- [x]` when completing each implementation step
 - This helps track progress and manage AI assistant usage limits
 - Essential for efficient development workflow with AI assistance

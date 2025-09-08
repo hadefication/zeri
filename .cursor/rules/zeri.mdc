@@ -8,12 +8,6 @@ alwaysApply: true
 @.zeri/project.md
 @.zeri/development.md
 
-@.zeri/specs/add-codex-openai-support.md
-@.zeri/specs/add-yes-flag-to-init-command.md
-@.zeri/specs/development-md-spec-instructions.md
-@.zeri/specs/fix-gemini-import-warnings.md
-@.zeri/specs/improve-add-spec-generated-file.md
-
 # Development Rules
 
 - Use - PHP 8.2+ as primary technology stack
@@ -68,9 +62,29 @@ zeri add-spec "feature-name"
 - Follow established coding patterns and conventions
 - Write tests alongside implementation
 
-### ⚠️ Important: TODO Marking Requirements
-**ALWAYS mark TODO items as complete when implementing specifications in `.zeri/specs/`:**
+### ⚠️ Important: TODO Creation and Marking Requirements
 
+**When creating specifications, use detailed, actionable TODO items:**
+
+```markdown
+## TODO
+- [ ] Analyze requirements and design implementation approach
+- [ ] Identify files and components that need modification
+- [ ] Implement core functionality following established patterns
+- [ ] Write comprehensive tests for new functionality
+- [ ] Update relevant documentation and help text
+- [ ] Run tests and ensure code formatting compliance
+- [ ] Review implementation against requirements
+- [ ] Mark specification as complete
+```
+
+**TODO Best Practices:**
+- Include specific technical tasks (file modifications, command updates, testing strategies)
+- Reference actual file paths and component names when known
+- Break down complex features into granular, measurable steps
+- Use detailed, actionable descriptions rather than generic steps
+
+**ALWAYS mark TODO items as complete when implementing specifications:**
 - Mark checkboxes as `- [x]` when completing each implementation step
 - This helps track progress and manage AI assistant usage limits
 - Essential for efficient development workflow with AI assistance
@@ -104,6 +118,8 @@ zeri add-spec "feature-name"
 Active specifications:
 - add-codex-openai-support: Add support for OpenAI Codex AI assistant by creating a new generator that produces context files optimized for Codex's code understanding and generation capabilities. This extends zeri's multi-AI platform support to include OpenAI's Codex model.
 - add-yes-flag-to-init-command: Add a `--yes` flag to the `init` command to skip all interactive questions and use default values. This feature improves automation capabilities and allows for scripting the initialization process without requiring user interaction.
+- create-git-branch-for-specs: Enhance the `add-spec` command to automatically create and switch to a new git branch when adding a new specification. This improves the development workflow by establishing a feature branch for implementing the specification, following git flow best practices.
 - development-md-spec-instructions: Enhance the generated development.md file to include instructions for working with specifications when using `zeri add-spec`. This will provide clear guidance to developers on how to properly create and manage specifications in the `.zeri/specs/` directory.
+- enhance-todo-section-detail-v3: Enhance the TODO section in specification files created by AI assistants to be more elaborate and detailed. When AI creates specifications, the TODO section should contain detailed, actionable steps that reflect the actual implementation requirements. Manual `zeri add-spec` usage keeps the simpler default format for user flexibility.
 - fix-gemini-import-warnings: Fix the import processor warnings in the Gemini generator that occur when attempting to import .md files. The warnings indicate that the import processor only supports .md files but is receiving file references with .md extensions in the link format [file.md](file.md), which it's interpreting as non-md files.
 - improve-add-spec-generated-file: Revamp the add-spec command to generate lean, focused specification files with a TODO section that can be marked as complete by AI assistants once implemented. Replace verbose template with essential sections only.
