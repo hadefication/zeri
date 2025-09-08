@@ -8,7 +8,7 @@ use LaravelZero\Framework\Commands\Command;
 
 class AddSpecCommand extends Command
 {
-    protected $signature = 'add-spec {name : Name of the specification} {--path= : Path to .zeri directory} {--force : Force overwrite if specification already exists} {--no-branch : Skip git branch creation} {--force-git : Proceed with dirty working directory (auto-stash)}';
+    protected $signature = 'add-spec {name : Name of the specification} {--path= : Path to .zeri directory} {--force : Force overwrite existing specs and proceed with dirty working directory} {--no-branch : Skip git branch creation}';
 
     protected $description = 'Create a new specification file';
 
@@ -103,14 +103,14 @@ class AddSpecCommand extends Command
 
         // Check for dirty working directory
         if ($this->isWorkingDirectoryDirty()) {
-            if (! $this->option('force-git')) {
+            if (! $this->option('force')) {
                 $this->warn('Working directory has uncommitted changes.');
-                $this->line('Please commit or stash changes before creating a spec branch, or use --force-git to auto-stash.');
+                $this->line('Please commit changes before creating a spec branch, or use --force to create a WIP branch with your changes.');
 
                 return;
             } else {
-                // Auto-stash changes
-                $this->stashChanges($specName);
+                // Create WIP branch and commit changes
+                $this->createWipBranch($specName, $displayName);
             }
         }
 
@@ -131,14 +131,30 @@ class AddSpecCommand extends Command
         return ! empty(trim($output));
     }
 
-    private function stashChanges($specName)
+    private function createWipBranch($specName, $displayName)
     {
-        $datetime = date('Y-M-d g:ia');
-        $message = "zeri add-spec auto-stash: {$specName} at {$datetime}";
+        $datetime = $this->getPrettyDatetime();
+        $wipBranchName = "wip-{$datetime}";
+        $message = "WIP: Auto-commit for {$displayName} spec creation at {$datetime}";
 
-        $this->info('Stashing uncommitted changes before creating branch...');
-        $this->runGitCommand("git stash push -m \"{$message}\"");
-        $this->line('To recover stashed changes later, use: git stash pop');
+        // Get current branch name
+        $currentBranch = trim($this->runGitCommand('git branch --show-current'));
+
+        $this->info("Creating WIP branch '{$wipBranchName}' with uncommitted changes...");
+
+        // Create and switch to WIP branch
+        $this->runGitCommand("git checkout -b {$wipBranchName}");
+
+        // Add all changes and commit
+        $this->runGitCommand('git add .');
+        $this->runGitCommand("git commit -m \"{$message}\"");
+
+        // Switch back to original branch
+        if (! empty($currentBranch)) {
+            $this->runGitCommand("git checkout {$currentBranch}");
+        }
+
+        $this->line("Your changes are saved in branch '{$wipBranchName}'. Switch back with: git checkout {$wipBranchName}");
         $this->line('');
     }
 
