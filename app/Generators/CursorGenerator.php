@@ -39,5 +39,4 @@ class CursorGenerator extends BaseGenerator
         // Use simple template approach like other generators
         return $this->createFromStub('cursor-zeri.mdc.stub', []);
     }
-
 }
