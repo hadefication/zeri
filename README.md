@@ -117,12 +117,13 @@ zeri init claude --force
 Create a new feature specification file.
 
 ```bash
-zeri add-spec "feature-name" [--path=/path/to/project] [--force]
+zeri add-spec "feature-name" [--path=/path/to/project] [--force] [--no-branch]
 ```
 
 **Options:**
 - `--path`: Specify a different project directory
 - `--force`: Overwrite existing specification with confirmation
+- `--no-branch`: Skip git branch creation (useful for fix branches or custom branch names)
 
 ### `generate <ai>`
 Generate AI-specific instruction files.
