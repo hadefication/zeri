@@ -76,10 +76,13 @@ class AddSpecCommand extends Command
             $content = str_replace($placeholder, $processedValue, $content);
         }
 
-        File::put($specPath, $content);
+        // Handle git branch creation before creating the file
+        $branchCreated = $this->handleGitBranch($specName, $name);
+        if ($branchCreated === false) {
+            return 1; // Exit if branch creation failed due to uncommitted changes
+        }
 
-        // Handle git branch creation
-        $this->handleGitBranch($specName, $name);
+        File::put($specPath, $content);
 
         $this->info("✅ Specification '{$name}' created successfully!");
         $this->line("📄 {$specPath}");
@@ -93,12 +96,12 @@ class AddSpecCommand extends Command
     {
         // Skip if --no-branch flag is provided
         if ($this->option('no-branch')) {
-            return;
+            return true;
         }
 
         // Check if this is a git repository
         if (! $this->isGitRepository()) {
-            return; // Silently skip for non-git projects
+            return true; // Silently skip for non-git projects
         }
 
         // Check for dirty working directory
@@ -107,7 +110,7 @@ class AddSpecCommand extends Command
                 $this->warn('Working directory has uncommitted changes.');
                 $this->line('Please commit changes before creating a spec branch, or use --force to create a WIP branch with your changes.');
 
-                return;
+                return false; // Return false to prevent spec file creation
             } else {
                 // Create WIP branch and commit changes
                 $this->createWipBranch($specName, $displayName);
@@ -117,6 +120,8 @@ class AddSpecCommand extends Command
         // Create and switch to new branch
         $branchName = $this->createBranchName($specName);
         $this->createAndSwitchBranch($branchName, $displayName);
+
+        return true;
     }
 
     private function isGitRepository()
