@@ -47,7 +47,7 @@ it('can add a specification file', function () {
         ->assertSuccessful();
 
     // Then add spec
-    $this->artisan('add-spec', ['name' => 'test-feature', '--path' => $testDir])
+    $this->artisan('add-spec', ['name' => 'test-feature', '--path' => $testDir, '--no-branch' => true])
         ->expectsQuestion('Brief overview of this feature', 'A test feature')
         ->expectsOutput("✅ Specification 'test-feature' created successfully!")
         ->assertSuccessful();

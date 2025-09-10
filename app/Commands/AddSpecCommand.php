@@ -8,7 +8,7 @@ use LaravelZero\Framework\Commands\Command;
 
 class AddSpecCommand extends Command
 {
-    protected $signature = 'add-spec {name : Name of the specification} {--path= : Path to .zeri directory} {--force : Force overwrite existing specs and proceed with dirty working directory} {--no-branch : Skip git branch creation}';
+    protected $signature = 'add-spec {name : Name of the specification} {--path= : Path to .zeri directory} {--force : Force overwrite existing specs and proceed with dirty working directory} {--no-branch : Skip git branch creation} {--branch-prefix=feature/ : The prefix for the git branch}';
 
     protected $description = 'Create a new specification file';
 
@@ -165,7 +165,8 @@ class AddSpecCommand extends Command
 
     private function createBranchName($specName)
     {
-        $baseBranchName = "feature/{$specName}";
+        $prefix = $this->option('branch-prefix');
+        $baseBranchName = "{$prefix}{$specName}";
 
         // Check if branch exists
         if ($this->branchExists($baseBranchName)) {
