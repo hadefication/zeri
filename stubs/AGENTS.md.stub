@@ -28,14 +28,9 @@ When working on this project:
 5. **Reference active specifications** for feature-specific requirements
 6. **ONLY implement when specifications are referenced** - Do not write code without specific feature specifications
 
-## ⚠️ MANDATORY: Specification Creation Rules
+## ⚠️ Specification Workflow
 
-**CRITICAL:** When creating new feature specifications, you MUST follow these rules:
-
-### Creating Specifications
-**⚠️ MANDATORY: Always use `zeri add-spec <name>` to create new feature specifications.**
-
-**DO NOT manually create specification files. Use the command:**
+**Always use `zeri add-spec <name>` to create new feature specifications—never create these files manually.**
 
 ```bash
 # Create a new specification
@@ -44,24 +39,21 @@ zeri add-spec "feature-name"
 # This creates .zeri/specs/feature-name.md with the standard template
 ```
 
-### Specification Workflow
-1. **⚠️ REQUIRED: Create Specification**: ALWAYS use `zeri add-spec` command to create structured requirements
-2. **Plan Implementation**: Break down requirements into actionable tasks
-3. **Implement Features**: Follow the TODO checklist step by step
-4. **Mark Progress**: Update TODOs in real-time during development
-5. **Review and Complete**: Ensure all requirements are met
+Follow this process every time:
+1. Run the command above to create the specification.
+2. Plan the implementation by breaking requirements into actionable tasks.
+3. Implement work step by step, updating the TODO checklist in real time.
+4. Mark each TODO item as soon as its implementation step finishes using `- [x]`.
+5. Review the specification with the user, confirm it is complete, and explicitly ask whether it is ready for implementation before writing code.
 
-### Implementation Process Rules
-- **MANDATORY**: Always use `zeri add-spec` command - never manually create .md files in .zeri/specs/
-- Always start with a specification for non-trivial features
-- Break complex features into smaller, manageable tasks
-- Follow established coding patterns and conventions
-- Write tests alongside implementation
+**Critical Reminders**
+- Do not implement any specification unless the user explicitly instructs you to begin coding.
+- When generating or revising specs as an AI assistant, ensure the specification is complete and ask the user if it is ready for implementation.
+- Keep all actionable tasks inside the TODO section; keep Overview, Requirements, and Implementation Notes descriptive only.
+- Maintain detailed TODO entries so progress survives token limits or session resets.
+- Update TODOs in real time—mark each checkbox immediately after its implementation step finishes so progress is never batched at the end.
 
-### ⚠️ Important: TODO Creation and Marking Requirements
-
-**When creating specifications, use detailed, actionable TODO items:**
-
+**TODO Best Practices**
 ```markdown
 ## TODO
 - [ ] Analyze requirements and design implementation approach
@@ -73,18 +65,6 @@ zeri add-spec "feature-name"
 - [ ] Review implementation against requirements
 - [ ] Mark specification as complete
 ```
-
-**TODO Best Practices:**
-- Include specific technical tasks (file modifications, command updates, testing strategies)
-- Reference actual file paths and component names when known
-- Break down complex features into granular, measurable steps
-- Use detailed, actionable descriptions rather than generic steps
-
-**Always mark TODO items as complete when implementing specifications:**
-- Mark checkboxes as `- [x]` when completing each implementation step
-- This helps track progress and manage development workflow
-- Essential for efficient workflow with AI assistance
-- Update TODOs in real-time during implementation, not after completion
 
 ## Code Quality Standards
 

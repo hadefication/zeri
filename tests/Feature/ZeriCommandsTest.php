@@ -76,12 +76,38 @@ it('can generate AI files', function () {
         ->expectsOutput('✅ Generated: CLAUDE.md')
         ->expectsOutput('✅ Generated: GEMINI.md')
         ->expectsOutput('✅ Generated: .cursor/rules/zeri.mdc')
+        ->expectsOutput('✅ Generated: AGENTS.md')
         ->assertSuccessful();
 
     // Verify files were created
-    expect(File::exists($testDir.'/CLAUDE.md'))->toBeTrue();
-    expect(File::exists($testDir.'/GEMINI.md'))->toBeTrue();
-    expect(File::exists($testDir.'/.cursor/rules/zeri.mdc'))->toBeTrue();
+    $claudePath = $testDir.'/CLAUDE.md';
+    $geminiPath = $testDir.'/GEMINI.md';
+    $codexPath = $testDir.'/AGENTS.md';
+    $cursorPath = $testDir.'/.cursor/rules/zeri.mdc';
+
+    expect(File::exists($claudePath))->toBeTrue();
+    expect(File::exists($geminiPath))->toBeTrue();
+    expect(File::exists($codexPath))->toBeTrue();
+    expect(File::exists($cursorPath))->toBeTrue();
+
+    $pattern = '/## ⚠️ Specification Workflow\s+.*?\*\*TODO Best Practices\*\*\s+```markdown\s+## TODO.*?```/s';
+
+    expect(preg_match($pattern, File::get($claudePath), $claudeMatches))->toBe(1);
+    expect(preg_match($pattern, File::get($geminiPath), $geminiMatches))->toBe(1);
+    expect(preg_match($pattern, File::get($codexPath), $codexMatches))->toBe(1);
+    expect(preg_match($pattern, File::get($cursorPath), $cursorMatches))->toBe(1);
+
+    $claudeBlock = trim($claudeMatches[0]);
+    $geminiBlock = trim($geminiMatches[0]);
+    $codexBlock = trim($codexMatches[0]);
+    $cursorBlock = trim($cursorMatches[0]);
+
+    expect($claudeBlock)->toBe($geminiBlock);
+    expect($claudeBlock)->toBe($codexBlock);
+    expect($claudeBlock)->toBe($cursorBlock);
+    expect($claudeBlock)->toContain('Always use `zeri add-spec <name>` to create new feature specifications—never create these files manually.');
+    expect($claudeBlock)->toContain('Do not implement any specification unless the user explicitly instructs you to begin coding.');
+    expect($claudeBlock)->toContain('Update TODOs in real time—mark each checkbox immediately after its implementation step finishes so progress is never batched at the end.');
 
     // Cleanup
     File::deleteDirectory($testDir);
