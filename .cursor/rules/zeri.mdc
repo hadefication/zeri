@@ -30,16 +30,62 @@ zeri add-spec "feature-name"
 # This creates .zeri/specs/feature-name.md with the standard template
 ```
 
-Follow this process every time:
-1. Run the command above to create the specification.
-2. Plan the implementation by breaking requirements into actionable tasks.
-3. Implement work step by step, updating the TODO checklist in real time.
-4. Mark each TODO item as soon as its implementation step finishes using `- [x]`.
-5. Review the specification with the user, confirm it is complete, and explicitly ask whether it is ready for implementation before writing code.
+### Intelligent Spec Creation Process
+
+When a user requests to create a specification, you MUST follow this process:
+
+1. **Assess Completeness**: Analyze the user's request to determine if it contains sufficient detail for a complete specification.
+
+2. **Ask Targeted Follow-up Questions**: If the request is incomplete, ask clarifying questions ONLY about missing information. Reference `.zeri/project.md` and `.zeri/development.md` to ask relevant questions based on project context.
+
+   **Question Categories (ask only what's missing):**
+
+   - **Technical Requirements** (if not specified):
+     - What frameworks, libraries, or dependencies are involved?
+     - What versions or compatibility requirements exist?
+     - Are there any third-party integrations?
+
+   - **Architecture** (if not specified):
+     - What design patterns should be followed?
+     - What existing components need modification?
+     - How does this integrate with existing systems?
+     - What files or directories will be affected?
+
+   - **Scope** (if ambiguous):
+     - What features are in/out of scope for this implementation?
+     - Are there any edge cases to consider?
+     - What's the expected user workflow?
+
+   - **Testing** (if not mentioned):
+     - What types of tests are needed (unit, integration, e2e)?
+     - What should the test coverage include?
+     - Are there specific test scenarios to cover?
+
+   - **Performance & Security** (if relevant):
+     - Are there performance requirements or constraints?
+     - What security considerations apply?
+     - Are there any data privacy concerns?
+
+   - **Implementation Details** (if unclear):
+     - Should this follow any existing patterns in the codebase?
+     - Are there any compatibility requirements with existing features?
+     - What's the expected timeline or priority?
+
+3. **Iterative Dialogue**: Continue asking follow-up questions based on user answers until you have gathered sufficient information for a complete specification.
+
+4. **Create Specification**: Once you have comprehensive information, run `zeri add-spec "feature-name"` and populate ALL sections with detailed content based on the gathered information.
+
+5. **Plan Implementation**: Break requirements into actionable tasks in the TODO section.
+
+6. **Update TODOs in Real Time**: Mark each TODO item as soon as its implementation step finishes using `- [x]`.
+
+7. **Review Before Coding**: Confirm the specification is complete with the user and explicitly ask whether it is ready for implementation before writing code.
 
 **Critical Reminders**
 - Do not implement any specification unless the user explicitly instructs you to begin coding.
-- When generating or revising specs as an AI assistant, ensure the specification is complete and ask the user if it is ready for implementation.
+- When user's request is vague (e.g., "add a new feature"), you MUST ask clarifying questions before creating the spec.
+- When user's request is detailed, you may proceed directly to creating the spec without unnecessary questions.
+- Populate the specification with comprehensive details from your Q&A dialogue.
 - Keep all actionable tasks inside the TODO section; keep Overview, Requirements, and Implementation Notes descriptive only.
 - Maintain detailed TODO entries so progress survives token limits or session resets.
 - Update TODOs in real time—mark each checkbox immediately after its implementation step finishes so progress is never batched at the end.
