@@ -53,8 +53,8 @@ it('can add a specification file', function () {
         ->expectsQuestion('Current development focus', 'Testing')
         ->assertSuccessful();
 
-    // Then add spec
-    $this->artisan('add-spec', ['name' => 'test-feature', '--path' => $testDir, '--no-branch' => true])
+    // Then add spec (no --with-branch so branch creation is skipped by default)
+    $this->artisan('add-spec', ['name' => 'test-feature', '--path' => $testDir])
         ->expectsQuestion('Brief overview of this feature', 'A test feature')
         ->expectsOutput("✅ Specification 'test-feature' created successfully!")
         ->assertSuccessful();

@@ -12,7 +12,7 @@ Enhance the `add-spec` command to automatically create and switch to a new git b
 - Automatically create a new git branch when adding a specification (if in a clean git repository)
 - Use the specification name as the branch name with appropriate formatting (e.g., feature/spec-name)
 - Switch to the new branch after creation
-- Add `--no-branch` flag to skip branch creation when desired (useful for git repos)
+- Add `--with-branch` flag to enable branch creation when desired (default is no branch creation)
 - Add `--force` flag to proceed with dirty working directory (automatically stashes changes)
 - Handle existing branch names by appending pretty datetime (e.g., feature/spec-name-2024-jul-04-230pm)
 - Provide clear feedback about git status, branch creation and switching
@@ -34,7 +34,7 @@ Enhance the `add-spec` command to automatically create and switch to a new git b
 - If branch exists, append pretty datetime suffix: YYYY-MMM-DD-HHMMap format (e.g., feature/my-spec-2024-jul-04-230pm)
 - Use PHP's `date('Y-M-d-ga')` for human-readable datetime formatting (Y=year, M=short month, d=day, g=12hr, a=am/pm)
 - Format minutes to nearest 15-minute interval for cleaner appearance: 00, 15, 30, 45
-- Add `--no-branch` and `--force` options to command signature
+- Add `--with-branch` and `--force` options to command signature
 - Handle git errors gracefully (git command failures)
 - Consider prefix options (feature/, spec/, etc.) - default to "feature/"
 - Abort spec creation entirely if dirty and no --force flag (git repos only)
