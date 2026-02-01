@@ -1,25 +1,22 @@
+# {{PROJECT_NAME}} - Project Context
+
+This file provides context for AI assistants to help with development tasks.
+
 ---
-description: Zeri-generated development context and rules
-alwaysApply: true
----
 
-# Referenced Files
-
-@.zeri/project.md
-@.zeri/development.md
-
-# Instructions for Cursor
+## Instructions for AI Assistants
 
 When working on this project:
 
-1. **Follow the established patterns** described in the development practices
-2. **Adhere to coding standards** outlined in the referenced files
+1. **Follow the established patterns** described in the patterns section
+2. **Adhere to coding standards** outlined in the standards section
 3. **Consider architectural decisions** when proposing changes
 4. **Follow the development workflow** for implementation steps
-5. **Reference active specifications** for feature-specific requirements
-6. **ONLY implement or start coding when files in .zeri/specs are referenced** - Do not write code without specific feature specifications
+5. **Reference current priorities** to align with project goals
+6. **Check active specifications** for feature-specific requirements
+7. **ONLY implement or start coding when files in .zeri/specs are referenced** - Do not write code without specific feature specifications
 
-## ⚠️ Specification Workflow
+### Specification Workflow
 
 **Always use `zeri add-spec <name>` to create new feature specifications—never create these files manually.**
 
@@ -30,13 +27,13 @@ zeri add-spec "feature-name"
 # This creates .zeri/specs/feature-name.md with the standard template
 ```
 
-### Intelligent Spec Creation Process
+#### Intelligent Spec Creation Process
 
 When a user requests to create a specification, you MUST follow this process:
 
 1. **Assess Completeness**: Analyze the user's request to determine if it contains sufficient detail for a complete specification.
 
-2. **Ask Targeted Follow-up Questions**: If the request is incomplete, ask clarifying questions ONLY about missing information. Reference `.zeri/project.md` and `.zeri/development.md` to ask relevant questions based on project context.
+2. **Ask Targeted Follow-up Questions**: If the request is incomplete, ask clarifying questions ONLY about missing information.
 
    **Question Categories (ask only what's missing):**
 
@@ -103,16 +100,191 @@ When a user requests to create a specification, you MUST follow this process:
 - [ ] Mark specification as complete
 ```
 
-### ⚠️ File Editing Rules
-- Primarily edit files in the .zeri/ directory - NEVER remove zeri file references from generated AI files (CLAUDE.md, GEMINI.md, cursor-zeri.mdc)
-- Generated AI files can be edited but preserve all .zeri/ file references and mandatory instructions
+### Key Reminders
 
-## Key Reminders
-
-- Primarily edit files in the .zeri/ directory - NEVER remove zeri file references from generated AI files (CLAUDE.md, GEMINI.md, cursor-zeri.mdc)
-- Generated AI files can be edited but preserve all .zeri/ file references and mandatory instructions
 - Always write tests for new functionality
 - Follow the established code review process
 - Consider performance and security implications
 - Update documentation when making architectural changes
 - Communicate clearly about implementation decisions
+
+---
+
+## Project Overview
+
+{{PROJECT_DESCRIPTION}}
+
+### Tech Stack
+{{TECH_STACK}}
+
+### Architecture
+{{ARCHITECTURE_NOTES}}
+
+### Key Components
+{{KEY_COMPONENTS}}
+
+### Current Focus
+{{CURRENT_FOCUS}}
+
+### Environment Setup
+{{ENVIRONMENT_SETUP}}
+
+### Important Notes
+{{IMPORTANT_NOTES}}
+
+{{ROADMAP_SECTION}}
+
+---
+
+## Development Practices
+
+### Code Standards & Quality
+
+#### Code Style
+{{CODE_STYLE}}
+
+#### Naming Conventions
+{{NAMING_CONVENTIONS}}
+
+#### File Organization
+{{FILE_ORGANIZATION}}
+
+#### Documentation Standards
+{{DOCUMENTATION_STANDARDS}}
+
+#### Security Guidelines
+{{SECURITY_GUIDELINES}}
+
+#### Performance Considerations
+{{PERFORMANCE_CONSIDERATIONS}}
+
+### Architecture Decisions
+
+#### Decision Template
+- **Date**:
+- **Decision**:
+- **Context**:
+- **Options Considered**:
+- **Chosen Option**:
+- **Rationale**:
+- **Consequences**:
+
+#### Recent Decisions
+{{RECENT_DECISIONS}}
+
+#### Key Architecture Decisions
+{{KEY_ARCHITECTURE_DECISIONS}}
+
+#### Technology Choices
+{{TECHNOLOGY_CHOICES}}
+
+#### Design Patterns
+{{DESIGN_PATTERNS}}
+
+### Code Patterns
+
+#### Standard Patterns
+{{STANDARD_PATTERNS}}
+
+#### Component Patterns
+{{COMPONENT_PATTERNS}}
+
+#### Data Handling Patterns
+{{DATA_HANDLING_PATTERNS}}
+
+#### Error Handling Patterns
+{{ERROR_HANDLING_PATTERNS}}
+
+#### Testing Patterns
+{{TESTING_PATTERNS}}
+
+#### Configuration Patterns
+{{CONFIGURATION_PATTERNS}}
+
+#### Examples
+{{PATTERN_EXAMPLES}}
+
+### Development Workflows
+
+#### Development Process
+{{DEVELOPMENT_PROCESS}}
+
+#### Before Starting Development
+{{BEFORE_STARTING}}
+
+#### Implementation Steps
+{{IMPLEMENTATION_STEPS}}
+
+#### Testing Workflow
+{{TESTING_WORKFLOW}}
+
+#### Testing Requirements
+{{TESTING_REQUIREMENTS}}
+
+#### Code Review Process
+{{CODE_REVIEW_PROCESS}}
+
+#### Code Review Guidelines
+{{CODE_REVIEW_GUIDELINES}}
+
+#### Deployment Steps
+{{DEPLOYMENT_STEPS}}
+
+#### Troubleshooting Common Issues
+{{TROUBLESHOOTING}}
+
+### Feature Planning
+
+#### Planning Process
+{{PLANNING_PROCESS}}
+
+#### Requirements Gathering
+{{REQUIREMENTS_GATHERING}}
+
+#### Technical Analysis
+{{TECHNICAL_ANALYSIS}}
+
+#### Design Considerations
+{{DESIGN_CONSIDERATIONS}}
+
+#### Implementation Planning
+{{IMPLEMENTATION_PLANNING}}
+
+#### Risk Assessment
+{{RISK_ASSESSMENT}}
+
+#### Timeline Estimation
+{{TIMELINE_ESTIMATION}}
+
+### Debugging & Maintenance
+
+#### Debugging Process
+{{DEBUGGING_PROCESS}}
+
+#### Common Issues
+{{COMMON_ISSUES}}
+
+#### Debugging Tools
+{{DEBUGGING_TOOLS}}
+
+#### Log Analysis
+{{LOG_ANALYSIS}}
+
+#### Performance Debugging
+{{PERFORMANCE_DEBUGGING}}
+
+#### Error Tracking
+{{ERROR_TRACKING}}
+
+#### Resolution Documentation
+{{RESOLUTION_DOCUMENTATION}}
+
+---
+
+## Active Specifications
+
+{{ACTIVE_SPECIFICATIONS}}
+
+---
+
+*Edit this file to update project context. Run `zeri generate <ai>` to update AI file references.*

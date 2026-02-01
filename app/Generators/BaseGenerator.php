@@ -10,10 +10,15 @@ abstract class BaseGenerator
 
     protected string $outputPath;
 
-    public function __construct(string $zeriPath, string $outputPath)
+    protected string $position = 'prepend';
+
+    public const ZERI_REFERENCE = 'Also read @.zeri/ZERI.md for project-specific context and instructions.';
+
+    public function __construct(string $zeriPath, string $outputPath, string $position = 'prepend')
     {
         $this->zeriPath = $zeriPath;
         $this->outputPath = $outputPath;
+        $this->position = $position;
     }
 
     abstract public function generate(bool $force = false, bool $backup = false, bool $interactive = false): bool;
@@ -148,15 +153,8 @@ abstract class BaseGenerator
     {
         $files = [];
 
-        // Core files
-        $coreFiles = [
-            'project.md',
-            'development.md',
-        ];
-
-        foreach ($coreFiles as $file) {
-            $files[] = $this->zeriPath.'/'.$file;
-        }
+        // Main ZERI.md file
+        $files[] = $this->zeriPath.'/ZERI.md';
 
         // Specification files
         $specsDir = $this->zeriPath.'/specs';
@@ -168,6 +166,66 @@ abstract class BaseGenerator
         }
 
         return $files;
+    }
+
+    /**
+     * Check if the .zeri directory has the old structure (project.md + development.md)
+     */
+    public function hasOldStructure(): bool
+    {
+        $hasProjectMd = File::exists($this->zeriPath.'/project.md');
+        $hasDevelopmentMd = File::exists($this->zeriPath.'/development.md');
+        $hasZeriMd = File::exists($this->zeriPath.'/ZERI.md');
+
+        // Old structure if project.md or development.md exists and ZERI.md doesn't
+        return ($hasProjectMd || $hasDevelopmentMd) && ! $hasZeriMd;
+    }
+
+    /**
+     * Check if the .zeri directory has the new structure (ZERI.md)
+     */
+    public function hasNewStructure(): bool
+    {
+        return File::exists($this->zeriPath.'/ZERI.md');
+    }
+
+    /**
+     * Inject the ZERI.md reference into an AI file
+     */
+    protected function injectReference(string $filePath): bool
+    {
+        $reference = self::ZERI_REFERENCE;
+
+        if (File::exists($filePath)) {
+            $content = File::get($filePath);
+
+            // Check if reference already exists (exact match)
+            if (str_contains($content, $reference)) {
+                return false; // No change needed
+            }
+
+            // Inject reference based on position
+            if ($this->position === 'prepend') {
+                $content = $reference."\n\n".$content;
+            } else {
+                $content = $content."\n\n".$reference;
+            }
+
+            File::put($filePath, $content);
+
+            return true;
+        } else {
+            // Create minimal file with just reference
+            // Ensure the directory exists
+            $directory = dirname($filePath);
+            if (! File::exists($directory)) {
+                File::makeDirectory($directory, 0755, true);
+            }
+
+            File::put($filePath, $reference."\n");
+
+            return true;
+        }
     }
 
     protected function readFile(string $relativePath): string

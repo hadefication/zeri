@@ -1,3 +1,5 @@
+Also read @.zeri/ZERI.md for project-specific context and instructions.
+
 # Development Context for Claude
 
 This file provides context for Claude to assist with development tasks.

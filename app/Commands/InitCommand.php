@@ -136,11 +136,11 @@ class InitCommand extends Command
         // Create roadmap section if requested
         $roadmapSection = '';
         if ($includeRoadmap) {
-            $roadmapSection = "\n---\n\n## Project Roadmap\n\n### Current Sprint\nProject setup and initial development\n\n### Next Sprint\nCore feature implementation\n\n### Short-term Goals (2-4 weeks)\nMVP development, basic functionality\n\n### Medium-term Goals (1-3 months)\nFeature expansion, performance optimization\n\n### Long-term Vision (3+ months)\nFull product launch, scaling considerations\n\n### Priority Features\nUser management, core business logic\n\n### Technical Debt\nNone identified yet";
+            $roadmapSection = "\n### Project Roadmap\n\n#### Current Sprint\nProject setup and initial development\n\n#### Next Sprint\nCore feature implementation\n\n#### Short-term Goals (2-4 weeks)\nMVP development, basic functionality\n\n#### Medium-term Goals (1-3 months)\nFeature expansion, performance optimization\n\n#### Long-term Vision (3+ months)\nFull product launch, scaling considerations\n\n#### Priority Features\nUser management, core business logic\n\n#### Technical Debt\nNone identified yet";
         }
 
-        // Create files from stubs
-        $this->createFromStub($path, 'project.md', [
+        // Create consolidated ZERI.md file from stub
+        $this->createFromStub($path, 'ZERI.md', [
             'PROJECT_NAME' => $projectName,
             'PROJECT_DESCRIPTION' => $projectDescription,
             'TECH_STACK' => $techStack,
@@ -150,11 +150,6 @@ class InitCommand extends Command
             'ENVIRONMENT_SETUP' => 'To be documented',
             'IMPORTANT_NOTES' => 'To be documented',
             'ROADMAP_SECTION' => $roadmapSection,
-        ]);
-
-        // Create consolidated development file
-        $this->createFromStub($path, 'development.md', [
-            'PROJECT_NAME' => $projectName,
             // Standards
             'CODE_STYLE' => 'Follow established code style standards',
             'NAMING_CONVENTIONS' => 'Consistent naming conventions based on language and framework',
@@ -201,23 +196,19 @@ class InitCommand extends Command
             'PERFORMANCE_DEBUGGING' => 'Profiling, query analysis, resource monitoring',
             'ERROR_TRACKING' => 'Use error tracking service, categorize errors, prioritize fixes',
             'RESOLUTION_DOCUMENTATION' => 'Document solution, update runbooks, share learnings',
+            // Specs
+            'ACTIVE_SPECIFICATIONS' => '*(No specifications yet. Use `zeri add-spec <name>` to create one.)*',
         ]);
 
         // Create template files
-        $this->createFromStub($path, 'templates/spec.md', [
-            'SPEC_NAME' => '{{SPEC_NAME}}',
-            'SPEC_OVERVIEW' => '{{SPEC_OVERVIEW}}',
-            'REQUIREMENTS' => '{{REQUIREMENTS}}',
-            'IMPLEMENTATION_NOTES' => '{{IMPLEMENTATION_NOTES}}',
-            'TODO_ITEMS' => '{{TODO_ITEMS}}',
-        ]);
+        $this->createTemplateFromStub($path);
 
         $this->info('✅ Zeri project structure initialized successfully!');
         $this->line('');
         $this->displayFileTree($path, $ai);
         $this->line('');
         $this->line('Next steps:');
-        $this->line('  • Edit .zeri files to match your project');
+        $this->line('  • Edit .zeri/ZERI.md to match your project');
         $this->line('  • Add specifications: zeri add-spec <name>');
         if (! $ai) {
             $this->line('  • Generate AI files: zeri generate <ai>');
@@ -266,6 +257,35 @@ class InitCommand extends Command
         File::put($targetPath, $content);
     }
 
+    private function createTemplateFromStub(string $basePath)
+    {
+        $stubPath = app_path('../stubs/templates/spec.md.stub');
+        $targetPath = $basePath.'/.zeri/templates/spec.md';
+
+        if (! File::exists($stubPath)) {
+            $this->error("Stub file not found: {$stubPath}");
+
+            return;
+        }
+
+        $content = File::get($stubPath);
+
+        // Keep the placeholders as-is for templates
+        $replacements = [
+            'SPEC_NAME' => '{{SPEC_NAME}}',
+            'SPEC_OVERVIEW' => '{{SPEC_OVERVIEW}}',
+            'REQUIREMENTS' => '{{REQUIREMENTS}}',
+            'IMPLEMENTATION_NOTES' => '{{IMPLEMENTATION_NOTES}}',
+            'TODO_ITEMS' => '{{TODO_ITEMS}}',
+        ];
+
+        foreach ($replacements as $placeholder => $value) {
+            $content = str_replace('{{'.$placeholder.'}}', $value, $content);
+        }
+
+        File::put($targetPath, $content);
+    }
+
     private function displayFileTree(string $basePath, ?string $ai): void
     {
         $this->line('📁 Project Structure:');
@@ -276,8 +296,7 @@ class InitCommand extends Command
 
         // Show .zeri structure
         $this->line('├── .zeri/');
-        $this->line('│   ├── project.md               # Project overview, tech stack & architecture');
-        $this->line('│   ├── development.md           # Standards, decisions, patterns & workflows');
+        $this->line('│   ├── ZERI.md                  # Project context & AI instructions');
         $this->line('│   ├── specs/                   # Feature specifications (empty)');
         $this->line('│   └── templates/');
         $this->line('│       └── spec.md              # Specification template');
@@ -300,18 +319,17 @@ class InitCommand extends Command
         $aiFiles = [];
 
         if (in_array($ai, ['claude', 'all'])) {
-            $aiFiles[] = ['display' => 'CLAUDE.md                    # Context for Claude AI'];
+            $aiFiles[] = ['display' => 'CLAUDE.md                    # Reference to .zeri/ZERI.md'];
         }
 
         if (in_array($ai, ['gemini', 'all'])) {
-            $aiFiles[] = ['display' => 'GEMINI.md                    # Instructions for Gemini AI'];
+            $aiFiles[] = ['display' => 'GEMINI.md                    # Reference to .zeri/ZERI.md'];
         }
 
         if (in_array($ai, ['cursor', 'all'])) {
             $aiFiles[] = ['display' => '.cursor/'];
             $aiFiles[] = ['display' => '│   └── rules/'];
-            $aiFiles[] = ['display' => '│       ├── generate.mdc      # Code generation rules'];
-            $aiFiles[] = ['display' => '│       └── workflow.mdc      # Development workflow'];
+            $aiFiles[] = ['display' => '│       └── zeri.mdc          # Reference to .zeri/ZERI.md'];
         }
 
         return $aiFiles;
@@ -331,17 +349,22 @@ class InitCommand extends Command
             $aiFiles[] = 'GEMINI.md';
         }
 
+        // Check for AGENTS.md (Codex)
+        if (File::exists($basePath.'/AGENTS.md')) {
+            $aiFiles[] = 'AGENTS.md';
+        }
+
         // Check for Cursor .mdc files
+        if (File::exists($basePath.'/.cursor/rules/zeri.mdc')) {
+            $aiFiles[] = '.cursor/rules/zeri.mdc';
+        }
+
+        // Check for old Cursor rules files
         if (File::exists($basePath.'/.cursor/rules/generate.mdc')) {
             $aiFiles[] = '.cursor/rules/generate.mdc';
         }
         if (File::exists($basePath.'/.cursor/rules/workflow.mdc')) {
             $aiFiles[] = '.cursor/rules/workflow.mdc';
-        }
-
-        // Check for old Cursor rules (for backward compatibility)
-        if (File::exists($basePath.'/.cursor/rules')) {
-            $aiFiles[] = '.cursor/rules';
         }
 
         return $aiFiles;

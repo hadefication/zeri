@@ -1,5 +1,6 @@
 <?php
 
+use App\Generators\BaseGenerator;
 use Illuminate\Support\Facades\File;
 
 it('can list available commands', function () {
@@ -7,6 +8,7 @@ it('can list available commands', function () {
         ->expectsOutputToContain('init')
         ->expectsOutputToContain('add-spec')
         ->expectsOutputToContain('generate')
+        ->expectsOutputToContain('migrate')
         ->assertSuccessful();
 });
 
@@ -22,13 +24,18 @@ it('can initialize a project structure', function () {
         ->expectsOutput('✅ Zeri project structure initialized successfully!')
         ->assertSuccessful();
 
-    // Verify structure was created
+    // Verify new structure was created
     expect(File::exists($testDir.'/.zeri'))->toBeTrue();
-    expect(File::exists($testDir.'/.zeri/project.md'))->toBeTrue();
-    expect(File::exists($testDir.'/.zeri/development.md'))->toBeTrue();
+    expect(File::exists($testDir.'/.zeri/ZERI.md'))->toBeTrue();
     expect(File::exists($testDir.'/.zeri/specs'))->toBeTrue();
     expect(File::exists($testDir.'/.zeri/templates'))->toBeTrue();
     expect(File::exists($testDir.'/.zeri/templates/spec.md'))->toBeTrue();
+
+    // Verify ZERI.md contains expected content
+    $zeriContent = File::get($testDir.'/.zeri/ZERI.md');
+    expect($zeriContent)->toContain('Test Project');
+    expect($zeriContent)->toContain('Instructions for AI Assistants');
+    expect($zeriContent)->toContain('Specification Workflow');
 
     // Cleanup
     File::deleteDirectory($testDir);
@@ -59,7 +66,7 @@ it('can add a specification file', function () {
     File::deleteDirectory($testDir);
 });
 
-it('can generate AI files', function () {
+it('can generate AI files with reference injection', function () {
     $testDir = '/tmp/zeri-test-'.uniqid();
     mkdir($testDir);
 
@@ -73,13 +80,13 @@ it('can generate AI files', function () {
 
     // Generate all AI files
     $this->artisan('generate', ['ai' => 'all', '--path' => $testDir])
-        ->expectsOutput('✅ Generated: CLAUDE.md')
-        ->expectsOutput('✅ Generated: GEMINI.md')
-        ->expectsOutput('✅ Generated: .cursor/rules/zeri.mdc')
-        ->expectsOutput('✅ Generated: AGENTS.md')
+        ->expectsOutput('✅ Updated: CLAUDE.md')
+        ->expectsOutput('✅ Updated: GEMINI.md')
+        ->expectsOutput('✅ Updated: .cursor/rules/zeri.mdc')
+        ->expectsOutput('✅ Updated: AGENTS.md')
         ->assertSuccessful();
 
-    // Verify files were created
+    // Verify files were created with reference
     $claudePath = $testDir.'/CLAUDE.md';
     $geminiPath = $testDir.'/GEMINI.md';
     $codexPath = $testDir.'/AGENTS.md';
@@ -90,24 +97,112 @@ it('can generate AI files', function () {
     expect(File::exists($codexPath))->toBeTrue();
     expect(File::exists($cursorPath))->toBeTrue();
 
-    $pattern = '/## ⚠️ Specification Workflow\s+.*?\*\*TODO Best Practices\*\*\s+```markdown\s+## TODO.*?```/s';
+    // Verify all files contain the reference
+    $reference = BaseGenerator::ZERI_REFERENCE;
+    expect(File::get($claudePath))->toContain($reference);
+    expect(File::get($geminiPath))->toContain($reference);
+    expect(File::get($codexPath))->toContain($reference);
+    expect(File::get($cursorPath))->toContain($reference);
 
-    expect(preg_match($pattern, File::get($claudePath), $claudeMatches))->toBe(1);
-    expect(preg_match($pattern, File::get($geminiPath), $geminiMatches))->toBe(1);
-    expect(preg_match($pattern, File::get($codexPath), $codexMatches))->toBe(1);
-    expect(preg_match($pattern, File::get($cursorPath), $cursorMatches))->toBe(1);
+    // Cleanup
+    File::deleteDirectory($testDir);
+});
 
-    $claudeBlock = trim($claudeMatches[0]);
-    $geminiBlock = trim($geminiMatches[0]);
-    $codexBlock = trim($codexMatches[0]);
-    $cursorBlock = trim($cursorMatches[0]);
+it('does not duplicate reference on repeated generate', function () {
+    $testDir = '/tmp/zeri-test-'.uniqid();
+    mkdir($testDir);
 
-    expect($claudeBlock)->toBe($geminiBlock);
-    expect($claudeBlock)->toBe($codexBlock);
-    expect($claudeBlock)->toBe($cursorBlock);
-    expect($claudeBlock)->toContain('Always use `zeri add-spec <name>` to create new feature specifications—never create these files manually.');
-    expect($claudeBlock)->toContain('Do not implement any specification unless the user explicitly instructs you to begin coding.');
-    expect($claudeBlock)->toContain('Update TODOs in real time—mark each checkbox immediately after its implementation step finishes so progress is never batched at the end.');
+    // Initialize
+    $this->artisan('init', ['--path' => $testDir, '--yes' => true])
+        ->assertSuccessful();
+
+    // Generate first time
+    $this->artisan('generate', ['ai' => 'claude', '--path' => $testDir])
+        ->expectsOutput('✅ Updated: CLAUDE.md')
+        ->assertSuccessful();
+
+    // Generate second time - should skip
+    $this->artisan('generate', ['ai' => 'claude', '--path' => $testDir])
+        ->expectsOutputToContain('Skipped: CLAUDE.md (reference already exists)')
+        ->assertSuccessful();
+
+    // Verify reference appears only once
+    $claudeContent = File::get($testDir.'/CLAUDE.md');
+    $reference = BaseGenerator::ZERI_REFERENCE;
+    $count = substr_count($claudeContent, $reference);
+    expect($count)->toBe(1);
+
+    // Cleanup
+    File::deleteDirectory($testDir);
+});
+
+it('can migrate from old structure to new structure', function () {
+    $testDir = '/tmp/zeri-test-'.uniqid();
+    mkdir($testDir);
+    mkdir($testDir.'/.zeri');
+    mkdir($testDir.'/.zeri/specs');
+    mkdir($testDir.'/.zeri/templates');
+
+    // Create old structure files
+    File::put($testDir.'/.zeri/project.md', "# Test Project\n\nProject description here.");
+    File::put($testDir.'/.zeri/development.md', "# Development\n\nDevelopment practices here.");
+
+    // Run migrate
+    $this->artisan('migrate', ['--path' => $testDir])
+        ->expectsOutput('Migration complete!')
+        ->assertSuccessful();
+
+    // Verify new structure
+    expect(File::exists($testDir.'/.zeri/ZERI.md'))->toBeTrue();
+    expect(File::exists($testDir.'/.zeri/project.md'))->toBeFalse();
+    expect(File::exists($testDir.'/.zeri/development.md'))->toBeFalse();
+
+    // Verify content was merged
+    $zeriContent = File::get($testDir.'/.zeri/ZERI.md');
+    expect($zeriContent)->toContain('Project description here');
+    expect($zeriContent)->toContain('Development practices here');
+
+    // Cleanup
+    File::deleteDirectory($testDir);
+});
+
+it('can migrate with backup option', function () {
+    $testDir = '/tmp/zeri-test-'.uniqid();
+    mkdir($testDir);
+    mkdir($testDir.'/.zeri');
+    mkdir($testDir.'/.zeri/specs');
+    mkdir($testDir.'/.zeri/templates');
+
+    // Create old structure files
+    File::put($testDir.'/.zeri/project.md', "# Test Project\n\nProject description here.");
+    File::put($testDir.'/.zeri/development.md', "# Development\n\nDevelopment practices here.");
+
+    // Run migrate with backup
+    $this->artisan('migrate', ['--path' => $testDir, '--backup' => true])
+        ->expectsOutput('Migration complete!')
+        ->assertSuccessful();
+
+    // Verify backup files exist
+    expect(File::exists($testDir.'/.zeri/project.md.bak'))->toBeTrue();
+    expect(File::exists($testDir.'/.zeri/development.md.bak'))->toBeTrue();
+
+    // Cleanup
+    File::deleteDirectory($testDir);
+});
+
+it('refuses to generate with old structure', function () {
+    $testDir = '/tmp/zeri-test-'.uniqid();
+    mkdir($testDir);
+    mkdir($testDir.'/.zeri');
+
+    // Create old structure files
+    File::put($testDir.'/.zeri/project.md', '# Test Project');
+    File::put($testDir.'/.zeri/development.md', '# Development');
+
+    // Try to generate - should fail
+    $this->artisan('generate', ['ai' => 'claude', '--path' => $testDir])
+        ->expectsOutput('Old zeri structure detected (project.md + development.md)')
+        ->assertExitCode(1);
 
     // Cleanup
     File::deleteDirectory($testDir);
@@ -127,4 +222,32 @@ it('handles errors when .zeri directory does not exist', function () {
 
     // Cleanup
     rmdir($testDir);
+});
+
+it('supports append position option', function () {
+    $testDir = '/tmp/zeri-test-'.uniqid();
+    mkdir($testDir);
+
+    // Initialize
+    $this->artisan('init', ['--path' => $testDir, '--yes' => true])
+        ->assertSuccessful();
+
+    // Create an existing CLAUDE.md with some content
+    File::put($testDir.'/CLAUDE.md', "# Existing Content\n\nSome existing instructions.");
+
+    // Generate with append position
+    $this->artisan('generate', ['ai' => 'claude', '--path' => $testDir, '--position' => 'append'])
+        ->expectsOutput('✅ Updated: CLAUDE.md')
+        ->assertSuccessful();
+
+    // Verify reference is at the end
+    $claudeContent = File::get($testDir.'/CLAUDE.md');
+    $reference = BaseGenerator::ZERI_REFERENCE;
+
+    expect($claudeContent)->toContain($reference);
+    expect(str_starts_with($claudeContent, '# Existing Content'))->toBeTrue();
+    expect(str_ends_with(trim($claudeContent), $reference))->toBeTrue();
+
+    // Cleanup
+    File::deleteDirectory($testDir);
 });
