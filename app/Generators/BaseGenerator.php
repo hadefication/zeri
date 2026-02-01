@@ -12,7 +12,16 @@ abstract class BaseGenerator
 
     protected string $position = 'prepend';
 
-    public const ZERI_REFERENCE = 'Also read @.zeri/ZERI.md for project-specific context and instructions.';
+    public const ZERI_REFERENCE = <<<'REFERENCE'
+<!-- IMPORTANT: Read this file first -->
+# Zeri Project Context
+
+**IMPORTANT:** Before proceeding, you MUST read the project context file:
+
+→ **[@.zeri/ZERI.md](.zeri/ZERI.md)** ← Contains all project instructions, specifications, and development guidelines.
+
+This file is the single source of truth for AI assistants working on this project.
+REFERENCE;
 
     public function __construct(string $zeriPath, string $outputPath, string $position = 'prepend')
     {
