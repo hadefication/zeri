@@ -126,7 +126,7 @@ zeri add-spec "feature-name" [--path=/path/to/project] [--force] [--with-branch]
 - `--with-branch`: Create a git branch for this specification
 
 ### `generate <ai>`
-Generate AI-specific instruction files.
+Generate AI-specific instruction files. Use this when creating the files for the first time, when a file’s reference block has been removed, or after template updates that require a fresh render.
 
 ```bash
 zeri generate <ai> [options]
@@ -137,7 +137,7 @@ zeri generate <ai> [options]
 
 **Options:**
 - `--path`: Specify project directory
-- `--force`: Force regeneration from scratch (overwrites existing AI files)
+- `--force`: Force regeneration from scratch (overwrites existing AI files; only necessary for reference/template resets)
 
 ### `self-update`
 Update Zeri to the latest version.
@@ -202,8 +202,7 @@ When you run `zeri init`, the following structure is created:
 
 ```
 .zeri/
-├── project.md           # Project overview, tech stack & architecture
-├── development.md       # Standards, decisions, patterns & workflows
+├── ZERI.md              # Unified project context, standards, workflows, and guardrails
 ├── specs/               # Feature specifications
 └── templates/
     └── spec.md          # Feature specification template
@@ -224,8 +223,8 @@ Directive, action-oriented format with clear rules and protocols optimized for G
 
 Concise .mdc format optimized for Cursor IDE integration with proper metadata headers. This file serves as Cursor's primary context reference.
 
-### Codex (AGENTS.md)
-Structured context file optimized for OpenAI Codex CLI's "Memory with project docs" functionality. This file serves as Codex's primary context reference with clear development instructions and project context.
+### Codex & Other Agents (AGENTS.md)
+Structured context file consumed by OpenAI Codex CLI, GitHub Copilot Workspace's OpenCode agent, and other GPT-based tooling that accept a single `AGENTS.md` project brief. These tools rely on the same file format for memory and guardrails, so keeping `AGENTS.md` fresh ensures consistent behavior across Codex CLI, OpenCode, and any assistant that ingests the standard agent brief.
 
 ## Examples
 
@@ -235,22 +234,22 @@ Structured context file optimized for OpenAI Codex CLI's "Memory with project do
 # 1. Initialize project and generate AI files in one step
 zeri init claude
 
-# 2. Edit .zeri files to match your project needs
-# Edit .zeri/project.md, .zeri/development.md
+# 2. Edit .zeri/ZERI.md to match your project needs
+# Keep this single source updated with architecture, standards, and workflows
 
 # 3. Add feature specifications
 zeri add-spec "user-registration"
 zeri add-spec "payment-processing"
 
-# 4. Regenerate AI files when needed
-# Use --force to regenerate from scratch if needed
-# zeri generate claude --force
+# 4. Ensure each AI file has the reference section pointing to .zeri/ZERI.md
+# Regenerate only if a reference block is missing or templates changed
+# zeri generate claude --force   # (use sparingly, for reference/template resets)
 
 # 5. Use generated files with your AI tools
 # - Copy CLAUDE.md content when working with Claude
 # - Copy GEMINI.md content when working with Gemini  
 # - Cursor will automatically use .cursor/rules/zeri.mdc file
-# - Codex CLI will use AGENTS.md for memory and project context
+# - Codex CLI, GitHub Copilot Workspace (OpenCode), and similar GPT-based agents will use AGENTS.md for memory and project context
 ```
 
 ### Working with Different Projects
