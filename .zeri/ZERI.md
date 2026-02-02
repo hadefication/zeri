@@ -51,6 +51,13 @@ When a user requests to create a specification, you MUST follow this process:
 - When user's request is detailed, you may proceed directly to creating the spec without unnecessary questions.
 - Update TODOs in real time—mark each checkbox immediately after its implementation step finishes.
 
+### Context & Usage Limits
+
+- **Trigger**: When you estimate only ~10–20% of the conversation context/tokens remain, pause immediately before continuing any coding or planning steps.
+- **Capture progress**: Summarize what has been completed into the active `.zeri/specs/<feature>.md` file (Overview, Implementation Notes, and TODO items as needed) so future turns inherit the state.
+- **Sync TODOs**: Mark finished items with `- [x]`, add new follow-ups, and ensure the checklist reflects the latest plan before resuming.
+- **Resume intentionally**: Only continue work after the summary is saved and, if necessary, a fresh thread or trimmed history is established to recover context. Always restart by rereading the spec and confirming instructions.
+
 ### Key Reminders
 
 - Always write tests for new functionality
