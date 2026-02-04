@@ -16,9 +16,8 @@ class GenerateCommand extends Command
                             {ai? : AI type (claude, gemini, cursor, codex, all)}
                             {--all : Generate for all AI types}
                             {--path= : Path to project directory}
-                            {--force : Force regeneration even if files are up to date}
-                            {--backup : Create backup of existing files before overwriting}
-                            {--interactive : Ask before overwriting files with manual changes}
+                            {--replace : Replace existing AI files completely (removes custom content)}
+                            {--yes : Skip confirmation when using --replace}
                             {--position=prepend : Position to inject reference (prepend or append)}';
 
     protected $description = 'Generate AI-specific instruction files';
@@ -32,9 +31,8 @@ class GenerateCommand extends Command
         $ai = $this->argument('ai');
         $allFlag = $this->option('all');
         $path = $this->option('path') ?: getcwd();
-        $force = $this->option('force');
-        $backup = $this->option('backup');
-        $interactive = $this->option('interactive');
+        $replace = $this->option('replace');
+        $skipConfirmation = $this->option('yes');
         $position = $this->option('position') ?: 'prepend';
 
         // Validate position
@@ -93,11 +91,34 @@ class GenerateCommand extends Command
         $generated = [];
         $skipped = [];
 
+        // Handle --replace confirmation
+        if ($replace && ! $skipConfirmation) {
+            $existingFiles = $this->findExistingAiFiles($generators, $path);
+
+            if (! empty($existingFiles)) {
+                $this->warn('⚠️  WARNING: --replace will overwrite the following files completely:');
+                $this->line('');
+                foreach ($existingFiles as $file) {
+                    $this->line("  📄 {$file}");
+                }
+                $this->line('');
+                $this->line('Any custom content in these files will be lost.');
+                $this->line('');
+
+                if (! $this->confirm('Do you want to continue?', false)) {
+                    $this->info('Operation cancelled.');
+
+                    return 0;
+                }
+                $this->line('');
+            }
+        }
+
         foreach ($generators as $name => $generator) {
             $this->line("Processing {$name} file...");
 
             try {
-                $wasGenerated = $generator->generate($force, $backup, $interactive);
+                $wasGenerated = $generator->generate($replace);
 
                 if ($wasGenerated) {
                     $files = $generator->getGeneratedFiles();
@@ -105,7 +126,8 @@ class GenerateCommand extends Command
                         $generated[] = $filename;
                     }
                     $primaryFile = $generator->getOutputFileName();
-                    $this->info("✅ Updated: {$primaryFile}");
+                    $action = $replace ? 'Replaced' : 'Updated';
+                    $this->info("✅ {$action}: {$primaryFile}");
                 } else {
                     $files = $generator->getGeneratedFiles();
                     foreach ($files as $filename) {
@@ -188,6 +210,23 @@ class GenerateCommand extends Command
         }
 
         return $generators;
+    }
+
+    private function findExistingAiFiles(array $generators, string $basePath): array
+    {
+        $existingFiles = [];
+
+        foreach ($generators as $generator) {
+            $files = $generator->getGeneratedFiles();
+            foreach ($files as $file) {
+                $fullPath = $basePath.'/'.$file;
+                if (File::exists($fullPath)) {
+                    $existingFiles[] = $file;
+                }
+            }
+        }
+
+        return $existingFiles;
     }
 
     public function schedule(Schedule $schedule): void

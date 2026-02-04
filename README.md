@@ -126,7 +126,7 @@ zeri add-spec "feature-name" [--path=/path/to/project] [--force] [--with-branch]
 - `--with-branch`: Create a git branch for this specification
 
 ### `generate <ai>`
-Generate AI-specific instruction files. Use this when creating the files for the first time, when a file’s reference block has been removed, or after template updates that require a fresh render.
+Generate AI-specific instruction files. Injects a reference to `.zeri/ZERI.md` into AI files. The injection is idempotent - running it multiple times won't duplicate the reference.
 
 ```bash
 zeri generate <ai> [options]
@@ -137,7 +137,9 @@ zeri generate <ai> [options]
 
 **Options:**
 - `--path`: Specify project directory
-- `--force`: Force regeneration from scratch (overwrites existing AI files; only necessary for reference/template resets)
+- `--replace`: Replace existing AI files completely (removes any custom content you may have added)
+- `--yes`: Skip confirmation prompt when using `--replace`
+- `--position`: Position to inject reference (`prepend` or `append`, default: `prepend`)
 
 ### `migrate`
 Migrate from old zeri structure (project.md + development.md) to the new consolidated ZERI.md format.

@@ -195,11 +195,18 @@ class InitCommand extends Command
             $this->line('');
             $this->info("🤖 Auto-generating AI files for: {$ai}");
 
-            $exitCode = $this->call('generate', [
+            $generateOptions = [
                 'ai' => strtolower($ai),
                 '--path' => $path,
-                '--force' => $force,
-            ]);
+            ];
+
+            // If --force is used on init, use --replace --yes on generate
+            if ($force) {
+                $generateOptions['--replace'] = true;
+                $generateOptions['--yes'] = true;
+            }
+
+            $exitCode = $this->call('generate', $generateOptions);
 
             if ($exitCode === 0) {
                 $this->line('');
