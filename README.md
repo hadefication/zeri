@@ -139,6 +139,19 @@ zeri generate <ai> [options]
 - `--path`: Specify project directory
 - `--force`: Force regeneration from scratch (overwrites existing AI files; only necessary for reference/template resets)
 
+### `migrate`
+Migrate from old zeri structure (project.md + development.md) to the new consolidated ZERI.md format.
+
+```bash
+zeri migrate [--path=/path/to/project] [--backup]
+```
+
+**Options:**
+- `--path`: Specify project directory
+- `--backup`: Keep copies of old files as .bak
+
+> **Note:** If you're upgrading from Zeri versions before v1.18.0, run this command to consolidate your `.zeri/project.md` and `.zeri/development.md` files into the new unified `.zeri/ZERI.md` format. Your specs will be preserved.
+
 ### `self-update`
 Update Zeri to the latest version.
 
